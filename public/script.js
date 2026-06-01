@@ -888,7 +888,7 @@ function initChatbot() {
           ul(['<strong>WhatsApp:</strong> +51 924 687 363','<strong>Correo:</strong> qubirasac@gmail.com',
               '<strong>Horario:</strong> Lunes a Viernes, 9am – 7pm (PET)'])) +
         note('Para incidentes de seguridad activos, pérdida de datos o auditorías urgentes, escríbenos de inmediato por WhatsApp.')
-      ), showWhatsapp:true };
+      , showWhatsapp:true };
 
     /* ── PROYECTOS / CASOS ── */
     if (/proyecto|casos|portafolio|trabajo|cliente|referencia/.test(q))
@@ -899,7 +899,7 @@ function initChatbot() {
               '<strong>SVIM-OSIPTEL:</strong> plataforma móvil con 40% más velocidad de desarrollo',
               '<strong>How We Feel:</strong> cobertura QA 3× con menos pruebas manuales'])) +
         note('Podemos mostrarte casos similares a tu industria en la reunión de discovery.')
-      ), options:[
+      , options:[
         { label:'Ver metodología',  question:'Cómo trabajan' },
         { label:'Iniciar proyecto', question:'Cómo iniciamos un proyecto' },
       ]};
