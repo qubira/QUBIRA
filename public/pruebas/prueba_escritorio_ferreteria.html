@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FERREMART Desktop</title>
+  <link rel="stylesheet" href="prueba_escritorio_ferreteria.css" />
+</head>
+<body>
+
+<div class="desktop-window">
+
+  <div class="window-bar">
+    <div class="window-dots">
+      <span></span><span></span><span></span>
+    </div>
+    <p>FERREMART - Aplicativo de escritorio</p>
+  </div>
+
+  <div class="app-layout">
+
+    <aside class="sidebar">
+      <div class="brand">
+        🔧 <span>FERRE<b>MART</b></span>
+      </div>
+
+      <button class="nav-btn active" data-page="inicio">🏠 Inicio</button>
+      <button class="nav-btn" data-page="catalogo">📦 Catálogo</button>
+      <button class="nav-btn" data-page="carrito">🛒 Carrito</button>
+      <button class="nav-btn" data-page="dashboard">📊 Dashboard</button>
+      <button class="nav-btn" data-page="clientes">👥 Clientes</button>
+      <button class="nav-btn" data-page="configuracion">⚙️ Configuración</button>
+    </aside>
+
+    <main class="content">
+
+      <header class="topbar">
+        <div class="search">
+          <input type="text" id="searchInput" placeholder="Buscar producto, marca o categoría..." />
+          <button>🔍</button>
+        </div>
+
+        <button class="login-btn" id="openLogin">👤 Iniciar sesión</button>
+
+        <button class="cart-top" data-page="carrito">
+          🛒 <span id="cartCount">0</span>
+        </button>
+      </header>
+
+      <section id="inicio" class="page active">
+        <div class="hero">
+          <div>
+            <span class="tag">Sistema comercial</span>
+            <h1>Gestión de ferretería estilo aplicativo de escritorio</h1>
+            <p>Administra productos, ventas, clientes, carrito y métricas desde una interfaz moderna.</p>
+            <button class="primary" data-page="catalogo">Ver catálogo</button>
+          </div>
+          <div class="hero-icons">
+            <div>🛠️<span>Herramientas</span></div>
+            <div>💡<span>Iluminación</span></div>
+            <div>🚪<span>Puertas</span></div>
+            <div>🧴<span>Limpieza</span></div>
+          </div>
+        </div>
+
+        <div class="cards">
+          <div class="card"><h3>S/ 4,580</h3><p>Ventas del día</p></div>
+          <div class="card"><h3>24</h3><p>Pedidos pendientes</p></div>
+          <div class="card"><h3>1,240</h3><p>Productos en stock</p></div>
+          <div class="card"><h3>320</h3><p>Clientes registrados</p></div>
+        </div>
+
+        <h2 class="section-title">Productos destacados</h2>
+        <div class="product-grid" id="featuredGrid"></div>
+      </section>
+
+      <section id="catalogo" class="page">
+        <div class="catalog-layout">
+          <aside class="filters">
+            <h3>Filtros</h3>
+            <label><input type="checkbox" checked /> Limpieza</label>
+            <label><input type="checkbox" /> Herramientas</label>
+            <label><input type="checkbox" /> Ferretería</label>
+            <label><input type="checkbox" /> Iluminación</label>
+
+            <h3>Ordenar</h3>
+            <select id="sortProducts">
+              <option value="normal">Recomendados</option>
+              <option value="low">Menor precio</option>
+              <option value="high">Mayor precio</option>
+            </select>
+          </aside>
+
+          <div class="catalog-content">
+            <div class="catalog-header">
+              <h2>Catálogo de productos</h2>
+              <span id="productCount"></span>
+            </div>
+            <div class="product-grid" id="productGrid"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="carrito" class="page">
+        <h2 class="section-title">Carrito de compras</h2>
+        <div class="cart-layout">
+          <div id="cartItems" class="cart-items"></div>
+
+          <aside class="cart-summary">
+            <h3>Resumen</h3>
+            <p>Subtotal: <b id="subtotal">S/ 0.00</b></p>
+            <p>Descuento: <b id="discount">S/ 0.00</b></p>
+            <hr />
+            <p>Total: <b id="total">S/ 0.00</b></p>
+            <button class="primary">Ir al checkout</button>
+          </aside>
+        </div>
+      </section>
+
+      <section id="dashboard" class="page">
+        <h2 class="section-title">Dashboard operativo</h2>
+
+        <div class="cards">
+          <div class="card orange"><h3>S/ 15,200</h3><p>Ventas mensuales</p></div>
+          <div class="card blue"><h3>186</h3><p>Órdenes generadas</p></div>
+          <div class="card green"><h3>94%</h3><p>Stock disponible</p></div>
+          <div class="card purple"><h3>38%</h3><p>Conversión web</p></div>
+        </div>
+
+        <div class="panel">
+          <h3>Módulos del sistema</h3>
+          <div class="module-grid">
+            <div>Básico: web responsiva, login, catálogo, chat</div>
+            <div>Pro: pagos, inventario, CRM, reportes</div>
+            <div>Premium: IA, automatización, ciberseguridad</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="clientes" class="page">
+        <h2 class="section-title">Clientes</h2>
+        <div class="panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Correo</th>
+                <th>Pedidos</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Melani Luyo</td><td>melani@email.com</td><td>12</td><td>Activo</td></tr>
+              <tr><td>Abraham Aranda</td><td>abraham@email.com</td><td>8</td><td>Activo</td></tr>
+              <tr><td>Cliente Empresa</td><td>empresa@email.com</td><td>21</td><td>Premium</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="configuracion" class="page">
+        <h2 class="section-title">Modificar interfaz</h2>
+
+        <div class="panel config-grid">
+          <label><input type="checkbox" checked data-control="search" /> Mostrar buscador</label>
+          <label><input type="checkbox" checked data-control="login" /> Mostrar login</label>
+          <label><input type="checkbox" checked data-control="cart" /> Mostrar carrito</label>
+          <label><input type="checkbox" checked data-control="chat" /> Mostrar chat</label>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div class="login-modal" id="loginModal">
+  <div class="login-box">
+    <button id="closeLogin" class="close">×</button>
+    <h2>Iniciar sesión</h2>
+    <input type="email" placeholder="Correo electrónico" />
+    <input type="password" placeholder="Contraseña" />
+    <button class="primary">Ingresar</button>
+    <p>Crear cuenta | Recuperar contraseña</p>
+  </div>
+</div>
+
+<div class="chat-btn" id="chatBtn">💬</div>
+
+<div class="chat-box" id="chatBox">
+  <h3>Asistente FERREMART</h3>
+  <div id="chatMessages">
+    <p><b>Bot:</b> Hola, ¿en qué producto puedo ayudarte?</p>
+  </div>
+  <div class="chat-input">
+    <input id="chatInput" placeholder="Escribe aquí..." />
+    <button id="sendChat">Enviar</button>
+  </div>
+</div>
+
+<script src="prueba_escritorio_ferreteria.js"></script>
+</body>
+</html>

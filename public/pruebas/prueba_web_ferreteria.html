@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FERREMART | Plataforma Inteligente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="prueba_web_ferreteria.css"/>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="header">
+  <div class="top-header">
+    <div class="logo" onclick="showPage('home')">
+      <span class="logo-icon">🔧</span>
+      <span class="logo-text">FERRE<span>MART</span></span>
+    </div>
+    <button class="menu-btn" id="btnCategorias" data-control="categorias-btn">☰ CATEGORÍAS</button>
+    <div class="search-box" data-control="buscador">
+      <input type="text" placeholder="¿Qué estás buscando? (IA activa 🤖)" id="searchInput" autocomplete="off"/>
+      <button class="search-submit" onclick="triggerAISearch()">🔍</button>
+      <div class="search-dropdown" id="searchDropdown"></div>
+      <div class="ai-search-badge">✨ IA</div>
+    </div>
+    <div class="location" data-control="ubicacion">📍 <div><small>Selecciona</small><b>tu ubicación</b></div></div>
+    <div class="account" id="btnCuenta" data-control="login">👤 <div><small>Hola, inicia sesión</small><b>Mi cuenta</b></div></div>
+    <!-- DASHBOARD BUTTON - ABRE DASHBOARD -->
+    <button class="dashboard-header-btn" id="btnDashboard" onclick="openDashboard()">
+      📊 <span>Dashboard</span>
+    </button>
+    <button class="cart-btn" id="btnCarrito" data-control="carrito">🛒<span class="cart-badge" id="cartCount">0</span></button>
+  </div>
+  <nav class="promo-bar" data-control="promociones">
+    <span>🧡 Celebremos a mamá</span><span>💡 Iluminación 80% OFF</span>
+    <span>🔥 Desde S/1</span><span>⚡ Lo mejor en electro</span>
+    <span>🏠 Construcción -40%</span><span>🛠️ Herramientas Pro</span>
+  </nav>
+</header>
+
+<!-- ========== MEGA MENÚ ========== -->
+<div class="mega-overlay" id="megaOverlay"></div>
+<section class="mega-menu" id="megaMenu">
+  <div class="mega-inner">
+    <aside class="mega-sidebar">
+      <div class="mega-cat active" data-cat="limpieza">🧹 Limpieza</div>
+      <div class="mega-cat" data-cat="tecnologia">💻 Tecnología</div>
+      <div class="mega-cat" data-cat="electrohogar">🏠 Electrohogar</div>
+      <div class="mega-cat" data-cat="herramientas">🔧 Herramientas</div>
+      <div class="mega-cat" data-cat="construccion">🧱 Construcción</div>
+      <div class="mega-cat" data-cat="iluminacion">💡 Iluminación</div>
+      <div class="mega-cat" data-cat="ferreteria">🚪 Ferretería</div>
+      <div class="mega-cat" data-cat="jardineria">🌿 Jardinería</div>
+      <div class="mega-cat" data-cat="pinturas">🎨 Pinturas</div>
+      <div class="mega-cat" data-cat="muebles">🛋️ Muebles</div>
+      <div class="mega-cat" data-cat="bano">🚿 Baño</div>
+      <div class="mega-cat" data-cat="cocina">🍳 Cocina</div>
+      <div class="mega-cat" data-cat="automotriz">🚗 Automotriz</div>
+      <div class="mega-cat" data-cat="mascotas">🐾 Mascotas</div>
+    </aside>
+    <div class="mega-content" id="megaContent"></div>
+  </div>
+</section>
+
+<!-- ========== ACCOUNT MENU ========== -->
+<div class="account-menu" id="accountMenu">
+  <div class="account-menu-header">Mi cuenta</div>
+  <div class="account-item" id="openLogin">🔐 Iniciar sesión</div>
+  <div class="account-item">👤 Mi perfil</div>
+  <div class="account-item">📦 Mis pedidos</div>
+  <div class="account-item">📍 Direcciones</div>
+  <div class="account-item">⭐ Club Pro - Mis puntos</div>
+  <div class="account-item" onclick="openDashboard()">📊 Ir al Dashboard</div>
+  <div class="account-item">📞 Contáctanos</div>
+</div>
+
+<!-- ========== PÁGINAS PRINCIPALES ========== -->
+<main id="mainContent">
+
+  <!-- ===== HOME ===== -->
+  <div id="page-home" class="page active">
+
+    <!-- HERO BANNER -->
+    <section class="hero" data-control="banners">
+      <div class="hero-slides">
+        <div class="hero-slide active" style="--bg:linear-gradient(135deg,#ff6900 0%,#ff9a35 60%,#ffb85e 100%)">
+          <div class="hero-text">
+            <div class="hero-tag">🔥 MEGA OFERTAS</div>
+            <h1>Lo mejor en ferretería,<br>limpieza y hogar</h1>
+            <p>Ofertas exclusivas hasta <strong>80% OFF</strong></p>
+            <div class="hero-btns">
+              <button class="btn-primary" onclick="showPage('catalog')">Ver catálogo</button>
+              <button class="btn-ghost" onclick="openDashboard()">📊 Ver Dashboard</button>
+            </div>
+          </div>
+          <div class="hero-icons">
+            <div class="hero-icon-card">🧴<span>Lejías</span></div>
+            <div class="hero-icon-card">🛠️<span>Herramientas</span></div>
+            <div class="hero-icon-card">💡<span>Iluminación</span></div>
+            <div class="hero-icon-card">🚪<span>Puertas</span></div>
+          </div>
+        </div>
+        <div class="hero-slide" style="--bg:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%)">
+          <div class="hero-text">
+            <div class="hero-tag">🤖 POWERED BY AI</div>
+            <h1>Tecnología<br>inteligente para ti</h1>
+            <p>Recomendaciones personalizadas con <strong>IA</strong></p>
+            <div class="hero-btns">
+              <button class="btn-primary" onclick="openAIAssistant()">Hablar con IA</button>
+              <button class="btn-ghost" onclick="showPage('catalog')">Ver productos</button>
+            </div>
+          </div>
+          <div class="hero-icons">
+            <div class="hero-icon-card">🤖<span>IA</span></div>
+            <div class="hero-icon-card">📊<span>Analytics</span></div>
+            <div class="hero-icon-card">🛡️<span>Seguridad</span></div>
+            <div class="hero-icon-card">📡<span>IoT</span></div>
+          </div>
+        </div>
+        <div class="hero-slide" style="--bg:linear-gradient(135deg,#2d5016 0%,#4a7c22 60%,#6aaa30 100%)">
+          <div class="hero-text">
+            <div class="hero-tag">🌿 TEMPORADA JARDÍN</div>
+            <h1>Todo para tu<br>jardín y terraza</h1>
+            <p>Plantas y herramientas <strong>40% OFF</strong></p>
+            <div class="hero-btns">
+              <button class="btn-primary" onclick="showPage('catalog')">Ver jardinería</button>
+              <button class="btn-ghost" onclick="openPlansModal()">Ver planes</button>
+            </div>
+          </div>
+          <div class="hero-icons">
+            <div class="hero-icon-card">🌱<span>Plantas</span></div>
+            <div class="hero-icon-card">💧<span>Riego</span></div>
+            <div class="hero-icon-card">🪴<span>Maceteros</span></div>
+            <div class="hero-icon-card">✂️<span>Podadoras</span></div>
+          </div>
+        </div>
+      </div>
+      <button class="hero-arrow left" id="prevBanner">‹</button>
+      <button class="hero-arrow right" id="nextBanner">›</button>
+      <div class="hero-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    </section>
+
+    <!-- QUICK CATS -->
+    <section class="quick-cats">
+      <div class="quick-cat" onclick="showPage('catalog')">🧹<span>Limpieza</span></div>
+      <div class="quick-cat" onclick="showPage('catalog')">🔧<span>Herramientas</span></div>
+      <div class="quick-cat" onclick="showPage('catalog')">💡<span>Iluminación</span></div>
+      <div class="quick-cat" onclick="showPage('catalog')">🚪<span>Puertas</span></div>
+      <div class="quick-cat" onclick="showPage('catalog')">🧱<span>Construcción</span></div>
+      <div class="quick-cat" onclick="showPage('catalog')">🎨<span>Pinturas</span></div>
+      <div class="quick-cat" onclick="showPage('catalog')">🌿<span>Jardinería</span></div>
+      <div class="quick-cat" onclick="showPage('catalog')">🚗<span>Automotriz</span></div>
+    </section>
+
+    <!-- AI RECOMMENDATIONS BANNER -->
+    <section class="ai-banner" id="aiBannerSection">
+      <div class="ai-banner-inner">
+        <div class="ai-banner-left">
+          <span class="ai-chip">🤖 IA ACTIVA</span>
+          <h3>Recomendaciones personalizadas para ti</h3>
+          <p>Basadas en tu historial y preferencias de compra</p>
+        </div>
+        <div class="ai-recs" id="aiRecsHome"></div>
+        <button class="btn-ai" onclick="refreshAIRecs()">↻ Actualizar</button>
+      </div>
+    </section>
+
+    <!-- FEATURED PRODUCTS -->
+    <section class="featured-section">
+      <div class="section-header">
+        <h2>⭐ Productos destacados</h2>
+        <button class="btn-outline" onclick="showPage('catalog')">Ver todos →</button>
+      </div>
+      <div class="product-grid" id="featuredGrid"></div>
+    </section>
+
+    <!-- PROMO CARDS -->
+    <section class="promo-banners">
+      <div class="promo-card orange" onclick="openDashboard()">
+        <div><h3>Dashboard en vivo</h3><p>Métricas en tiempo real</p></div><span>📊</span>
+      </div>
+      <div class="promo-card dark" onclick="openPlansModal()">
+        <div><h3>Planes disponibles</h3><p>BÁSICO · PRO · PREMIUM</p></div><span>🚀</span>
+      </div>
+      <div class="promo-card gray">
+        <div><h3>Envío gratis</h3><p>En compras mayores a S/ 150</p></div><span>🚚</span>
+      </div>
+    </section>
+
+    <!-- PLANES SECTION -->
+    <section class="plans-home-section">
+      <div class="section-header"><h2>🚀 Nuestros planes</h2><button class="btn-outline" onclick="openPlansModal()">Ver detalle completo</button></div>
+      <div class="plans-cards-row">
+        <div class="plan-home-card basic" onclick="openPlansModal('basico')">
+          <div class="plan-badge">BÁSICO</div>
+          <div class="plan-icon">📱</div>
+          <h3>Básico</h3>
+          <p>15 módulos esenciales para iniciar tu negocio digital</p>
+          <ul id="basicPreview"></ul>
+          <button class="btn-plan">Ver módulos →</button>
+        </div>
+        <div class="plan-home-card pro featured-plan" onclick="openPlansModal('pro')">
+          <div class="plan-popular">MÁS POPULAR</div>
+          <div class="plan-badge">PRO</div>
+          <div class="plan-icon">⚡</div>
+          <h3>Pro</h3>
+          <p>Todo lo del Básico + 23 módulos avanzados de negocio</p>
+          <ul id="proPreview"></ul>
+          <button class="btn-plan">Ver módulos →</button>
+        </div>
+        <div class="plan-home-card premium" onclick="openPlansModal('premium')">
+          <div class="plan-badge">PREMIUM</div>
+          <div class="plan-icon">👑</div>
+          <h3>Premium</h3>
+          <p>Todo lo anterior + 30 módulos de IA y tecnología avanzada</p>
+          <ul id="premiumPreview"></ul>
+          <button class="btn-plan">Ver módulos →</button>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /page-home -->
+
+  <!-- ===== CATÁLOGO ===== -->
+  <div id="page-catalog" class="page">
+    <div class="catalog-layout">
+      <aside class="filters-panel" data-control="filtros">
+        <div class="filters-header"><h2>Filtrar</h2><button class="clear-filters">Limpiar</button></div>
+        <details open class="filter-group"><summary>Categorías</summary>
+          <label><input type="checkbox" checked> Limpieza</label>
+          <label><input type="checkbox"> Herramientas</label>
+          <label><input type="checkbox"> Electrohogar</label>
+          <label><input type="checkbox"> Ferretería</label>
+          <label><input type="checkbox"> Iluminación</label>
+        </details>
+        <details class="filter-group"><summary>Precio</summary>
+          <div class="range-slider">
+            <input type="range" min="0" max="500" value="500" id="priceRange" oninput="document.getElementById('priceVal').textContent='S/ '+this.value">
+            <span id="priceVal">S/ 500</span>
+          </div>
+        </details>
+        <details class="filter-group"><summary>Marca</summary>
+          <label><input type="checkbox" checked> Sapolio</label>
+          <label><input type="checkbox"> Clorox</label>
+          <label><input type="checkbox"> Sika</label>
+          <label><input type="checkbox"> Stanley</label>
+          <label><input type="checkbox"> Philips</label>
+        </details>
+        <details class="filter-group"><summary>Entrega</summary>
+          <label><input type="checkbox"> Retira mañana</label>
+          <label><input type="checkbox"> Llega mañana</label>
+        </details>
+        <!-- AI FILTER -->
+        <div class="ai-filter-box">
+          <div class="ai-filter-title">🤖 Filtro IA</div>
+          <p>Describe lo que necesitas y la IA filtrará por ti</p>
+          <textarea id="aiFilterInput" placeholder="Ej: Quiero algo para limpiar el baño barato..."></textarea>
+          <button onclick="applyAIFilter()">Aplicar filtro IA</button>
+        </div>
+      </aside>
+      <section class="products-section">
+        <div class="breadcrumb">
+          <span onclick="showPage('home')">Ferremart</span> › <span>Catálogo</span>
+        </div>
+        <div class="catalog-topbar">
+          <h2>Productos <span class="count-badge" id="productCount">0</span></h2>
+          <div class="topbar-right">
+            <select id="sortProducts" class="sort-select">
+              <option value="recommended">Recomendados</option>
+              <option value="low">Menor precio</option>
+              <option value="high">Mayor precio</option>
+              <option value="sold">Más vendidos</option>
+            </select>
+            <button class="btn-ai-rec" onclick="getAIRecommendations()">🤖 IA sugiere</button>
+          </div>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ===== DETALLE ===== -->
+  <div id="page-detail" class="page">
+    <div class="detail-layout">
+      <div class="detail-gallery">
+        <div class="detail-thumbs" id="detailThumbs"></div>
+        <div class="detail-main-img" id="detailMainImg"></div>
+      </div>
+      <div class="detail-info">
+        <div class="breadcrumb"><span onclick="showPage('catalog')">← Volver</span></div>
+        <p class="detail-brand" id="detailBrand"></p>
+        <h1 id="detailName"></h1>
+        <p class="detail-sku">SKU: <span id="detailSku"></span></p>
+        <div class="detail-price-row">
+          <span class="detail-price" id="detailPrice"></span>
+          <span class="detail-old" id="detailOld"></span>
+          <span class="detail-disc" id="detailDisc"></span>
+        </div>
+        <!-- AI REVIEW -->
+        <div class="ai-review-box" id="aiReviewBox">
+          <div class="ai-review-title">🤖 Análisis IA de este producto</div>
+          <div class="ai-review-text" id="aiReviewText">Analizando producto...</div>
+        </div>
+        <div class="detail-qty">
+          <button onclick="changeDetailQty(-1)">−</button>
+          <span id="detailQty">1</span>
+          <button onclick="changeDetailQty(1)">+</button>
+        </div>
+        <button class="btn-primary btn-add-detail" id="btnAddDetail">🛒 Agregar al carrito</button>
+        <div class="delivery-options">
+          <div class="delivery-item">🚚 <b>Llega mañana</b></div>
+          <div class="delivery-item">🏪 <b>Retira el mismo día</b></div>
+          <div class="delivery-item">📦 <b>Consultar stock</b></div>
+        </div>
+        <div class="acordeon-group">
+          <details class="acordeon"><summary>📄 Descripción</summary><p id="detailDesc"></p></details>
+          <details class="acordeon"><summary>📋 Ficha técnica</summary><p>Especificaciones del fabricante disponibles en tienda.</p></details>
+          <details class="acordeon"><summary>↩️ Cambios y devoluciones</summary><p>30 días para cambios. Aplican condiciones.</p></details>
+        </div>
+      </div>
+    </div>
+    <section class="featured-section" style="margin-top:30px">
+      <div class="section-header"><h2>🤖 IA recomienda también</h2></div>
+      <div class="product-grid" id="relatedGrid"></div>
+    </section>
+  </div>
+
+  <!-- ===== CARRITO ===== -->
+  <div id="page-cart" class="page">
+    <div class="cart-page-layout">
+      <div class="cart-items-section">
+        <h2>🛒 Tu carrito</h2>
+        <div id="cartPageItems"></div>
+      </div>
+      <div class="cart-summary-box">
+        <h3>Resumen de compra</h3>
+        <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">S/ 0.00</span></div>
+        <div class="summary-row"><span>Ahorro total</span><span id="summaryDiscount" class="green">-S/ 0.00</span></div>
+        <div class="summary-row total-row"><span>Total</span><span id="summaryTotal">S/ 0.00</span></div>
+        <button class="btn-primary full-width" onclick="alert('¡Redirigiendo al checkout seguro!')">Ir al checkout →</button>
+        <button class="btn-outline full-width" onclick="showPage('catalog')">Seguir comprando</button>
+        <!-- AI UPSELL -->
+        <div class="ai-upsell">
+          <div class="ai-upsell-title">🤖 IA sugiere agregar</div>
+          <div id="aiUpsellItems"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer data-control="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo"><span>🔧</span><span class="logo-text">FERRE<span>MART</span></span></div>
+      <p>Tu tienda de ferretería, construcción y hogar con los mejores precios del Perú.</p>
+      <div class="social-links">
+        <a href="#">📘 Facebook</a><a href="#">📸 Instagram</a><a href="#">📺 YouTube</a>
+      </div>
+      <div class="newsletter"><input type="email" placeholder="Tu correo electrónico"><button>Suscribirse</button></div>
+    </div>
+    <div class="footer-links"><h4>Secciones</h4>
+      <a href="#">Venta empresa</a><a href="#">Cyber Wow</a><a href="#">Días Ferremart</a><a href="#">Club Pro</a>
+    </div>
+    <div class="footer-links"><h4>Sobre Ferremart</h4>
+      <a href="#">Nosotros</a><a href="#">Nuestras tiendas</a><a href="#">Trabaja con nosotros</a>
+    </div>
+    <div class="footer-links"><h4>Ayuda</h4>
+      <a href="#">Centro de ayuda</a><a href="#">Términos y condiciones</a>
+      <a href="#">Libro de reclamaciones 📋</a><a href="#" onclick="openPlansModal()">Ver planes</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 FERREMART. Todos los derechos reservados.</p>
+    <div class="payment-methods"><span>💳 Visa</span><span>💳 Mastercard</span><span>📱 Yape</span><span>📱 Plin</span></div>
+  </div>
+</footer>
+
+<!-- ========== CART DRAWER ========== -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <h3>🛒 Carrito <span id="cartDrawerCount">(0 items)</span></h3>
+    <button class="close-drawer" id="closeCart">×</button>
+  </div>
+  <div id="cartItems" class="cart-items-list"></div>
+  <div class="cart-footer">
+    <div class="cart-total-row"><span>Total</span><b id="cartTotal">S/ 0.00</b></div>
+    <button class="btn-primary full-width" onclick="showPage('cart');document.getElementById('cartDrawer').classList.remove('open')">Ver carrito completo</button>
+    <button class="btn-outline full-width" onclick="document.getElementById('cartDrawer').classList.remove('open')">Seguir comprando</button>
+  </div>
+</div>
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- ========== MODAL LOGIN ========== -->
+<div class="modal-overlay" id="loginModal">
+  <div class="login-box">
+    <button class="modal-close" id="closeLogin">×</button>
+    <div class="login-logo">🔧 FERREMART</div>
+    <h2>Inicia sesión</h2>
+    <p class="login-sub">Accede a tu cuenta y dashboard</p>
+    <div class="form-group"><label>Correo electrónico</label><input type="email" id="loginEmail" placeholder="correo@ejemplo.com"></div>
+    <div class="form-group"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Tu contraseña"></div>
+    <button class="btn-primary full-width" onclick="handleLogin()">Ingresar</button>
+    <div class="login-links"><a href="#">Recuperar contraseña</a> · <a href="#">Crear cuenta</a></div>
+    <div style="margin-top:14px;text-align:center">
+      <button class="btn-outline" onclick="document.getElementById('loginModal').classList.remove('show');openDashboard()" style="width:100%">📊 Acceder al Dashboard Demo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL DASHBOARD ========== -->
+<div class="modal-overlay dashboard-modal" id="dashboardModal">
+  <div class="dashboard-box">
+    <div class="dashboard-header-bar">
+      <div class="db-header-left">
+        <span class="db-logo">📊</span>
+        <div>
+          <h2>Dashboard FERREMART</h2>
+          <p>Panel administrativo en tiempo real</p>
+        </div>
+      </div>
+      <div class="db-header-right">
+        <div class="plan-selector-bar">
+          <button class="plan-sel-btn active" id="planBtnBasico" onclick="switchDashboardPlan('basico')">BÁSICO</button>
+          <button class="plan-sel-btn" id="planBtnPro" onclick="switchDashboardPlan('pro')">PRO</button>
+          <button class="plan-sel-btn premium-btn" id="planBtnPremium" onclick="switchDashboardPlan('premium')">PREMIUM</button>
+        </div>
+        <button class="modal-close" onclick="document.getElementById('dashboardModal').classList.remove('show')">×</button>
+      </div>
+    </div>
+
+    <!-- PLAN INFO BAR -->
+    <div class="plan-info-bar" id="planInfoBar"></div>
+
+    <!-- DASHBOARD CONTENT -->
+    <div class="dashboard-body" id="dashboardBody">
+      <!-- Se llena por JS según plan -->
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL PLANES ========== -->
+<div class="modal-overlay" id="plansModal">
+  <div class="plans-modal-box">
+    <button class="modal-close" onclick="document.getElementById('plansModal').classList.remove('show')">×</button>
+    <h2>🚀 Elige tu plan</h2>
+    <p class="plans-sub">Cada plan incluye todo lo del plan anterior más funcionalidades nuevas</p>
+    <div class="plans-tabs">
+      <button class="plan-tab active" id="ptab-basico" onclick="switchPlanTab('basico')">📱 BÁSICO</button>
+      <button class="plan-tab" id="ptab-pro" onclick="switchPlanTab('pro')">⚡ PRO</button>
+      <button class="plan-tab premium-ptab" id="ptab-premium" onclick="switchPlanTab('premium')">👑 PREMIUM</button>
+    </div>
+    <div class="plan-detail-content" id="planDetailContent"></div>
+  </div>
+</div>
+
+<!-- ========== PANEL MODIFICAR ========== -->
+<aside class="config-panel" id="configPanel">
+  <div class="config-toggle-btn" id="configToggle">⚙️</div>
+  <div class="config-body">
+    <h3>⚙️ Modificar interfaz</h3>
+    <div class="config-item"><label>Carrito</label><label class="switch"><input type="checkbox" checked data-toggle="carrito"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Login</label><label class="switch"><input type="checkbox" checked data-toggle="login"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Buscador</label><label class="switch"><input type="checkbox" checked data-toggle="buscador"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Ubicación</label><label class="switch"><input type="checkbox" checked data-toggle="ubicacion"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Categorías</label><label class="switch"><input type="checkbox" checked data-toggle="categorias-btn"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Banners</label><label class="switch"><input type="checkbox" checked data-toggle="banners"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Filtros</label><label class="switch"><input type="checkbox" checked data-toggle="filtros"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Footer</label><label class="switch"><input type="checkbox" checked data-toggle="footer"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Chat IA</label><label class="switch"><input type="checkbox" checked data-toggle="chat"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Rec. IA</label><label class="switch"><input type="checkbox" checked data-toggle="ai-recs"><span class="slider"></span></label></div>
+    <div class="config-item"><label>Promociones</label><label class="switch"><input type="checkbox" checked data-toggle="promociones"><span class="slider"></span></label></div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid #eee">
+      <button onclick="openDashboard()" style="width:100%;background:#ff6900;color:white;border:none;padding:10px;border-radius:8px;cursor:pointer;font-weight:700">📊 Abrir Dashboard</button>
+    </div>
+    <div style="margin-top:8px">
+      <button onclick="openPlansModal()" style="width:100%;background:#1a1a2e;color:white;border:none;padding:10px;border-radius:8px;cursor:pointer;font-weight:700">🚀 Ver Planes</button>
+    </div>
+  </div>
+</aside>
+
+<!-- ========== CHAT IA ========== -->
+<div class="chat-bubble" id="chatBtn" data-control="chat">💬<span class="chat-notif">1</span></div>
+<div class="chat-window" id="chatBox">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div><b>Asistente IA FERREMART</b><small>✨ Powered by AI · En línea</small></div>
+    <button class="chat-close" onclick="document.getElementById('chatBox').classList.remove('open')">×</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot"><span>🤖</span><div class="msg-bubble">¡Hola! Soy el asistente IA de FERREMART. ¿En qué te puedo ayudar hoy?</div></div>
+    <div class="chat-msg bot"><span>🤖</span><div class="msg-bubble">Puedo ayudarte con: <b>productos, precios, envíos, planes y más.</b></div></div>
+    <div class="chat-quick-replies">
+      <button onclick="sendQuickReply('¿Cuáles son sus mejores ofertas?')">🔥 Ofertas</button>
+      <button onclick="sendQuickReply('¿Cómo funciona el Plan Pro?')">⚡ Plan Pro</button>
+      <button onclick="sendQuickReply('Necesito una herramienta de construcción')">🔧 Herramientas</button>
+      <button onclick="sendQuickReply('¿Cuánto cuesta el envío?')">🚚 Envíos</button>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input id="chatInput" placeholder="Escribe tu consulta...">
+    <button id="sendChat">➤</button>
+  </div>
+</div>
+
+<!-- ========== TOAST ========== -->
+<div class="toast" id="toast"></div>
+
+<!-- ========== AI ASSISTANT MODAL ========== -->
+<div class="modal-overlay" id="aiAssistantModal">
+  <div class="ai-assistant-box">
+    <button class="modal-close" onclick="document.getElementById('aiAssistantModal').classList.remove('show')">×</button>
+    <div class="ai-assistant-header">
+      <span class="ai-big-icon">🤖</span>
+      <div><h2>Asistente IA FERREMART</h2><p>Búsqueda inteligente de productos</p></div>
+    </div>
+    <div class="ai-search-section">
+      <textarea id="aiSearchQuery" placeholder="Describe lo que necesitas... Ej: Necesito pintar mi cuarto, ¿qué necesito?"></textarea>
+      <button class="btn-primary" onclick="runAISearch()">🤖 Buscar con IA</button>
+    </div>
+    <div class="ai-results" id="aiResults"></div>
+  </div>
+</div>
+
+<script src="prueba_web_ferreteria.js"></script>
+</body>
+</html>

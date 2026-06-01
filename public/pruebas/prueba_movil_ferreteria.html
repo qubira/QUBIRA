@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FERREMART APP Móvil</title>
+  <link rel="stylesheet" href="prueba_movil_ferreteria.css" />
+</head>
+<body>
+
+<div class="phone">
+
+  <header class="mobile-header">
+    <div class="logo">🔧 FERRE<span>MART</span></div>
+    <button id="openLogin" data-ui="login">👤</button>
+  </header>
+
+  <div class="search-box" data-ui="search">
+    <input id="searchInput" type="text" placeholder="Buscar herramientas, limpieza..." />
+    <button>🔍</button>
+  </div>
+
+  <main class="screen">
+
+    <!-- INICIO -->
+    <section id="home" class="page active">
+
+      <div class="banner" data-ui="banner">
+        <span>🔥 Mega ofertas</span>
+        <h1>Todo para tu ferretería y hogar</h1>
+        <p>Compra rápido desde tu celular</p>
+        <button data-page="catalog">Ver catálogo</button>
+      </div>
+
+      <h2 data-ui="categories">Categorías</h2>
+
+      <div class="categories" data-ui="categories">
+        <div>🧴<span>Limpieza</span></div>
+        <div>🛠️<span>Herramientas</span></div>
+        <div>💡<span>Luces</span></div>
+        <div>🚪<span>Puertas</span></div>
+      </div>
+
+      <h2 data-ui="featured">Destacados</h2>
+      <div class="product-list" id="featuredList" data-ui="featured"></div>
+
+      <div class="module-card app-modules">
+        <h3>Módulos activos</h3>
+
+        <p data-ui="app-nativo">✅ Aplicativo móvil nativo</p>
+        <p data-ui="responsive">✅ Interfaz móvil responsive</p>
+        <p data-ui="login-seguro">✅ Login móvil seguro</p>
+        <p data-ui="catalogo">✅ Catálogo móvil</p>
+        <p data-ui="formulario-contacto">✅ Formulario de contacto</p>
+        <p data-ui="notificaciones-locales">✅ Notificaciones locales</p>
+        <p data-ui="perfil">✅ Perfil de usuario</p>
+        <p data-ui="ux">✅ Navegación intuitiva UX</p>
+        <p data-ui="offline-basico">✅ Acceso offline básico</p>
+        <p data-ui="integracion-web">✅ Integración básica con web</p>
+
+        <p data-ui="multiplataforma">⚡ App multiplataforma</p>
+        <p data-ui="sync-real">⚡ Sincronización en tiempo real</p>
+        <p data-ui="push-avanzadas">⚡ Notificaciones push avanzadas</p>
+        <p data-ui="carrito">⚡ Carrito de compras móvil</p>
+        <p data-ui="pagos">⚡ Pagos móviles integrados</p>
+        <p data-ui="geolocalizacion">⚡ Geolocalización avanzada</p>
+        <p data-ui="tracking">⚡ Tracking en vivo</p>
+        <p data-ui="chat-tiempo-real">⚡ Chat en tiempo real</p>
+        <p data-ui="apis">⚡ Integración APIs externas</p>
+        <p data-ui="qr">⚡ Escaneo QR móvil</p>
+        <p data-ui="offline-sync">⚡ Modo offline sincronizado</p>
+        <p data-ui="favoritos">⚡ Gestión de favoritos</p>
+        <p data-ui="historial">⚡ Historial de actividad</p>
+        <p data-ui="comparador">⚡ Comparador móvil</p>
+        <p data-ui="camara">⚡ Integración con cámara</p>
+        <p data-ui="archivos">⚡ Subida de archivos móvil</p>
+        <p data-ui="modo-oscuro">⚡ Modo oscuro/claro</p>
+        <p data-ui="biometrico">⚡ Acceso biométrico</p>
+
+        <p data-ui="ia">👑 App móvil con IA integrada</p>
+        <p data-ui="asistente-ia">👑 Asistente virtual en app</p>
+        <p data-ui="facial">👑 Reconocimiento facial móvil</p>
+        <p data-ui="voz">👑 Reconocimiento de voz móvil</p>
+        <p data-ui="recomendaciones">👑 Recomendaciones inteligentes</p>
+        <p data-ui="comportamiento">👑 Análisis de comportamiento</p>
+        <p data-ui="predictivas">👑 Notificaciones predictivas IA</p>
+        <p data-ui="iot">👑 IoT móvil</p>
+        <p data-ui="seguridad-biometrica">👑 Seguridad biométrica avanzada</p>
+        <p data-ui="ar">👑 Realidad aumentada móvil</p>
+        <p data-ui="vr">👑 Realidad virtual móvil</p>
+        <p data-ui="ui-auto">👑 Personalización automática UI</p>
+        <p data-ui="fraude">👑 Detección de fraude móvil</p>
+        <p data-ui="gamificacion">👑 Gamificación avanzada</p>
+        <p data-ui="monitoreo">👑 Monitoreo en segundo plano</p>
+        <p data-ui="blockchain">👑 Blockchain opcional</p>
+      </div>
+
+    </section>
+
+    <!-- CATÁLOGO -->
+    <section id="catalog" class="page">
+
+      <div class="page-title">
+        <h2>Catálogo</h2>
+        <select id="sortProducts">
+          <option value="normal">Recomendados</option>
+          <option value="low">Menor precio</option>
+          <option value="high">Mayor precio</option>
+        </select>
+      </div>
+
+      <div class="chips" data-ui="chips">
+        <button class="chip active" data-filter="all">Todo</button>
+        <button class="chip" data-filter="limpieza">Limpieza</button>
+        <button class="chip" data-filter="herramientas">Herramientas</button>
+        <button class="chip" data-filter="ferreteria">Ferretería</button>
+      </div>
+
+      <div class="product-list" id="productList" data-ui="catalogo"></div>
+
+    </section>
+
+    <!-- DETALLE -->
+    <section id="detail" class="page">
+
+      <button class="back-btn" data-page="catalog">← Volver</button>
+
+      <div class="detail-card">
+        <div class="detail-img" id="detailImg">🧴</div>
+
+        <p class="brand" id="detailBrand"></p>
+        <h2 id="detailName"></h2>
+        <p class="detail-price" id="detailPrice"></p>
+        <p class="old" id="detailOld"></p>
+
+        <div class="qty">
+          <button id="minusQty">-</button>
+          <span id="detailQty">1</span>
+          <button id="plusQty">+</button>
+        </div>
+
+        <button class="primary" id="addDetailBtn">Agregar al carrito</button>
+
+        <div class="info-box">
+          <h3>Descripción</h3>
+          <p>Producto ideal para uso doméstico, comercial y profesional.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CARRITO -->
+    <section id="cart" class="page">
+
+      <h2>Mi carrito</h2>
+
+      <div id="cartItems"></div>
+
+      <div class="summary">
+        <p>Subtotal <b id="subtotal">S/ 0.00</b></p>
+        <p>Descuento <b id="discount">S/ 0.00</b></p>
+        <hr />
+        <p>Total <b id="total">S/ 0.00</b></p>
+        <button class="primary" data-ui="pagos">Pagar ahora</button>
+      </div>
+
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page" data-ui="dashboard">
+
+      <h2>Dashboard móvil</h2>
+
+      <div class="stats">
+        <div data-ui="ventas">
+          <h3>S/ 4,580</h3>
+          <p>Ventas hoy</p>
+        </div>
+
+        <div data-ui="tracking">
+          <h3>24</h3>
+          <p>Pedidos / Tracking</p>
+        </div>
+
+        <div data-ui="perfil">
+          <h3>320</h3>
+          <p>Clientes / Perfil</p>
+        </div>
+
+        <div data-ui="catalogo">
+          <h3>94%</h3>
+          <p>Stock / Catálogo</p>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <h3>Panel de usuario móvil</h3>
+        <p data-ui="sync-real">⚡ Datos sincronizados en tiempo real</p>
+        <p data-ui="push-avanzadas">🔔 Push avanzadas activas</p>
+        <p data-ui="geolocalizacion">📍 Geolocalización móvil activa</p>
+        <p data-ui="historial">📋 Historial de actividad disponible</p>
+        <p data-ui="recomendaciones">🤖 Recomendaciones inteligentes activas</p>
+        <p data-ui="comportamiento">🧠 Análisis de comportamiento activo</p>
+        <p data-ui="monitoreo">🛰️ Monitoreo en segundo plano</p>
+      </div>
+
+    </section>
+
+    <!-- CONFIGURACIÓN -->
+    <section id="settings" class="page">
+
+      <h2>Modificar interfaz</h2>
+
+      <div class="setting-card">
+        <h3>Controles principales</h3>
+
+        <label><span>Mostrar buscador</span><input type="checkbox" checked data-control="search"></label>
+        <label><span>Mostrar chat</span><input type="checkbox" checked data-control="chat"></label>
+        <label><span>Mostrar login</span><input type="checkbox" checked data-control="login"></label>
+        <label><span>Mostrar carrito</span><input type="checkbox" checked data-control="cart"></label>
+        <label><span>Mostrar banner</span><input type="checkbox" checked data-control="banner"></label>
+        <label><span>Mostrar categorías</span><input type="checkbox" checked data-control="categories"></label>
+        <label><span>Mostrar destacados</span><input type="checkbox" checked data-control="featured"></label>
+        <label><span>Mostrar dashboard</span><input type="checkbox" checked data-control="dashboard"></label>
+        <label><span>Mostrar filtros rápidos</span><input type="checkbox" checked data-control="chips"></label>
+      </div>
+
+      <div class="setting-card basic-card">
+        <h3>Plan Básico APP</h3>
+
+        <label><span>Aplicativo móvil nativo</span><input type="checkbox" checked data-control="app-nativo"></label>
+        <label><span>Interfaz móvil responsive</span><input type="checkbox" checked data-control="responsive"></label>
+        <label><span>Login móvil seguro</span><input type="checkbox" checked data-control="login-seguro"></label>
+        <label><span>Visualización de catálogo móvil</span><input type="checkbox" checked data-control="catalogo"></label>
+        <label><span>Formulario móvil de contacto</span><input type="checkbox" checked data-control="formulario-contacto"></label>
+        <label><span>Notificaciones locales</span><input type="checkbox" checked data-control="notificaciones-locales"></label>
+        <label><span>Perfil de usuario</span><input type="checkbox" checked data-control="perfil"></label>
+        <label><span>Navegación intuitiva UX</span><input type="checkbox" checked data-control="ux"></label>
+        <label><span>Acceso offline básico</span><input type="checkbox" checked data-control="offline-basico"></label>
+        <label><span>Integración básica con web</span><input type="checkbox" checked data-control="integracion-web"></label>
+      </div>
+
+      <div class="setting-card pro-card">
+        <h3>Plan Pro APP</h3>
+
+        <label><span>Aplicativo multiplataforma</span><input type="checkbox" checked data-control="multiplataforma"></label>
+        <label><span>Sincronización en tiempo real</span><input type="checkbox" checked data-control="sync-real"></label>
+        <label><span>Notificaciones push avanzadas</span><input type="checkbox" checked data-control="push-avanzadas"></label>
+        <label><span>Carrito de compras móvil</span><input type="checkbox" checked data-control="carrito"></label>
+        <label><span>Pagos móviles integrados</span><input type="checkbox" checked data-control="pagos"></label>
+        <label><span>Geolocalización avanzada</span><input type="checkbox" checked data-control="geolocalizacion"></label>
+        <label><span>Tracking en vivo</span><input type="checkbox" checked data-control="tracking"></label>
+        <label><span>Chat en tiempo real móvil</span><input type="checkbox" checked data-control="chat-tiempo-real"></label>
+        <label><span>Integración APIs externas</span><input type="checkbox" checked data-control="apis"></label>
+        <label><span>Escaneo QR móvil</span><input type="checkbox" checked data-control="qr"></label>
+        <label><span>Modo offline sincronizado</span><input type="checkbox" checked data-control="offline-sync"></label>
+        <label><span>Gestión de favoritos</span><input type="checkbox" checked data-control="favoritos"></label>
+        <label><span>Historial de actividad</span><input type="checkbox" checked data-control="historial"></label>
+        <label><span>Comparador móvil</span><input type="checkbox" checked data-control="comparador"></label>
+        <label><span>Integración con cámara</span><input type="checkbox" checked data-control="camara"></label>
+        <label><span>Subida de archivos móvil</span><input type="checkbox" checked data-control="archivos"></label>
+        <label><span>Modo oscuro/claro móvil</span><input type="checkbox" checked data-control="modo-oscuro"></label>
+        <label><span>Acceso biométrico</span><input type="checkbox" checked data-control="biometrico"></label>
+      </div>
+
+      <div class="setting-card premium-card">
+        <h3>Plan Premium APP</h3>
+
+        <label><span>App móvil con IA integrada</span><input type="checkbox" checked data-control="ia"></label>
+        <label><span>Asistente virtual en app</span><input type="checkbox" checked data-control="asistente-ia"></label>
+        <label><span>Reconocimiento facial móvil</span><input type="checkbox" checked data-control="facial"></label>
+        <label><span>Reconocimiento de voz móvil</span><input type="checkbox" checked data-control="voz"></label>
+        <label><span>Recomendaciones inteligentes</span><input type="checkbox" checked data-control="recomendaciones"></label>
+        <label><span>Análisis de comportamiento</span><input type="checkbox" checked data-control="comportamiento"></label>
+        <label><span>Notificaciones predictivas IA</span><input type="checkbox" checked data-control="predictivas"></label>
+        <label><span>IoT móvil</span><input type="checkbox" checked data-control="iot"></label>
+        <label><span>Seguridad biométrica avanzada</span><input type="checkbox" checked data-control="seguridad-biometrica"></label>
+        <label><span>Realidad aumentada móvil</span><input type="checkbox" checked data-control="ar"></label>
+        <label><span>Realidad virtual móvil</span><input type="checkbox" checked data-control="vr"></label>
+        <label><span>Personalización automática UI</span><input type="checkbox" checked data-control="ui-auto"></label>
+        <label><span>Detección de fraude móvil</span><input type="checkbox" checked data-control="fraude"></label>
+        <label><span>Gamificación avanzada</span><input type="checkbox" checked data-control="gamificacion"></label>
+        <label><span>Monitoreo en segundo plano</span><input type="checkbox" checked data-control="monitoreo"></label>
+        <label><span>Blockchain opcional</span><input type="checkbox" checked data-control="blockchain"></label>
+      </div>
+
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="active" data-page="home">🏠<span>Inicio</span></button>
+    <button data-page="catalog">📦<span>Catálogo</span></button>
+    <button data-page="cart" class="cart-nav" data-ui="cart">🛒<span>Carrito</span><b id="cartCount">0</b></button>
+    <button data-page="dashboard" data-ui="dashboard">📊<span>Panel</span></button>
+    <button data-page="settings">⚙️<span>Ajustes</span></button>
+  </nav>
+
+</div>
+
+<div class="login-modal" id="loginModal">
+  <div class="login-box">
+    <button id="closeLogin" class="close">×</button>
+    <h2>Iniciar sesión</h2>
+    <input type="email" placeholder="Correo electrónico" />
+    <input type="password" placeholder="Contraseña" />
+    <button class="primary">Ingresar</button>
+  </div>
+</div>
+
+<button class="chat-btn" id="chatBtn" data-ui="chat">💬</button>
+
+<div class="chat-box" id="chatBox">
+  <h3>Asistente FERREMART</h3>
+  <div id="chatMessages">
+    <p><b>Bot:</b> Hola, ¿en qué producto puedo ayudarte?</p>
+  </div>
+  <div class="chat-input">
+    <input id="chatInput" placeholder="Escribe aquí..." />
+    <button id="sendChat">Enviar</button>
+  </div>
+</div>
+
+<script src="prueba_movil_ferreteria.js"></script>
+</body>
+</html>

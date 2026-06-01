@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QUBIRA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="icon"
+      href="https://raw.githubusercontent.com/qubira/IMAGENES/main/logo2.png"
+      type="image/png"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <div class="grid-glow"></div>
+
+    <header class="header" id="header">
+      <div class="header__inner">
+        <a href="#hero" class="brand">
+          <img
+            src="https://raw.githubusercontent.com/qubira/IMAGENES/main/logo2.png"
+            alt="Logo Qubira"
+            class="brand__logo"
+          />
+          <span class="brand__text">QUBIRA</span>
+        </a>
+
+        <nav class="nav nav--desktop">
+          <a href="#services">Servicios</a>
+          <a href="#cases">Casos</a>
+          <a href="#manifesto">Método</a>
+          <a href="#contact">Contacto</a>
+        </nav>
+
+        <button class="menu-btn" id="openMenu" aria-label="Abrir menú">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="fullscreen-menu" id="fullscreenMenu" aria-hidden="true">
+      <div class="fullscreen-menu__panel">
+        <div class="fullscreen-menu__top">
+          <a href="#hero" class="brand brand--dark">
+            <img
+              src="https://raw.githubusercontent.com/qubira/IMAGENES/main/logo2.png"
+              alt="Logo Qubira"
+              class="brand__logo"
+            />
+            <span class="brand__text">QUBIRA</span>
+          </a>
+
+          <button class="menu-close" id="closeMenu" aria-label="Cerrar menú">
+            ×
+          </button>
+        </div>
+
+        <div class="fullscreen-menu__content">
+          <div class="fullscreen-menu__left">
+            <p class="menu-eyebrow">Ingeniería, diseño y crecimiento</p>
+            <h2>Construimos<br />productos con<br />criterio.</h2>
+          </div>
+
+          <div class="fullscreen-menu__right">
+            <div class="menu-group">
+              <span class="menu-line"></span>
+              <a href="#services">SERVICIOS</a>
+              <a href="#partners">SOCIOS</a>
+              <a href="#cases">CASOS</a>
+              <a href="#awards">RECONOCIMIENTOS</a>
+            </div>
+
+            <div class="menu-group">
+              <span class="menu-line"></span>
+              <a href="#manifesto">MÉTODO</a>
+              <a href="#contact">CONTÁCTANOS</a>
+            </div>
+
+            <div class="menu-group">
+              <span class="menu-line"></span>
+              <a href="#">LINKEDIN</a>
+              <a href="#">GITHUB</a>
+              <a href="#">BEHANCE</a>
+              <a href="#">DRIBBBLE</a>
+            </div>
+
+            <div class="menu-group">
+              <span class="menu-line"></span>
+              <a href="qubiralogin.html">LOGIN</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero section" id="hero">
+        <div class="container hero__grid">
+          <div class="hero__content reveal">
+            <div class="hero__badge">
+              <span class="dot"></span>
+              Equipos digitales, producto
+            </div>
+
+            <h1>
+              Diseñamos<br />
+              sistemas que<br />
+              <span>se mueven contigo.</span>
+            </h1>
+
+            <p class="hero__text">
+              Ayudamos a marcas y empresas a lanzar, rediseñar y escalar
+              productos digitales con una mezcla precisa de estrategia, diseño
+              de experiencia, ingeniería y automatización.
+            </p>
+
+            <div class="hero__actions">
+              <a href="#contact" class="btn btn--solid magnetic"
+                >Agendar llamada</a
+              >
+              <!--<a href="#cases" class="btn btn--ghost">Ver casos</a>-->
+            </div>
+          </div>
+
+          <div class="hero__visual reveal">
+            <div class="hero-card hero-card--large floating-card">
+              <span class="hero-card__label">ESTRATEGIA</span>
+              <strong>+ Producto</strong>
+              <p>Roadmaps claros, decisiones rápidas y ejecución conectada.</p>
+            </div>
+
+            <div class="hero-card hero-card--small floating-card delay-1">
+              <span class="hero-card__label">SISTEMAS</span>
+              <strong>UX / UI</strong>
+            </div>
+
+            <div class="hero-card hero-card--small floating-card delay-2">
+              <span class="hero-card__label">IA</span>
+              <strong>Automatización</strong>
+            </div>
+
+            <div class="hero-orb"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PARTNERS -->
+      <section class="partners section section--light" id="partners">
+        <div class="container">
+          <div class="section-heading section-heading--center reveal">
+            <p class="eyebrow eyebrow--dark">CONFÍAN EN EQUIPOS QUE ENTREGAN</p>
+            <h2>Socios y marcas</h2>
+          </div>
+
+          <div class="logo-wall">
+            <div class="logo-item reveal">Google</div>
+            <div class="logo-item reveal">Pinterest</div>
+            <div class="logo-item reveal">Skullcandy</div>
+            <div class="logo-item reveal">Lucid</div>
+            <div class="logo-item reveal">Sephora</div>
+            <div class="logo-item reveal">Best Buy</div>
+            <div class="logo-item reveal">Rare Beauty</div>
+            <div class="logo-item reveal">DIME</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section class="services section" id="services">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow">CAPACIDADES PRINCIPALES</p>
+            <h2>Una práctica integral para productos modernos.</h2>
+            <p class="section-copy">
+              Trabajamos como extensión de tu equipo con una base fuerte de
+              diseño, desarrollo, calidad, datos y automatización.
+            </p>
+          </div>
+
+          <div class="services-layout">
+            <article class="service service--featured reveal tilt-card">
+              <span class="service__index">01</span>
+              <h3>Ingeniería de producto</h3>
+              <p>
+                Desarrollo web y móvil, arquitecturas escalables, integraciones
+                y despliegues pensados para velocidad, estabilidad y
+                mantenibilidad.
+              </p>
+            </article>
+
+            <article class="service reveal tilt-card">
+              <span class="service__index">02</span>
+              <h3>Diseño de experiencia</h3>
+              <p>
+                Sistemas visuales, flujos claros, interfaces elegantes y
+                decisiones basadas en uso real, no solo en estética.
+              </p>
+            </article>
+
+            <article class="service reveal tilt-card">
+              <span class="service__index">03</span>
+              <h3>QA y performance</h3>
+              <p>
+                Validamos calidad, cobertura, regresiones y rendimiento para
+                lanzar con confianza y sostener crecimiento.
+              </p>
+            </article>
+
+            <article class="service reveal tilt-card">
+              <span class="service__index">04</span>
+              <h3>Datos e IA aplicada</h3>
+              <p>
+                Desde copilotos internos hasta automatizaciones de procesos,
+                conectamos IA con casos concretos de negocio.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CASES -->
+      <section class="cases section section--light" id="cases">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow eyebrow--dark">RESULTADOS, NO SOLO ENTREGABLES</p>
+            <h2>Casos que muestran impacto real.</h2>
+          </div>
+
+          <div class="case-accordion">
+            <article class="case-panel is-active reveal">
+              <div class="case-panel__overlay"></div>
+              <div class="case-panel__top">THE TWENTIES</div>
+              <img
+                src="https://raw.githubusercontent.com/AbrahamJ10/imagenes_the_t/main/logo.jpg"
+              />
+              <div class="case-panel__bottom">
+                <strong>3x</strong>
+                <p>Mayor venta, mejores ingresos y mayor administracion</p>
+              </div>
+            </article>
+
+            <article class="case-panel reveal">
+              <div class="case-panel__overlay"></div>
+              <div class="case-panel__top">A&M EXPORTACIONES</div>
+              <img
+                src="https://raw.githubusercontent.com/AbrahamJ10/imagenes_the_t/main/logo.jpg"
+              />
+              <div class="case-panel__bottom">
+                <strong>100%</strong>
+                <p>Éxito en implementación y evolución del ecosistema.</p>
+              </div>
+            </article>
+
+            <article class="case-panel reveal">
+              <div class="case-panel__overlay"></div>
+              <div class="case-panel__top">HOW WE FEEL</div>
+              <img
+                src="https://raw.githubusercontent.com/AbrahamJ10/imagenes_the_t/main/logo.jpg"
+              />
+              <div class="case-panel__bottom">
+                <strong>3x</strong>
+                <p>Más cobertura de QA y menos tiempo de prueba manual.</p>
+              </div>
+            </article>
+
+            <article class="case-panel reveal">
+              <div class="case-panel__overlay"></div>
+              <div class="case-panel__top">SVIM-OSIPTEL</div>
+              <img
+                src="https://raw.githubusercontent.com/Abraham25J/SVIM/main/logo2.png"
+              />
+              <div class="case-panel__bottom">
+                <strong>40%</strong>
+                <p>Mayor velocidad de desarrollo en plataformas móviles.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- MANIFESTO / TERMINAL -->
+      <section class="manifesto section" id="manifesto">
+        <div class="container manifesto__grid">
+          <div class="manifesto__intro reveal">
+            <p class="eyebrow">NUESTRO MÉTODO</p>
+            <h2>Menos ruido. Más criterio técnico.</h2>
+            <p>
+              Nos gusta pensar el desarrollo como un sistema vivo: diseño,
+              código, decisiones de negocio y experiencia trabajando en la misma
+              dirección.
+            </p>
+          </div>
+
+          <div class="terminal reveal">
+            <div class="terminal__bar">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="terminal__body">
+              <pre id="typedCode"></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="cta section section--light" id="contact">
+        <div class="container cta__grid">
+          <div class="cta__copy reveal">
+            <p class="eyebrow eyebrow--dark">SIGUIENTE PASO</p>
+            <h2>Construyamos algo serio, útil y memorable.</h2>
+            <p>
+              Si buscas un equipo con pensamiento de producto, buena ejecución y
+              una estética premium, podemos empezar por una llamada.
+            </p>
+          </div>
+
+          <div class="cta__action reveal">
+            <a href="#hero" class="btn btn--outline magnetic"
+              >Habla con nosotros</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- AWARDS -->
+      <section class="awards section" id="awards">
+        <div class="container">
+          <div class="section-heading section-heading--center reveal">
+            <p class="eyebrow">RECONOCIMIENTO Y ALIANZAS</p>
+            <h2>Partners y distinciones</h2>
+          </div>
+
+          <div class="marquee">
+            <div class="marquee__track">
+              <span>Clutch Champion</span>
+              <span>Inc 5000</span>
+              <span>Stripe Partner</span>
+              <span>Google Cloud Partner</span>
+              <span>AWS Partner</span>
+              <span>Shopify Partner</span>
+              <span>Microsoft Partner</span>
+
+              <span>Clutch Champion</span>
+              <span>Inc 5000</span>
+              <span>Stripe Partner</span>
+              <span>Google Cloud Partner</span>
+              <span>AWS Partner</span>
+              <span>Shopify Partner</span>
+              <span>Microsoft Partner</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER BLOCK -->
+      <section class="footer-block section section--light">
+        <div class="container footer-block__grid">
+          <div class="footer-block__title reveal">
+            <h2>Productos con<br />fondo técnico<br />y diseño.</h2>
+          </div>
+
+          <div class="footer-block__links reveal">
+            <div class="footer-col">
+              <span class="menu-line"></span>
+              <a href="#services">SERVICIOS</a>
+              <a href="#cases">CASOS</a>
+              <a href="#manifesto">MÉTODO</a>
+              <a href="#contact">CONTACTO</a>
+            </div>
+
+            <div class="footer-col">
+              <span class="menu-line"></span>
+              <a href="#">LINKEDIN</a>
+              <a href="#">GITHUB</a>
+              <a href="#">DRIBBBLE</a>
+              <a href="#">X / TWITTER</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- BOTONES FLOTANTES -->
+    <div class="floating-actions">
+      <button
+        type="button"
+        id="chatbot-button"
+        class="chatbot-float"
+        aria-label="Abrir chatbot"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12 3C6.48 3 2 6.92 2 11.75c0 2.75 1.45 5.2 3.72 6.8V22l3.4-1.86c.91.24 1.88.36 2.88.36 5.52 0 10-3.92 10-8.75S17.52 3 12 3zm-4 8.5c0-.83.67-1.5 1.5-1.5S11 10.67 11 11.5 10.33 13 9.5 13 8 12.33 8 11.5zm6.5 1.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5S16 10.67 16 11.5 15.33 13 14.5 13z"
+          />
+        </svg>
+      </button>
+
+      <a
+        href="https://wa.me/51924687363"
+        class="whatsapp-float"
+        target="_blank"
+        aria-label="Abrir WhatsApp"
+      >
+        <svg viewBox="0 0 32 32">
+          <path
+            fill="white"
+            d="M16.04 3C9.41 3 4 8.39 4 15.02c0 2.65.86 5.1 2.33 7.09L4 29l7.06-2.27a11.96 11.96 0 0 0 4.98 1.09h.01c6.63 0 12.04-5.39 12.04-12.02C28.09 8.39 22.67 3 16.04 3Zm6.99 16.98c-.3.85-1.76 1.62-2.43 1.72-.63.09-1.41.13-2.27-.15-.52-.17-1.19-.39-2.05-.76-3.6-1.56-5.94-5.21-6.12-5.45-.18-.24-1.46-1.94-1.46-3.7 0-1.76.92-2.62 1.24-2.98.33-.36.72-.45.96-.45.24 0 .48 0 .69.01.22.01.51-.08.8.61.3.73 1.01 2.51 1.1 2.69.09.18.15.39.03.63-.12.24-.18.39-.36.6-.18.21-.38.46-.54.62-.18.18-.37.38-.16.74.21.36.94 1.55 2.02 2.51 1.39 1.24 2.56 1.63 2.92 1.81.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.8-.18.33.12 2.07.98 2.43 1.15.36.18.6.27.69.42.09.15.09.87-.21 1.72Z"
+          />
+        </svg>
+      </a>
+    </div>
+
+    <!-- VENTANA DEL CHATBOT -->
+    <div id="chatbot-window" class="chatbot-window" aria-hidden="true">
+      <div class="chatbot-header">
+        <div>
+          <strong>Chat con nosotros</strong>
+          <span>Asistente QUBIRA</span>
+        </div>
+
+        <div class="chatbot-header__actions">
+          <button
+            type="button"
+            id="expand-chatbot"
+            aria-label="Agrandar chatbot"
+          >
+            ⛶
+          </button>
+          <button type="button" id="close-chatbot" aria-label="Cerrar chatbot">
+            ×
+          </button>
+        </div>
+      </div>
+
+      <div id="chatbot-content" class="chatbot-content">
+        <div class="chatbot-message bot-message">
+          ¡Hola! Soy el asistente de QUBIRA. Puedo ayudarte con servicios,
+          precios, contacto, horarios, proyectos y metodología.
+        </div>
+      </div>
+
+      <div class="chatbot-form">
+        <input
+          type="text"
+          id="chatbot-input"
+          placeholder="Escribe tu pregunta..."
+          autocomplete="off"
+        />
+        <button type="button" id="send-chatbot">Enviar</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
