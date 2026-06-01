@@ -1271,34 +1271,43 @@ img{ max-width:100%; display:block; }
    LOGO EN BOTÓN FLOTANTE Y HEADER DEL CHATBOT
    ============================================================ */
 
-/* Imagen dentro del botón flotante del chat */
+/* ── Botón flotante: sin fondo, solo la imagen ── */
+.floating-actions .chatbot-float {
+  background: transparent !important;
+  box-shadow: none !important;
+  animation: none !important;
+  width: 64px !important;
+  height: 64px !important;
+}
 .chatbot-float-img {
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
-  border-radius: 50%;
   display: block;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));
-  transition: transform .25s ease;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.35));
+  transition: transform .3s ease, filter .3s ease;
 }
 .floating-actions .chatbot-float:hover .chatbot-float-img {
-  transform: scale(1.1) rotate(-5deg);
+  transform: scale(1.1);
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.45));
 }
 
-/* Header del chatbot con logo */
+/* ── Header del chatbot: logo al costado del texto ── */
 .chatbot-header-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+/* Anular la regla div:first-child que fuerza column */
+.chatbot-header .chatbot-header-info {
+  flex-direction: row !important;
 }
 .chatbot-header-logo {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  border-radius: 50%;
-  background: rgba(255,255,255,.12);
-  padding: 4px;
   flex-shrink: 0;
-  box-shadow: 0 0 16px rgba(119,242,200,.25);
+  filter: drop-shadow(0 0 8px rgba(119,242,200,.4));
   animation: avatarPulse 3s ease-in-out infinite;
 }
