@@ -1271,25 +1271,42 @@ img{ max-width:100%; display:block; }
    LOGO EN BOTÓN FLOTANTE Y HEADER DEL CHATBOT
    ============================================================ */
 
-/* ── Botón flotante: sin fondo, solo la imagen ── */
+/* ── Botón flotante: píldora con logo + texto "Chat" ── */
 .floating-actions .chatbot-float {
-  background: transparent !important;
-  box-shadow: none !important;
-  animation: none !important;
-  width: 64px !important;
-  height: 64px !important;
+  background: linear-gradient(135deg, #1a6fff, #0052cc) !important;
+  border-radius: 999px !important;
+  width: auto !important;
+  height: 54px !important;
+  padding: 0 20px 0 10px !important;
+  flex-direction: row !important;
+  gap: 8px !important;
+  box-shadow: 0 8px 28px rgba(22,140,255,.5) !important;
+  animation: chatBtnPulse 3s ease-in-out infinite !important;
+}
+.floating-actions .chatbot-float:hover {
+  transform: translateY(-4px) scale(1.04) !important;
+  box-shadow: 0 14px 36px rgba(22,140,255,.65) !important;
 }
 .chatbot-float-img {
-  width: 64px;
-  height: 64px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,.35));
-  transition: transform .3s ease, filter .3s ease;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.2));
+  transition: transform .3s ease;
+}
+.chatbot-float-label {
+  font-family: "Inter", sans-serif;
+  font-size: .88rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  line-height: 1;
 }
 .floating-actions .chatbot-float:hover .chatbot-float-img {
-  transform: scale(1.1);
-  filter: drop-shadow(0 6px 18px rgba(0,0,0,.45));
+  transform: rotate(-8deg) scale(1.08);
 }
 
 /* ── Header del chatbot: logo al costado del texto ── */
