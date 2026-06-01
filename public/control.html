@@ -4209,7 +4209,7 @@
                   </svg>
                   Volver a Módulos
                 </button>
-                <a class="maqueta-btn" id="maqueta-btn" href="index.html">
+                <a class="maqueta-btn" id="maqueta-btn" href="/">
                   <svg viewBox="0 0 24 24" fill="currentColor">
                     <path
                       d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 14H6v-1.5l3.5-4.5 2.5 3.01L15 11l3 4.5V17z"
@@ -5126,8 +5126,7 @@
         } else {
           meta.innerHTML = "";
         }
-        // Todos los módulos apuntan a index.html
-        document.getElementById("maqueta-btn").href = "index.html";
+        document.getElementById("maqueta-btn").href = "/";
         const kpisEl = document.getElementById("detail-kpis");
         kpisEl.innerHTML = "";
         [
@@ -5431,12 +5430,12 @@
           profileDropdown.classList.remove("open");
       });
 
-      // ✅ CERRAR SESIÓN → redirige a index.html
+      // Logout del perfil (sin JWT — este listener es reemplazado por el del auth guard)
       document
         .getElementById("profile-logout-btn")
         .addEventListener("click", () => {
           profileDropdown.classList.remove("open");
-          window.location.href = "index.html";
+          window.location.href = "/";
         });
 
       // Init counters on load
@@ -5448,7 +5447,7 @@
       (function initAuth() {
         const token = localStorage.getItem("qubira_token");
         if (!token) {
-          window.location.href = "qubiralogin.html";
+          window.location.href = "/login";
           return;
         }
 
@@ -5493,7 +5492,7 @@
             if (!r.ok) {
               localStorage.removeItem("qubira_token");
               localStorage.removeItem("qubira_user");
-              window.location.href = "qubiralogin.html";
+              window.location.href = "/login";
             }
           })
           .catch(() => {
@@ -5515,7 +5514,7 @@
             } catch (_) {}
             localStorage.removeItem("qubira_token");
             localStorage.removeItem("qubira_user");
-            window.location.href = "qubiralogin.html";
+            window.location.href = "/login";
           });
         }
       })();

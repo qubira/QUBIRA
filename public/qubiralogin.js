@@ -7,7 +7,7 @@
 
 /* Si ya hay sesión activa, redirige directo al control */
 if (localStorage.getItem('qubira_token')) {
-  window.location.href = 'control.html';
+  window.location.href = '/control';
 }
 
 const form     = document.getElementById('loginForm');
@@ -62,7 +62,7 @@ form.addEventListener('submit', async (e) => {
     showMessage('¡Acceso concedido! Redirigiendo...', true);
 
     setTimeout(() => {
-      window.location.href = 'control.html';
+      window.location.href = '/control';
     }, 600);
 
   } catch (err) {
