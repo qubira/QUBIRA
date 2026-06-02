@@ -503,35 +503,80 @@ body {
 @media (max-width: 640px) {
   body {
     padding: 0;
+    align-items: stretch;
   }
 
+  /* ── En mobile mostrar SOLO el formulario, sin la marca lateral ── */
   .shell {
-    min-height: 100vh;
+    grid-template-columns: 1fr;
+    max-height: none;       /* eliminar corte de altura */
+    min-height: 100dvh;
+    height: auto;
     border-radius: 0;
+    overflow: auto;
+  }
+
+  .brand-side {
+    display: none;          /* ocultar lado de marca en mobile */
+  }
+
+  .form-side {
+    min-height: 100dvh;
+    padding: 48px 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .form-card {
-    padding: 24px 18px;
+    width: 100%;
+    max-width: 420px;
+    padding: 32px 24px;
     border-radius: 24px;
   }
 
-  .hero h1 {
-    font-size: 42px;
-  }
-
   .form-card h2 {
-    font-size: 30px;
+    font-size: 2rem;
   }
 
   .actions {
     flex-direction: column;
     align-items: flex-start;
   }
-
-  .brand-top {
-    align-items: flex-start;
-  }
 }
+/* Logo mobile en el form-card */
+.form-mobile-brand {
+  display: none; /* solo visible en mobile via media query */
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.form-mobile-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: rgba(255,255,255,.08);
+  padding: 5px;
+}
+.form-mobile-brand strong {
+  display: block;
+  font-size: .95rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+.form-mobile-brand span {
+  font-size: .68rem;
+  color: rgba(255,255,255,.55);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+}
+@media (max-width: 640px) {
+  .form-mobile-brand { display: flex; }
+}
+
 .close-btn {
   position: absolute;
   top: 18px;

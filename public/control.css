@@ -2627,3 +2627,100 @@ select.gu-form-input {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   MOBILE: SIDEBAR COMO DRAWER DESLIZABLE
+   ============================================================ */
+
+/* Overlay oscuro detrás del sidebar */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 99;
+  backdrop-filter: blur(2px);
+  animation: fadeIn .25s ease;
+}
+.sidebar-overlay.is-open {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Botón hamburguesa: solo en mobile */
+.topbar__hamburger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .2s, color .2s;
+  cursor: pointer;
+}
+.topbar__hamburger:hover {
+  background: var(--card-b);
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  /* Mostrar botón hamburguesa */
+  .topbar__hamburger {
+    display: flex;
+  }
+
+  /* Sidebar como drawer fijo desde la izquierda */
+  .sidebar {
+    display: flex !important;   /* reactivar (era display:none) */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform .3s cubic-bezier(.22,.61,.36,1);
+    box-shadow: 4px 0 40px rgba(0, 0, 0, .4);
+  }
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  /* Botón cerrar dentro del sidebar en mobile */
+  .sidebar__close-btn {
+    display: flex;
+  }
+}
+
+/* Botón X dentro del sidebar (solo mobile) */
+.sidebar__close-btn {
+  display: none;
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  color: var(--muted);
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+  z-index: 10;
+  flex-shrink: 0;
+}
+.sidebar__close-btn:hover {
+  background: rgba(255,107,107,.15);
+  color: #ff8f8f;
+}
+
