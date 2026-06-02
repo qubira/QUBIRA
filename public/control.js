@@ -17,6 +17,27 @@ const TIPOS = {
   },
 };
 
+// Mapeo tipo-key → nombre de archivo (español)
+const TIPO_SLUG = {
+  web:        "web",
+  desktop:    "escritorio",
+  mobile:     "movil",
+  enterprise: "enterprise",
+};
+
+// Maquetas implementadas: { industria: [tipos disponibles] }
+const MAQUETAS_DISPONIBLES = {
+  ferreteria: ["web", "desktop", "mobile"],
+};
+
+function getMaquetaUrl(industriaId, tipo) {
+  const slug = TIPO_SLUG[tipo] || tipo;
+  if (MAQUETAS_DISPONIBLES[industriaId]?.includes(tipo)) {
+    return `pruebas/${industriaId}/prueba_${slug}_${industriaId}.html`;
+  }
+  return `pruebas/proximamente.html?industria=${industriaId}&tipo=${slug}`;
+}
+
 const MODULOS = [
   {
     id: "ferreteria",
@@ -509,7 +530,8 @@ function openModuleDetail(mod) {
   } else {
     meta.innerHTML = "";
   }
-  document.getElementById("maqueta-btn").href = "/";
+  document.getElementById("maqueta-btn").href = getMaquetaUrl(mod.id, selectedTipo || "web");
+  document.getElementById("maqueta-btn").target = "_blank";
   const kpisEl = document.getElementById("detail-kpis");
   kpisEl.innerHTML = "";
   [
