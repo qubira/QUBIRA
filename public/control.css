@@ -2637,10 +2637,10 @@ select.gu-form-input {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 99;
-  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;   /* debajo del sidebar (1000) pero encima del resto */
   animation: fadeIn .25s ease;
+  touch-action: auto;
 }
 .sidebar-overlay.is-open {
   display: block;
@@ -2678,19 +2678,35 @@ select.gu-form-input {
 
   /* Sidebar como drawer fijo desde la izquierda */
   .sidebar {
-    display: flex !important;   /* reactivar (era display:none) */
+    display: flex !important;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    width: 280px;
-    z-index: 100;
-    transform: translateX(-100%);
+    width: min(300px, 85vw);  /* no superar 85% del ancho en mobile */
+    z-index: 1000;            /* encima de todo */
+    transform: translateX(-105%);
     transition: transform .3s cubic-bezier(.22,.61,.36,1);
-    box-shadow: 4px 0 40px rgba(0, 0, 0, .4);
+    box-shadow: 6px 0 48px rgba(0, 0, 0, .75);
+
+    /* ── FONDO SÓLIDO — eliminar blur transparente ── */
+    background: #07111e !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    pointer-events: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .sidebar.is-open {
     transform: translateX(0);
+  }
+
+  /* Nav items con área táctil grande */
+  .sidebar .nav-item {
+    min-height: 48px;
+    padding: 14px 16px;
+    -webkit-tap-highlight-color: rgba(79,176,255,.15);
+    touch-action: manipulation;
   }
 
   /* Botón cerrar dentro del sidebar en mobile */
