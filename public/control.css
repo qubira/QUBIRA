@@ -2629,6 +2629,302 @@ select.gu-form-input {
 }
 
 /* ============================================================
+   RESPONSIVE COMPLETO PARA MOBILE — control panel
+   ============================================================ */
+@media (max-width: 900px) {
+  /* ── Topbar ── */
+  .topbar {
+    padding: 12px 16px;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+  .topbar__title h1 {
+    font-size: 1.1rem;
+  }
+  .topbar__title p {
+    font-size: 0.72rem;
+  }
+  .topbar__search-wrap {
+    display: none;
+  }
+  .topbar__actions {
+    gap: 8px;
+    margin-left: auto;
+  }
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* ── Main content ── */
+  .main {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  /* ── KPI cards ── */
+  .kpi-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .kpi-card {
+    padding: 16px 14px;
+  }
+  .kpi-value {
+    font-size: 1.6rem;
+  }
+  .kpi-value sub {
+    font-size: 0.8rem;
+  }
+  .kpi-label {
+    font-size: 0.72rem;
+  }
+  .kpi-icon {
+    width: 34px;
+    height: 34px;
+  }
+  .kpi-badge {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+  }
+
+  /* ── Chart y activity ── */
+  .mid-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .chart-card,
+  .activity-card {
+    padding: 18px 16px;
+  }
+  .card-header h3 {
+    font-size: 0.92rem;
+  }
+
+  /* Gráfico SVG scrollable */
+  .chart-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chart-svg {
+    min-width: 320px;
+  }
+  .chart-axis {
+    font-size: 9px;
+  }
+
+  /* ── Bottom row ── */
+  .bottom-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .projects-card,
+  .team-card,
+  .mini-chart-card {
+    padding: 18px 16px;
+  }
+  .mini-chart-card {
+    grid-column: auto;
+  }
+
+  /* ── Tablas con scroll horizontal ── */
+  .ms-table,
+  .gu-table {
+    min-width: 480px;
+  }
+  .ms-card,
+  .gu-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── Gestión de usuarios ── */
+  .gu-screen {
+    padding: 16px;
+    gap: 16px;
+  }
+  .gu-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .gu-header-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .gu-stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .gu-stat {
+    padding: 14px 16px;
+  }
+  .gu-stat-val {
+    font-size: 1.5rem;
+  }
+  .gu-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .gu-search {
+    max-width: 100%;
+  }
+  .gu-filter {
+    width: 100%;
+  }
+  /* Ocultar columnas menos importantes en mobile */
+  .gu-table th:nth-child(4),
+  .gu-table td:nth-child(4) {
+    display: none;
+  } /* celular */
+
+  /* ── Módulos ── */
+  .modulos-screen,
+  .page-screen,
+  .module-detail {
+    padding: 16px;
+  }
+  .modulos-header h2 {
+    font-size: 1.4rem;
+  }
+  .tipo-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .modulos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+  }
+  .modulo-card {
+    padding: 16px 12px;
+  }
+  .mc-emoji {
+    font-size: 1.6rem;
+  }
+  .mc-name {
+    font-size: 0.78rem;
+  }
+
+  /* ── Detalle de módulo ── */
+  .module-detail-header {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .module-detail-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.8rem;
+  }
+  .module-detail-title h2 {
+    font-size: 1.3rem;
+  }
+  .module-kpis {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .mk-card {
+    padding: 14px;
+  }
+  .mk-card .mk-val {
+    font-size: 1.5rem;
+  }
+  .module-sections {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .module-tabs {
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0;
+  }
+  .module-tab {
+    white-space: nowrap;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+
+  /* ── Contratos / página genérica ── */
+  .page-content-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .page-hero-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+  }
+  .page-hero-text h2 {
+    font-size: 1.3rem;
+  }
+
+  /* ── Secciones de definición ── */
+  .def-section {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .report-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* ── Notif panel ── */
+  .notif-panel {
+    width: calc(100vw - 32px);
+    max-width: 340px;
+  }
+
+  /* ── Profile dropdown ── */
+  .profile-dropdown {
+    width: calc(100vw - 32px);
+    max-width: 260px;
+    right: 0;
+  }
+}
+
+/* ── Móvil pequeño ≤ 420px ── */
+@media (max-width: 420px) {
+  .kpi-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .kpi-value {
+    font-size: 1.4rem;
+  }
+  .kpi-card {
+    padding: 14px 12px;
+  }
+  .tipo-grid {
+    grid-template-columns: 1fr;
+  }
+  .gu-stats-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .main {
+    padding: 12px;
+    gap: 12px;
+  }
+  .chart-card,
+  .activity-card,
+  .projects-card,
+  .team-card,
+  .mini-chart-card {
+    padding: 14px 12px;
+  }
+  .topbar__title h1 {
+    font-size: 1rem;
+  }
+  .module-kpis {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* Ocultar también la columna de estado en tablas muy pequeñas */
+  .gu-table th:nth-child(5),
+  .gu-table td:nth-child(5) {
+    display: none;
+  }
+}
+
+/* ============================================================
    MOBILE: SIDEBAR COMO DRAWER DESLIZABLE
    ============================================================ */
 
@@ -2638,16 +2934,20 @@ select.gu-form-input {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 999;   /* debajo del sidebar (1000) pero encima del resto */
-  animation: fadeIn .25s ease;
+  z-index: 999; /* debajo del sidebar (1000) pero encima del resto */
+  animation: fadeIn 0.25s ease;
   touch-action: auto;
 }
 .sidebar-overlay.is-open {
   display: block;
 }
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Botón hamburguesa: solo en mobile */
@@ -2662,7 +2962,9 @@ select.gu-form-input {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background .2s, color .2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   cursor: pointer;
 }
 .topbar__hamburger:hover {
@@ -2683,11 +2985,11 @@ select.gu-form-input {
     top: 0;
     left: 0;
     bottom: 0;
-    width: min(300px, 85vw);  /* no superar 85% del ancho en mobile */
-    z-index: 1000;            /* encima de todo */
+    width: min(300px, 85vw); /* no superar 85% del ancho en mobile */
+    z-index: 1000; /* encima de todo */
     transform: translateX(-105%);
-    transition: transform .3s cubic-bezier(.22,.61,.36,1);
-    box-shadow: 6px 0 48px rgba(0, 0, 0, .75);
+    transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+    box-shadow: 6px 0 48px rgba(0, 0, 0, 0.75);
 
     /* ── FONDO SÓLIDO — eliminar blur transparente ── */
     background: #07111e !important;
@@ -2705,7 +3007,7 @@ select.gu-form-input {
   .sidebar .nav-item {
     min-height: 48px;
     padding: 14px 16px;
-    -webkit-tap-highlight-color: rgba(79,176,255,.15);
+    -webkit-tap-highlight-color: rgba(79, 176, 255, 0.15);
     touch-action: manipulation;
   }
 
@@ -2724,19 +3026,638 @@ select.gu-form-input {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--muted);
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: background .2s, color .2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   z-index: 10;
   flex-shrink: 0;
 }
 .sidebar__close-btn:hover {
-  background: rgba(255,107,107,.15);
+  background: rgba(255, 107, 107, 0.15);
   color: #ff8f8f;
 }
 
+/* ============================================================
+   MOBILE RESPONSIVE FIX — 390–430px
+   Pega este bloque AL FINAL de tu control.css
+   ============================================================ */
+
+/* ── Prevenir overflow horizontal global ── */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+* {
+  min-width: 0;
+} /* evita que flex/grid items se salgan */
+
+/* ── Tablas: siempre con scroll interno, nunca rompen la página ── */
+.gu-table-wrap,
+.ms-card {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+.gu-table,
+.ms-table {
+  min-width: 480px; /* tabla scrollable, no la página */
+  width: max-content;
+}
+
+/* ── Panel de notificaciones ── */
+.notif-panel {
+  width: calc(100vw - 24px);
+  max-width: 340px;
+  right: 12px !important;
+  left: auto !important;
+}
+
+/* ── Profile dropdown ── */
+.profile-dropdown {
+  right: 0;
+  left: auto;
+  width: min(260px, calc(100vw - 24px));
+}
+
+/* ============================================================
+   BREAKPOINT PRINCIPAL MOBILE: ≤ 480px
+   ============================================================ */
+@media (max-width: 480px) {
+  /* ── Global ── */
+  .main {
+    padding: 12px;
+    gap: 14px;
+  }
+  .gu-screen {
+    padding: 12px;
+    gap: 14px;
+  }
+  .modulos-screen,
+  .page-screen,
+  .module-detail {
+    padding: 12px;
+  }
+
+  /* ── Topbar ── */
+  .topbar {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .topbar__title h1 {
+    font-size: 0.95rem;
+  }
+  .topbar__title p {
+    display: none;
+  } /* ocultar subtítulo para ganar espacio */
+  .topbar__search-wrap {
+    display: none;
+  }
+  .topbar__actions {
+    gap: 6px;
+    margin-left: auto;
+  }
+  .icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+  }
+
+  /* ── KPI row: 2 columnas ajustadas ── */
+  .kpi-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .kpi-card {
+    padding: 14px 12px;
+    border-radius: 14px;
+  }
+  .kpi-value {
+    font-size: 1.4rem;
+  }
+  .kpi-value sub {
+    font-size: 0.72rem;
+  }
+  .kpi-label {
+    font-size: 0.68rem;
+  }
+  .kpi-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+  .kpi-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+  .kpi-badge {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+  .kpi-bar {
+    margin-top: 10px;
+  }
+
+  /* ── Chart & Activity ── */
+  .mid-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .chart-card,
+  .activity-card {
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+  .card-header {
+    margin-bottom: 14px;
+  }
+  .card-header h3 {
+    font-size: 0.88rem;
+  }
+  .card-header p {
+    font-size: 0.72rem;
+  }
+  .chip {
+    padding: 4px 9px;
+    font-size: 0.68rem;
+  }
+  .legend {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    font-size: 0.72rem;
+  }
+
+  /* Gráfico SVG con scroll horizontal interno */
+  .chart-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .chart-svg {
+    min-width: 300px;
+  }
+
+  /* ── Activity items ── */
+  .activity-item {
+    gap: 10px;
+    padding: 10px 0;
+  }
+  .activity-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+  }
+  .activity-text strong {
+    font-size: 0.8rem;
+  }
+  .activity-text span {
+    font-size: 0.68rem;
+  }
+  .activity-time {
+    font-size: 0.65rem;
+  }
+
+  /* ── Bottom row: 1 columna ── */
+  .bottom-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .projects-card,
+  .team-card,
+  .mini-chart-card {
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+
+  /* ── Proyectos ── */
+  .project-row {
+    gap: 10px;
+    padding: 10px 0;
+  }
+  .project-info strong {
+    font-size: 0.8rem;
+  }
+  .project-info span {
+    font-size: 0.7rem;
+  }
+  .project-prog {
+    flex: 0 0 70px;
+  }
+  .prog-val {
+    font-size: 0.65rem;
+  }
+  .status-tag {
+    font-size: 0.63rem;
+    padding: 2px 8px;
+  }
+
+  /* ── Team ── */
+  .team-member {
+    gap: 10px;
+    padding: 10px 0;
+  }
+  .member-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.65rem;
+  }
+  .member-info strong {
+    font-size: 0.78rem;
+  }
+  .member-info span {
+    font-size: 0.68rem;
+  }
+
+  /* ── Donut ── */
+  .donut-wrap {
+    gap: 16px;
+  }
+  .donut-svg {
+    width: 90px;
+    height: 90px;
+  }
+  .donut-track,
+  .donut-seg {
+    stroke-width: 10;
+  }
+  .donut-text {
+    font-size: 15px;
+  }
+  .donut-legend-item {
+    font-size: 0.72rem;
+  }
+
+  /* ── Módulos: tipo cards ── */
+  .tipo-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .tipo-card {
+    padding: 16px 10px;
+    border-radius: 14px;
+  }
+  .tipo-emoji {
+    font-size: 1.7rem;
+    margin-bottom: 7px;
+  }
+  .tipo-name {
+    font-size: 0.82rem;
+  }
+  .tipo-sub {
+    font-size: 0.68rem;
+  }
+
+  /* ── Módulos grid ── */
+  .modulos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .modulo-card {
+    padding: 16px 10px;
+    border-radius: 14px;
+  }
+  .mc-emoji {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+  .mc-name {
+    font-size: 0.76rem;
+  }
+  .mc-tag {
+    font-size: 0.58rem;
+    padding: 2px 6px;
+    margin-top: 6px;
+  }
+
+  .modulos-header h2 {
+    font-size: 1.3rem;
+  }
+  .modulos-header p {
+    font-size: 0.82rem;
+  }
+  .modulos-search {
+    padding: 10px 14px;
+    font-size: 0.83rem;
+  }
+
+  /* ── Detalle de módulo ── */
+  .module-detail-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .module-detail-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.6rem;
+    border-radius: 14px;
+  }
+  .module-detail-title h2 {
+    font-size: 1.2rem;
+  }
+  .module-detail-title p {
+    font-size: 0.8rem;
+  }
+  .detail-meta {
+    gap: 6px;
+  }
+  .meta-badge {
+    padding: 4px 10px;
+    font-size: 0.68rem;
+  }
+  .back-btn {
+    padding: 7px 12px;
+    font-size: 0.78rem;
+  }
+  .maqueta-btn {
+    padding: 7px 14px;
+    font-size: 0.78rem;
+  }
+
+  .module-kpis {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .mk-card {
+    padding: 14px 12px;
+    border-radius: 14px;
+  }
+  .mk-card .mk-val {
+    font-size: 1.4rem;
+  }
+  .mk-card .mk-label {
+    font-size: 0.68rem;
+  }
+  .mk-card .mk-sub {
+    font-size: 0.68rem;
+  }
+  .mk-card .mk-change {
+    font-size: 0.65rem;
+  }
+
+  .module-sections {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .ms-card {
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+  .ms-card h4 {
+    font-size: 0.88rem;
+    margin-bottom: 12px;
+  }
+  .ms-table th {
+    font-size: 0.65rem;
+    padding: 0 8px 8px 0;
+  }
+  .ms-table td {
+    font-size: 0.78rem;
+    padding: 9px 8px 9px 0;
+  }
+
+  .module-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 0;
+  }
+  .module-tab {
+    padding: 9px 12px;
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+
+  .def-section {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .def-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .def-card h4 {
+    font-size: 0.88rem;
+  }
+  .def-card p {
+    font-size: 0.78rem;
+  }
+  .def-feature {
+    font-size: 0.78rem;
+  }
+  .tech-tag {
+    font-size: 0.68rem;
+    padding: 3px 9px;
+  }
+
+  .report-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .report-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .report-card .rc-name {
+    font-size: 0.82rem;
+  }
+  .report-card .rc-sub {
+    font-size: 0.7rem;
+  }
+
+  /* ── Page genérica ── */
+  .page-content-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .page-hero-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;
+    border-radius: 12px;
+  }
+  .page-hero-text h2 {
+    font-size: 1.2rem;
+  }
+  .page-hero-text p {
+    font-size: 0.8rem;
+  }
+  .page-mini-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .page-mini-card h4 {
+    font-size: 0.88rem;
+  }
+  .page-mini-card p {
+    font-size: 0.75rem;
+  }
+  .page-mini-card .pmc-val {
+    font-size: 1.5rem;
+  }
+  .placeholder-row {
+    padding: 12px 14px;
+    border-radius: 12px;
+    gap: 10px;
+  }
+  .placeholder-row .pr-info strong {
+    font-size: 0.82rem;
+  }
+  .placeholder-row .pr-info span {
+    font-size: 0.7rem;
+  }
+  .placeholder-row .pr-badge {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+  }
+
+  /* ── Gestión de usuarios ── */
+  .gu-header-left h2 {
+    font-size: 1.3rem;
+  }
+  .gu-header-left p {
+    font-size: 0.76rem;
+  }
+  .gu-btn-primary,
+  .gu-btn-secondary {
+    padding: 9px 14px;
+    font-size: 0.8rem;
+    border-radius: 10px;
+  }
+
+  .gu-stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .gu-stat {
+    padding: 12px 14px;
+    border-radius: 14px;
+  }
+  .gu-stat-val {
+    font-size: 1.4rem;
+  }
+  .gu-stat-label {
+    font-size: 0.65rem;
+  }
+
+  /* Toolbar: apilado vertical */
+  .gu-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .gu-search {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .gu-filter {
+    width: 100%;
+  }
+
+  /* Tabla: ocultar columnas no esenciales */
+  .gu-table th:nth-child(3),
+  .gu-table td:nth-child(3),   /* teléfono */
+  .gu-table th:nth-child(4),
+  .gu-table td:nth-child(4),   /* último acceso */
+  .gu-table th:nth-child(5),
+  .gu-table td:nth-child(5) {
+    /* estado adicional */
+    display: none;
+  }
+
+  /* ── Modales ── */
+  .gu-modal {
+    border-radius: 18px;
+    max-height: 95vh;
+  }
+  .gu-modal-header {
+    padding: 16px 18px 14px;
+  }
+  .gu-modal-header h3 {
+    font-size: 0.95rem;
+  }
+  .gu-modal-body {
+    padding: 16px 18px 20px;
+  }
+  .gu-form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .gu-form-group.full {
+    grid-column: auto;
+  }
+  .gu-form-label {
+    font-size: 0.68rem;
+  }
+  .gu-form-input {
+    padding: 9px 12px;
+    font-size: 0.82rem;
+    border-radius: 8px;
+  }
+  .gu-modal-footer {
+    padding: 14px 18px;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: stretch;
+  }
+  .gu-modal-footer .gu-btn-primary,
+  .gu-modal-footer .gu-btn-secondary {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* ── Sidebar drawer en mobile ── */
+  .sidebar {
+    width: min(280px, 88vw);
+  }
+  .sidebar__brand-text strong {
+    font-size: 1rem;
+  }
+  .nav-item {
+    min-height: 46px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ── Móvil muy pequeño ≤ 360px ── */
+@media (max-width: 360px) {
+  .kpi-value {
+    font-size: 1.2rem;
+  }
+  .kpi-card {
+    padding: 12px 10px;
+  }
+  .kpi-row {
+    gap: 8px;
+  }
+  .tipo-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .modulos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+  }
+  .module-kpis {
+    gap: 8px;
+  }
+  .gu-stats-row {
+    gap: 8px;
+  }
+  .topbar__title h1 {
+    font-size: 0.85rem;
+  }
+  .icon-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+}
