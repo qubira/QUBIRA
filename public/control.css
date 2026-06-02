@@ -75,6 +75,32 @@ body::before {
   min-height: 100vh;
   position: relative;
   z-index: 1;
+  /* Extiende el fondo y el borde del sidebar por toda la altura de la página */
+  background: linear-gradient(
+    to right,
+    rgba(6, 12, 22, 0.98) 260px,
+    transparent 260px
+  );
+}
+/* Línea divisoria del sidebar extendida a toda la altura de la página */
+.shell::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 260px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+  pointer-events: none;
+  z-index: 0;
+}
+@media (max-width: 900px) {
+  .shell {
+    background: none;
+  }
+  .shell::after {
+    display: none;
+  }
 }
 
 .sidebar {
@@ -246,7 +272,8 @@ body::before {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow: hidden;
+  /* overflow: clip no crea scroll container, preserva position:sticky del topbar */
+  overflow: clip;
 }
 
 .topbar {
