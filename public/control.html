@@ -66,10 +66,10 @@
       </div>
     </div>
 
-    <!-- Overlay para cerrar sidebar en mobile -->
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
     <div class="shell" id="app-shell">
+      <!-- Overlay dentro del shell para compartir el mismo stacking context -->
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
       <!-- SIDEBAR -->
       <aside class="sidebar" id="sidebar">
         <!-- Botón cerrar solo visible en mobile -->
