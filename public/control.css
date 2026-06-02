@@ -3117,17 +3117,18 @@ select.gu-form-input {
   min-width: 0;
 } /* evita que flex/grid items se salgan */
 
-/* ── Tablas: siempre con scroll interno, nunca rompen la página ── */
+/* ── Tablas: llenan el contenedor en desktop, scroll interno en mobile ── */
 .gu-table-wrap,
 .ms-card {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   max-width: 100%;
+  width: 100%;
 }
 .gu-table,
 .ms-table {
-  min-width: 480px; /* tabla scrollable, no la página */
-  width: max-content;
+  width: 100%; /* ocupa todo el ancho del wrapper en desktop */
+  min-width: 480px; /* garantiza scroll horizontal en mobile si el wrapper es más angosto */
 }
 
 /* ── Panel de notificaciones ── */
