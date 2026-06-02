@@ -75,6 +75,7 @@ body::before {
   display: grid;
   grid-template-columns: 260px 1fr;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   position: relative;
   z-index: 1;
@@ -117,6 +118,7 @@ body::before {
     rgba(6, 12, 22, 0.98)
   );
   height: 100vh;
+  height: 100dvh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   backdrop-filter: blur(12px);
@@ -285,6 +287,7 @@ body::before {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   overflow-y: auto;
   overflow-x: clip;
   -webkit-overflow-scrolling: touch;
@@ -3043,6 +3046,8 @@ select.gu-form-input {
     top: 0;
     left: 0;
     bottom: 0;
+    height: 100vh;
+    height: 100dvh;
     width: min(300px, 85vw); /* no superar 85% del ancho en mobile */
     z-index: 1000; /* encima de todo */
     transform: translateX(-105%);
@@ -3147,16 +3152,19 @@ select.gu-form-input {
   /* ── Global ── */
   .main {
     padding: 12px;
+    padding-bottom: max(24px, env(safe-area-inset-bottom, 24px));
     gap: 14px;
   }
   .gu-screen {
     padding: 12px;
+    padding-bottom: max(24px, env(safe-area-inset-bottom, 24px));
     gap: 14px;
   }
   .modulos-screen,
   .page-screen,
   .module-detail {
     padding: 12px;
+    padding-bottom: max(24px, env(safe-area-inset-bottom, 24px));
   }
 
   /* ── Topbar ── */
