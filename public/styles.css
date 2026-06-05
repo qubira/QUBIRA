@@ -751,21 +751,23 @@ img{ max-width:100%; display:block; }
 .case-panel__logo-wrap{
   position:absolute;
   top:50%; left:50%;
-  transform:translate(-50%,-54%);
+  transform:translate(-50%,-50%);
   width:calc(100% - 52px);
-  max-width:210px;
+  max-width:200px;
   z-index:2;
   border-radius:16px;
   overflow:hidden;
   background:#fff;
-  padding:20px;
+  padding:18px 20px;
   box-shadow:0 10px 36px rgba(0,0,0,.28);
   display:flex; align-items:center; justify-content:center;
+  /* empuja el logo un poco hacia arriba para dejar espacio al texto inferior */
+  margin-top:-24px;
 }
 .case-panel__logo-wrap img{
   display:block;
   width:100%; height:auto;
-  max-height:110px;
+  max-height:100px;
   object-fit:contain;
 }
 
@@ -773,17 +775,18 @@ img{ max-width:100%; display:block; }
 .case-logo-placeholder{
   position:absolute;
   top:50%; left:50%;
-  transform:translate(-50%,-54%);
+  transform:translate(-50%,-50%);
   width:calc(100% - 52px);
-  max-width:210px;
+  max-width:200px;
   z-index:2;
   border-radius:16px;
   overflow:hidden;
-  padding:24px 18px;
+  padding:22px 18px;
   box-shadow:0 10px 36px rgba(0,0,0,.32);
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
   gap:7px; text-align:center;
+  margin-top:-24px;
 }
 .case-logo-placeholder__icon{ font-size:2rem; line-height:1; }
 .case-logo-placeholder__name{
