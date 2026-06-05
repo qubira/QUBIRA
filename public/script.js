@@ -942,3 +942,141 @@ function initChatbot() {
 }
 
 initChatbot();
+
+/* ============================================================
+   AUTO-RELOAD — detecta actualizaciones del sitio cada 15s
+   sin recargar la página manualmente.
+   Funciona comparando el ETag / Last-Modified del servidor.
+   ============================================================ */
+(function liveReload() {
+  const POLL_MS   = 15_000;   // Intervalo de comprobación (15 segundos)
+  const AUTO_RELOAD_MS = 30_000; // Recarga automática si el usuario no actúa
+
+  let knownTag  = null;
+  let pollTimer = null;
+  let autoTimer = null;
+
+  /* ── Toast de notificación ── */
+  function createToast() {
+    const t = document.createElement('div');
+    t.id = 'live-reload-toast';
+    t.innerHTML = `
+      <div class="lrt-icon">🚀</div>
+      <div class="lrt-text">
+        <strong>Actualización disponible</strong>
+        <span>La página se ha actualizado en el servidor</span>
+      </div>
+      <button class="lrt-btn" id="lrt-confirm">Actualizar</button>
+      <button class="lrt-close" id="lrt-dismiss" title="Cerrar">✕</button>
+    `;
+    const css = `
+      #live-reload-toast {
+        position:fixed; bottom:28px; left:50%;
+        transform:translateX(-50%) translateY(calc(100% + 40px));
+        display:flex; align-items:center; gap:14px;
+        background:#0c1828;
+        border:1px solid rgba(79,176,255,.3);
+        border-top:3px solid #4fb0ff;
+        border-radius:16px;
+        padding:14px 16px 14px 18px;
+        box-shadow:0 12px 48px rgba(0,0,0,.55);
+        z-index:99999;
+        font-family:'DM Sans',sans-serif;
+        color:#e8f0ff;
+        transition:transform .45s cubic-bezier(.22,.61,.36,1);
+        min-width:320px; max-width:calc(100vw - 48px);
+      }
+      #live-reload-toast.lrt-visible {
+        transform:translateX(-50%) translateY(0);
+      }
+      .lrt-icon { font-size:1.4rem; flex-shrink:0; }
+      .lrt-text { flex:1; display:flex; flex-direction:column; gap:2px; }
+      .lrt-text strong { font-size:.9rem; font-weight:700; }
+      .lrt-text span   { font-size:.75rem; color:rgba(200,218,255,.55); }
+      .lrt-btn {
+        flex-shrink:0;
+        background:rgba(79,176,255,.15);
+        border:1px solid rgba(79,176,255,.4);
+        border-radius:10px;
+        padding:8px 18px;
+        color:#4fb0ff; font-size:.8rem; font-weight:700;
+        cursor:pointer; font-family:inherit;
+        transition:background .2s;
+      }
+      .lrt-btn:hover { background:rgba(79,176,255,.28); }
+      .lrt-close {
+        flex-shrink:0;
+        background:none; border:none;
+        color:rgba(200,218,255,.4); font-size:.9rem;
+        cursor:pointer; padding:4px 6px;
+        border-radius:6px; transition:color .2s;
+        font-family:inherit;
+      }
+      .lrt-close:hover { color:rgba(200,218,255,.8); }
+    `;
+    const style = document.createElement('style');
+    style.textContent = css;
+    document.head.appendChild(style);
+    document.body.appendChild(t);
+    return t;
+  }
+
+  function showToast() {
+    const toast = createToast();
+
+    // Animar entrada
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => toast.classList.add('lrt-visible'));
+    });
+
+    // Botón actualizar
+    document.getElementById('lrt-confirm').addEventListener('click', () => {
+      location.reload(true);
+    });
+
+    // Botón cerrar (pospone, no recarga)
+    document.getElementById('lrt-dismiss').addEventListener('click', () => {
+      toast.classList.remove('lrt-visible');
+      // Reiniciar polling para volver a avisar si hay otra actualización
+      setTimeout(() => {
+        toast.remove();
+        knownTag = null; // reset para que la próxima revisión capture el nuevo tag
+        pollTimer = setInterval(check, POLL_MS);
+      }, 500);
+      clearTimeout(autoTimer);
+    });
+
+    // Recarga automática si el usuario no reacciona en 30 s
+    autoTimer = setTimeout(() => location.reload(true), AUTO_RELOAD_MS);
+  }
+
+  /* ── Comprobación via HEAD request ── */
+  async function check() {
+    try {
+      const res = await fetch(location.pathname, {
+        method: 'HEAD',
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' }
+      });
+
+      // Usar ETag si existe, sino Last-Modified
+      const tag = res.headers.get('etag') || res.headers.get('last-modified');
+      if (!tag) return; // Servidor sin cabeceras de versión: ignorar
+
+      if (knownTag !== null && tag !== knownTag) {
+        clearInterval(pollTimer); // Detener polling hasta que el usuario actúe
+        showToast();
+      }
+
+      knownTag = tag;
+    } catch {
+      // Error de red — ignorar silenciosamente
+    }
+  }
+
+  /* ── Inicio: esperar 4s para que la página cargue, luego iniciar polling ── */
+  setTimeout(() => {
+    check();                              // Primera lectura para registrar el tag actual
+    pollTimer = setInterval(check, POLL_MS);
+  }, 4000);
+})();
