@@ -2,11 +2,13 @@
 
 require('dotenv').config();
 
-const express    = require('express');
-const cors       = require('cors');
-const path       = require('path');
-const rateLimit  = require('express-rate-limit');
+const express      = require('express');
+const cors         = require('cors');
+const path         = require('path');
+const rateLimit    = require('express-rate-limit');
+const cookieParser = require('cookie-parser');
 const { testConnection } = require('./src/db');
+const { requireWebAuth } = require('./src/middleware/webAuth');
 
 const authRouter     = require('./src/routes/auth');
 const usuariosRouter = require('./src/routes/usuarios');
@@ -20,16 +22,39 @@ const PUBLIC = path.join(__dirname, 'public');
    ============================================================ */
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://tudominio.com']
+    ? (process.env.ALLOWED_ORIGINS || '').split(',').map(o => o.trim())
     : '*',
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 
+app.use(cookieParser());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-/* Rate limit: login — máx 10 intentos / 15 min por IP */
+/* ============================================================
+   BLOQUEO ABSOLUTO — archivos que NUNCA deben exponerse
+   (defensa en profundidad aunque no estén en public/)
+   ============================================================ */
+const BLOCKED_PATTERNS = [
+  /\.env(\.|$)/i,
+  /package(-lock)?\.json$/i,
+  /^\/node_modules\//i,
+  /^\/src\//i,
+  /^\/server\.js$/i,
+];
+
+app.use((req, res, next) => {
+  if (BLOCKED_PATTERNS.some(r => r.test(req.path))) {
+    return res.status(403).json({ ok: false, error: 'Acceso denegado' });
+  }
+  next();
+});
+
+/* ============================================================
+   RATE LIMITING
+   ============================================================ */
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
@@ -38,7 +63,6 @@ const loginLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-/* Rate limit general API */
 const apiLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 120,
@@ -53,24 +77,54 @@ app.use('/api',            apiLimiter);
 app.use('/api/auth',       authRouter);
 app.use('/api/usuarios',   usuariosRouter);
 
-/* ============================================================
-   HEALTH CHECK
-   ============================================================ */
+/* Health check (sin exponer entorno) */
 app.get('/api/health', (req, res) => {
-  res.json({ ok: true, status: 'running', env: process.env.NODE_ENV });
+  res.json({ ok: true, status: 'running' });
 });
 
 /* ============================================================
-   RUTAS HTML — antes del estático para tener prioridad
+   RUTAS HTML PÚBLICAS
    ============================================================ */
-app.get('/',         (_, res) => res.sendFile(path.join(PUBLIC, 'Index.html')));
-app.get('/login',    (_, res) => res.sendFile(path.join(PUBLIC, 'qubiralogin.html')));
-app.get('/control',  (_, res) => res.sendFile(path.join(PUBLIC, 'control.html')));
+app.get('/', (_, res) => res.sendFile(path.join(PUBLIC, 'Index.html')));
+
+/* /login → si ya tiene sesión válida redirige a /control */
+app.get('/login', async (req, res) => {
+  const token = req.cookies?.qubira_session;
+  if (token) {
+    try {
+      const jwt    = require('jsonwebtoken');
+      const { pool } = require('./src/db');
+      jwt.verify(token, process.env.JWT_SECRET);
+      const { rows } = await pool.query(
+        'SELECT id FROM sesiones WHERE token=$1 AND expires_at>NOW()', [token]
+      );
+      if (rows.length) return res.redirect('/control');
+    } catch { /* token inválido — sirve login normal */ }
+  }
+  res.sendFile(path.join(PUBLIC, 'qubiralogin.html'));
+});
 
 /* ============================================================
-   ARCHIVOS ESTÁTICOS — sirve todo public/
+   RUTAS Y ASSETS PROTEGIDOS — solo usuarios autenticados
    ============================================================ */
-app.use(express.static(PUBLIC, { index: false }));
+app.get('/control',     requireWebAuth, (_, res) => res.sendFile(path.join(PUBLIC, 'control.html')));
+app.get('/control.js',  requireWebAuth, (_, res) => res.sendFile(path.join(PUBLIC, 'control.js')));
+app.get('/control.css', requireWebAuth, (_, res) => res.sendFile(path.join(PUBLIC, 'control.css')));
+
+/* ============================================================
+   ARCHIVOS ESTÁTICOS PÚBLICOS
+   Solo sirve lo que queda en public/ (Index, login, styles, etc.)
+   Los archivos protegidos ya fueron manejados arriba.
+   ============================================================ */
+app.use(express.static(PUBLIC, {
+  index: false,
+  setHeaders(res, filePath) {
+    /* Nunca cachear archivos JS/CSS para que el auto-reload funcione */
+    if (/\.(js|css)$/.test(filePath)) {
+      res.set('Cache-Control', 'no-cache');
+    }
+  },
+}));
 
 /* ============================================================
    404 para rutas API no encontradas
@@ -94,7 +148,6 @@ app.use((err, req, res, next) => {
   await testConnection();
   app.listen(PORT, () => {
     console.log(`[SERVER] QUBIRA corriendo en http://localhost:${PORT}`);
-    console.log(`[SERVER] Frontend: ${PUBLIC}`);
     console.log(`[SERVER] Entorno: ${process.env.NODE_ENV || 'development'}`);
   });
 })();

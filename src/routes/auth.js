@@ -79,6 +79,16 @@ router.post('/login', async (req, res) => {
       [user.id]
     );
 
+    /* Cookie httpOnly para proteger rutas del servidor.
+       JavaScript del cliente NO puede leerla ni modificarla. */
+    res.cookie('qubira_session', token, {
+      httpOnly: true,
+      secure:   process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge:   hours * 3_600_000,
+      path:     '/',
+    });
+
     return res.json({
       ok: true,
       token,
@@ -115,6 +125,9 @@ router.post('/logout', requireAuth, async (req, res) => {
        VALUES ($1, 'LOGOUT', $1)`,
       [req.user.id]
     );
+
+    /* Limpiar cookie de sesión del servidor */
+    res.clearCookie('qubira_session', { path: '/' });
 
     return res.json({ ok: true, message: 'Sesión cerrada correctamente' });
   } catch (err) {
