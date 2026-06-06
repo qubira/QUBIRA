@@ -896,7 +896,78 @@ img{ max-width:100%; display:block; }
   border-color:rgba(255,255,255,.55);
 }
 .case-visit-btn--locked{
-  cursor:default; opacity:.6; pointer-events:none;
+  cursor:default;
+  pointer-events:auto; /* necesario para el tooltip */
+  opacity:.75;
+}
+
+/* Wrapper del badge + tooltip */
+.case-locked-wrap{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:14px;
+}
+
+/* Ícono ⓘ */
+.case-info-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px; height:20px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);
+  color:rgba(255,255,255,.7);
+  font-size:.72rem;
+  font-weight:900;
+  font-style:normal;
+  cursor:pointer;
+  flex-shrink:0;
+  transition:background .2s, border-color .2s;
+  user-select:none;
+}
+.case-info-icon:hover{
+  background:rgba(255,255,255,.22);
+  border-color:rgba(255,255,255,.5);
+}
+
+/* Tooltip de confidencialidad */
+.case-info-tooltip{
+  position:absolute;
+  bottom:calc(100% + 10px);
+  left:50%;
+  transform:translateX(-50%) scale(.92);
+  width:220px;
+  background:#0c1828;
+  border:1px solid rgba(79,176,255,.3);
+  border-radius:12px;
+  padding:11px 14px;
+  font-size:.72rem;
+  font-weight:500;
+  line-height:1.5;
+  color:rgba(200,218,255,.85);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .22s ease, transform .22s ease;
+  z-index:100;
+  text-align:center;
+  box-shadow:0 8px 28px rgba(0,0,0,.45);
+}
+/* Flecha del tooltip */
+.case-info-tooltip::after{
+  content:'';
+  position:absolute;
+  top:100%; left:50%;
+  transform:translateX(-50%);
+  border:6px solid transparent;
+  border-top-color:#0c1828;
+}
+.case-locked-wrap:hover .case-info-tooltip,
+.case-info-icon:focus + .case-info-tooltip{
+  opacity:1;
+  transform:translateX(-50%) scale(1);
 }
 
 /* ============================================
