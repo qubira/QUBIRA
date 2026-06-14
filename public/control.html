@@ -73,7 +73,13 @@
       <!-- SIDEBAR -->
       <aside class="sidebar" id="sidebar">
         <!-- Botón cerrar solo visible en mobile -->
-        <button class="sidebar__close-btn" id="sidebar-close-btn" aria-label="Cerrar menú">×</button>
+        <button
+          class="sidebar__close-btn"
+          id="sidebar-close-btn"
+          aria-label="Cerrar menú"
+        >
+          ×
+        </button>
         <div class="sidebar__brand">
           <img
             class="sidebar__logo"
@@ -224,9 +230,13 @@
       <div class="right-area">
         <header class="topbar" style="position: relative">
           <!-- Botón menú solo visible en mobile -->
-          <button class="topbar__hamburger" id="mobile-sidebar-btn" aria-label="Abrir menú">
+          <button
+            class="topbar__hamburger"
+            id="mobile-sidebar-btn"
+            aria-label="Abrir menú"
+          >
             <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
             </svg>
           </button>
 
@@ -1995,29 +2005,29 @@
     <!-- DRAWER MOBILE: abrir/cerrar sidebar -->
     <script>
       (function initMobileSidebar() {
-        const sidebar      = document.getElementById('sidebar');
-        const overlay      = document.getElementById('sidebar-overlay');
-        const openBtn      = document.getElementById('mobile-sidebar-btn');
-        const closeBtn     = document.getElementById('sidebar-close-btn');
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+        const openBtn = document.getElementById("mobile-sidebar-btn");
+        const closeBtn = document.getElementById("sidebar-close-btn");
 
         function openSidebar() {
-          sidebar?.classList.add('is-open');
-          overlay?.classList.add('is-open');
-          document.body.style.overflow = 'hidden';
+          sidebar?.classList.add("is-open");
+          overlay?.classList.add("is-open");
+          document.body.style.overflow = "hidden";
         }
         function closeSidebar() {
-          sidebar?.classList.remove('is-open');
-          overlay?.classList.remove('is-open');
-          document.body.style.overflow = '';
+          sidebar?.classList.remove("is-open");
+          overlay?.classList.remove("is-open");
+          document.body.style.overflow = "";
         }
 
-        openBtn?.addEventListener('click', openSidebar);
-        closeBtn?.addEventListener('click', closeSidebar);
-        overlay?.addEventListener('click', closeSidebar);
+        openBtn?.addEventListener("click", openSidebar);
+        closeBtn?.addEventListener("click", closeSidebar);
+        overlay?.addEventListener("click", closeSidebar);
 
         /* Cerrar sidebar al seleccionar una opción del menú */
-        sidebar?.querySelectorAll('.nav-item').forEach(item => {
-          item.addEventListener('click', () => {
+        sidebar?.querySelectorAll(".nav-item").forEach((item) => {
+          item.addEventListener("click", () => {
             if (window.innerWidth <= 900) closeSidebar();
           });
         });
