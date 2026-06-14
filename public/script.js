@@ -313,28 +313,48 @@ document.querySelectorAll('.fullscreen-menu a').forEach(l => l.addEventListener(
 })();
 
 /* ============================================================
-   ACCORDION DE CASOS
+   CARRUSEL 3D
    ============================================================ */
-const casePanels = document.querySelectorAll('.case-panel');
-if (casePanels.length) {
-  casePanels.forEach(panel => {
-    panel.addEventListener('click', () => {
-      casePanels.forEach(p => p.classList.remove('is-active'));
-      panel.classList.add('is-active');
+(function initCarousel() {
+  const panels   = Array.from(document.querySelectorAll('.carousel-track .case-panel'));
+  const dots     = Array.from(document.querySelectorAll('.carousel-dot'));
+  const prevBtn  = document.querySelector('.carousel-btn--prev');
+  const nextBtn  = document.querySelector('.carousel-btn--next');
+  if (!panels.length) return;
 
-      /* Animar el número grande */
-      const strong = panel.querySelector('.case-panel__bottom strong');
-      if (strong && !strong.dataset.animated) {
-        animateCounter(strong);
-        strong.dataset.animated = 'true';
+  const POS = ['cp-left2','cp-left1','cp-center','cp-right1','cp-right2'];
+  let active = 0;
+
+  function update() {
+    panels.forEach((p, i) => {
+      p.classList.remove('cp-left2','cp-left1','cp-center','cp-right1','cp-right2','cp-hidden');
+      const rel = i - active;
+      if (rel >= -2 && rel <= 2) p.classList.add(POS[rel + 2]);
+      else p.classList.add('cp-hidden');
+
+      if (rel === 0) {
+        const strong = p.querySelector('.case-panel__bottom strong');
+        if (strong && !strong.dataset.animated) {
+          setTimeout(() => { animateCounter(strong); strong.dataset.animated = 'true'; }, 150);
+        }
       }
     });
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === active));
+  }
+
+  prevBtn?.addEventListener('click', () => { active = (active - 1 + panels.length) % panels.length; update(); });
+  nextBtn?.addEventListener('click', () => { active = (active + 1) % panels.length; update(); });
+
+  /* Click en tarjeta lateral → navega a ella */
+  panels.forEach((p, i) => {
+    p.addEventListener('click', () => { if (i !== active) { active = i; update(); } });
   });
 
-  /* Activar el primero ya activo al cargar */
-  const firstActive = document.querySelector('.case-panel.is-active .case-panel__bottom strong');
-  if (firstActive) animateCounter(firstActive);
-}
+  /* Dots */
+  dots.forEach((d, i) => d.addEventListener('click', () => { active = i; update(); }));
+
+  update();
+})();
 
 function animateCounter(el) {
   const raw    = el.textContent.trim();

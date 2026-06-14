@@ -677,30 +677,119 @@ img{ max-width:100%; display:block; }
    CASOS
    ============================================ */
 /* ============================================
-   CASOS DE ÉXITO — ACCORDION
+   CASOS DE ÉXITO — CARRUSEL 3D
    ============================================ */
-.case-accordion{
-  display:flex; gap:14px;
-  min-height:580px;
+.case-carousel{
+  display:flex; align-items:center; gap:16px;
 }
 
+.carousel-track{
+  position:relative;
+  height:500px; flex:1;
+  perspective:1400px;
+  overflow:hidden;
+}
+
+/* Fades laterales para efecto "peek" */
+.carousel-track::before,
+.carousel-track::after{
+  content:''; position:absolute;
+  top:0; bottom:0; width:90px; z-index:20;
+  pointer-events:none;
+}
+.carousel-track::before{ left:0;  background:linear-gradient(to right,#f3f1ec,transparent); }
+.carousel-track::after{  right:0; background:linear-gradient(to left, #f3f1ec,transparent); }
+
+/* Paneles posicionados en el track */
+.carousel-track .case-panel{
+  position:absolute;
+  top:0; bottom:0;
+  width:400px;
+  left:50%; margin-left:-200px;
+  will-change:transform,opacity;
+  transition:transform .55s var(--ease),opacity .55s var(--ease),z-index 0s .28s;
+}
+
+/* Estados de posición */
+.case-panel.cp-center{
+  transform:translateX(0) scale(1) rotateY(0deg);
+  opacity:1; z-index:5; cursor:default;
+  box-shadow:0 32px 72px rgba(0,0,0,.28);
+}
+.case-panel.cp-left1{
+  transform:translateX(-295px) scale(0.82) rotateY(22deg);
+  opacity:0.65; z-index:4;
+}
+.case-panel.cp-right1{
+  transform:translateX(295px) scale(0.82) rotateY(-22deg);
+  opacity:0.65; z-index:4;
+}
+.case-panel.cp-left2{
+  transform:translateX(-490px) scale(0.65) rotateY(36deg);
+  opacity:0.28; z-index:3;
+}
+.case-panel.cp-right2{
+  transform:translateX(490px) scale(0.65) rotateY(-36deg);
+  opacity:0.28; z-index:3;
+}
+.case-panel.cp-hidden{
+  opacity:0; pointer-events:none; z-index:0;
+  transform:translateX(0) scale(0.4);
+}
+
+/* Hover solo en las tarjetas laterales */
+.carousel-track .case-panel.cp-left1:hover,
+.carousel-track .case-panel.cp-right1:hover{
+  opacity:0.85;
+}
+.carousel-track .case-panel.cp-center:hover{
+  transform:translateX(0) scale(1) rotateY(0deg);
+}
+
+/* Botones prev / next */
+.carousel-btn{
+  width:48px; height:48px; border-radius:50%;
+  background:rgba(0,0,0,.07);
+  border:1px solid rgba(0,0,0,.12);
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s,transform .2s;
+  flex-shrink:0; z-index:10;
+  color:var(--text);
+}
+.carousel-btn:hover{ background:rgba(0,0,0,.14); transform:scale(1.08); }
+
+/* Dots indicadores */
+.carousel-dots{
+  display:flex; justify-content:center;
+  gap:8px; margin-top:24px;
+}
+.carousel-dot{
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(0,0,0,.18);
+  cursor:pointer;
+  transition:all .35s var(--ease);
+  border:none; padding:0;
+}
+.carousel-dot.is-active{ width:26px; border-radius:4px; }
+.carousel-dot[data-idx="0"].is-active{ background:#c0392b; }
+.carousel-dot[data-idx="1"].is-active{ background:#c9a227; }
+.carousel-dot[data-idx="2"].is-active{ background:#4fb0ff; }
+.carousel-dot[data-idx="3"].is-active{ background:#7ed856; }
+.carousel-dot[data-idx="4"].is-active{ background:#e8437a; }
+
+/* Base .case-panel */
 .case-panel{
   position:relative;
-  flex:1;
   border-radius:28px;
   overflow:hidden;
   padding:28px 24px;
   color:#fff;
   cursor:pointer;
   display:flex; flex-direction:column; justify-content:space-between;
-  transition:flex .55s var(--ease),transform .4s var(--ease),box-shadow .4s var(--ease);
+  transition:transform .55s var(--ease),opacity .55s var(--ease),box-shadow .4s var(--ease);
   box-shadow:0 20px 48px rgba(0,0,0,.18);
 }
-.case-panel:hover{
-  transform:translateY(-5px);
-  box-shadow:0 32px 72px rgba(0,0,0,.28);
-}
-.case-panel.is-active{ flex:2.4; }
 
 /* ── Barra de acento superior por empresa ── */
 .case-panel::before{
@@ -740,6 +829,13 @@ img{ max-width:100%; display:block; }
   background:linear-gradient(90deg,#2e7d1e,#4caf3c,#7ed856);
 }
 
+.case-panel:nth-child(5){
+  background:linear-gradient(160deg,#1e0810 0%,#150510 55%,#0d0208 100%);
+}
+.case-panel:nth-child(5)::before{
+  background:linear-gradient(90deg,#8b1040,#c0185a,#e8437a);
+}
+
 /* ── Overlays decorativos por empresa ── */
 .case-panel__overlay{
   position:absolute; inset:0; z-index:1; opacity:1;
@@ -768,6 +864,12 @@ img{ max-width:100%; display:block; }
     repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 1px,transparent 1px 34px),
     repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 1px,transparent 1px 28px);
 }
+.case-panel:nth-child(5) .case-panel__overlay{
+  background:
+    radial-gradient(ellipse 85% 55% at 50% 45%, rgba(180,20,80,.18) 0%, transparent 70%),
+    radial-gradient(circle at 20% 70%, rgba(232,67,122,.6) 0 18px, transparent 19px),
+    radial-gradient(circle at 80% 20%, rgba(255,180,210,.45) 0 10px, transparent 11px);
+}
 
 /* ── Header del panel (nombre + industria) ── */
 .case-panel__top,
@@ -789,6 +891,7 @@ img{ max-width:100%; display:block; }
 .case-panel:nth-child(2) .case-panel__top::before{ background:#c9a227; }
 .case-panel:nth-child(3) .case-panel__top::before{ background:#4fb0ff; }
 .case-panel:nth-child(4) .case-panel__top::before{ background:#7ed856; }
+.case-panel:nth-child(5) .case-panel__top::before{ background:#e8437a; }
 
 /* Etiqueta de industria */
 .case-industry{
@@ -807,6 +910,7 @@ img{ max-width:100%; display:block; }
 .case-panel:nth-child(1).is-active .case-panel__bottom strong{ color:#ff8080; }
 .case-panel:nth-child(2).is-active .case-panel__bottom strong{ color:#f0c040; }
 .case-panel:nth-child(3).is-active .case-panel__bottom strong{ color:#4fb0ff; }
+.case-panel:nth-child(5).is-active .case-panel__bottom strong{ color:#ff89b4; }
 .case-panel.is-active .case-panel__bottom strong{ transform:scale(1.08); }
 
 .case-panel__bottom p{
@@ -1324,9 +1428,13 @@ img{ max-width:100%; display:block; }
   .services-layout{ grid-template-columns:1fr 1fr; }
   .service--featured{ grid-row:auto; min-height:320px; }
   .logo-wall{ grid-template-columns:repeat(2,1fr); }
-  .case-accordion{ flex-direction:column; min-height:auto; }
-  .case-panel{ min-height:260px; }
-  .case-panel.is-active{ flex:1; }
+  .carousel-track{ height:420px; }
+  .carousel-track .case-panel{ width:300px; margin-left:-150px; }
+  .case-panel.cp-left1{ transform:translateX(-220px) scale(0.82) rotateY(22deg); }
+  .case-panel.cp-right1{ transform:translateX(220px) scale(0.82) rotateY(-22deg); }
+  .case-panel.cp-left2,.case-panel.cp-right2{ opacity:0; pointer-events:none; }
+  .carousel-btn{ width:40px; height:40px; }
+  .case-panel{ min-height:280px; }
   .fullscreen-menu__right{ grid-template-columns:1fr 1fr; }
 }
 

@@ -239,109 +239,125 @@
             <h2>Casos que muestran impacto real.</h2>
           </div>
 
-          <div class="case-accordion">
+          <!-- Carrusel 3D -->
+          <div class="case-carousel">
+            <button class="carousel-btn carousel-btn--prev" aria-label="Anterior">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+              </svg>
+            </button>
 
-            <!-- PANEL 1: THE TWENTIES -->
-            <article class="case-panel is-active reveal">
-              <div class="case-panel__overlay"></div>
-              <div class="case-panel__top">
-                THE TWENTIES
-                <span class="case-industry">🛍️ Moda &amp; Retail</span>
-              </div>
-              <div class="case-panel__logo-wrap">
-                <img
-                  src="https://raw.githubusercontent.com/AbrahamJ10/imagenes_the_t/main/logo.jpg"
-                  alt="The Twenties"
-                />
-              </div>
-              <div class="case-panel__bottom">
-                <strong>3x</strong>
-                <p>Mayor venta, mejores ingresos y mayor administración</p>
-                <a
-                  class="case-visit-btn"
-                  href="https://the-twenties.onrender.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onclick="event.stopPropagation()"
-                >↗ Ver sitio</a>
-              </div>
-            </article>
+            <div class="carousel-track">
 
-            <!-- PANEL 2: A&M IMPORTACIONES -->
-            <article class="case-panel reveal">
-              <div class="case-panel__overlay"></div>
-              <div class="case-panel__top">
-                A&amp;M IMPORTACIONES
-                <span class="case-industry">📦 Comercio &amp; Exportaciones</span>
-              </div>
-              <div class="case-panel__logo-wrap">
-                <img
-                  src="https://raw.githubusercontent.com/amexportsp-byte/data_imagen/main/logo1.png"
-                  alt="A&M Importaciones"
-                />
-              </div>
-              <div class="case-panel__bottom">
-                <strong>100%</strong>
-                <p>Éxito en implementación y evolución del ecosistema.</p>
-                <a
-                  class="case-visit-btn"
-                  href="https://am-exportaciones.onrender.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onclick="event.stopPropagation()"
-                >↗ Ver sitio</a>
-              </div>
-            </article>
+              <!-- 1: THE TWENTIES -->
+              <article class="case-panel">
+                <div class="case-panel__overlay"></div>
+                <div class="case-panel__top">
+                  THE TWENTIES
+                  <span class="case-industry">🛍️ Moda &amp; Retail</span>
+                </div>
+                <div class="case-panel__logo-wrap">
+                  <img src="https://raw.githubusercontent.com/AbrahamJ10/imagenes_the_t/main/logo.jpg" alt="The Twenties"/>
+                </div>
+                <div class="case-panel__bottom">
+                  <strong>3x</strong>
+                  <p>Mayor venta, mejores ingresos y mayor administración</p>
+                  <a class="case-visit-btn" href="https://the-twenties.onrender.com" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">↗ Ver sitio</a>
+                </div>
+              </article>
 
-            <!-- PANEL 3: PAGOS ORTECHO -->
-            <article class="case-panel reveal">
-              <div class="case-panel__overlay"></div>
-              <div class="case-panel__top">
-                PAGOS ORTECHO
-                <span class="case-industry">💧 Control de Agua</span>
-              </div>
-              <div class="case-logo-placeholder" style="background:rgba(0,60,110,0.35);border:1px solid rgba(79,176,255,.2);backdrop-filter:blur(8px)">
-                <span style="font-size:3.8rem;line-height:1;filter:drop-shadow(0 4px 16px rgba(79,176,255,.5))">💧</span>
-              </div>
-              <div class="case-panel__bottom">
-                <strong>3x</strong>
-                <p>Más cobertura de QA y menos tiempo de prueba manual.</p>
-                <div class="case-locked-wrap">
-                  <span class="case-visit-btn case-visit-btn--locked">🔒 Acceso Privado</span>
-                  <i class="case-info-icon" tabindex="0">i</i>
-                  <div class="case-info-tooltip">
-                    Por confidencialidad, esta plataforma es de uso interno exclusivo y no está disponible al público.
+              <!-- 2: A&M IMPORTACIONES -->
+              <article class="case-panel">
+                <div class="case-panel__overlay"></div>
+                <div class="case-panel__top">
+                  A&amp;M IMPORTACIONES
+                  <span class="case-industry">📦 Comercio &amp; Exportaciones</span>
+                </div>
+                <div class="case-panel__logo-wrap">
+                  <img src="https://raw.githubusercontent.com/amexportsp-byte/data_imagen/main/logo1.png" alt="A&M Importaciones"/>
+                </div>
+                <div class="case-panel__bottom">
+                  <strong>100%</strong>
+                  <p>Éxito en implementación y evolución del ecosistema.</p>
+                  <a class="case-visit-btn" href="https://am-exportaciones.onrender.com" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">↗ Ver sitio</a>
+                </div>
+              </article>
+
+              <!-- 3: PAGOS ORTECHO -->
+              <article class="case-panel">
+                <div class="case-panel__overlay"></div>
+                <div class="case-panel__top">
+                  PAGOS ORTECHO
+                  <span class="case-industry">💧 Control de Agua</span>
+                </div>
+                <div class="case-logo-placeholder" style="background:rgba(0,60,110,0.35);border:1px solid rgba(79,176,255,.2);backdrop-filter:blur(8px)">
+                  <span style="font-size:3.8rem;line-height:1;filter:drop-shadow(0 4px 16px rgba(79,176,255,.5))">💧</span>
+                </div>
+                <div class="case-panel__bottom">
+                  <strong>3x</strong>
+                  <p>Más cobertura de QA y menos tiempo de prueba manual.</p>
+                  <div class="case-locked-wrap">
+                    <span class="case-visit-btn case-visit-btn--locked">🔒 Acceso Privado</span>
+                    <i class="case-info-icon" tabindex="0">i</i>
+                    <div class="case-info-tooltip">Por confidencialidad, esta plataforma es de uso interno exclusivo y no está disponible al público.</div>
                   </div>
                 </div>
-              </div>
-            </article>
+              </article>
 
-            <!-- PANEL 4: SVIM-OSIPTEL -->
-            <article class="case-panel reveal">
-              <div class="case-panel__overlay"></div>
-              <div class="case-panel__top">
-                SVIM-OSIPTEL
-                <span class="case-industry">📡 Telecomunicaciones</span>
-              </div>
-              <div class="case-panel__logo-wrap" style="background:#f0f4f8">
-                <img
-                  src="https://raw.githubusercontent.com/Abraham25J/SVIM/main/logo2.png"
-                  alt="SVIM-OSIPTEL"
-                />
-              </div>
-              <div class="case-panel__bottom">
-                <strong>40%</strong>
-                <p>Mayor velocidad de desarrollo en plataformas móviles.</p>
-                <div class="case-locked-wrap">
-                  <span class="case-visit-btn case-visit-btn--locked">🔒 Acceso Privado</span>
-                  <i class="case-info-icon" tabindex="0">i</i>
-                  <div class="case-info-tooltip">
-                    Por confidencialidad, esta plataforma es de uso interno exclusivo y no está disponible al público.
+              <!-- 4: SVIM-OSIPTEL -->
+              <article class="case-panel">
+                <div class="case-panel__overlay"></div>
+                <div class="case-panel__top">
+                  SVIM-OSIPTEL
+                  <span class="case-industry">📡 Telecomunicaciones</span>
+                </div>
+                <div class="case-panel__logo-wrap" style="background:#f0f4f8">
+                  <img src="https://raw.githubusercontent.com/Abraham25J/SVIM/main/logo2.png" alt="SVIM-OSIPTEL"/>
+                </div>
+                <div class="case-panel__bottom">
+                  <strong>40%</strong>
+                  <p>Mayor velocidad de desarrollo en plataformas móviles.</p>
+                  <div class="case-locked-wrap">
+                    <span class="case-visit-btn case-visit-btn--locked">🔒 Acceso Privado</span>
+                    <i class="case-info-icon" tabindex="0">i</i>
+                    <div class="case-info-tooltip">Por confidencialidad, esta plataforma es de uso interno exclusivo y no está disponible al público.</div>
                   </div>
                 </div>
-              </div>
-            </article>
+              </article>
 
+              <!-- 5: MI BODA -->
+              <article class="case-panel">
+                <div class="case-panel__overlay"></div>
+                <div class="case-panel__top">
+                  MI BODA
+                  <span class="case-industry">💍 Bodas &amp; Eventos</span>
+                </div>
+                <div class="case-logo-placeholder" style="background:rgba(100,10,40,0.55);border:1px solid rgba(232,67,122,.25);backdrop-filter:blur(8px)">
+                  <span style="font-size:3.8rem;line-height:1;filter:drop-shadow(0 4px 20px rgba(232,67,122,.7))">💍</span>
+                </div>
+                <div class="case-panel__bottom">
+                  <strong>14·02</strong>
+                  <p>Invitación digital con RSVP y countdown en tiempo real.</p>
+                  <a class="case-visit-btn" href="https://mi-boda.onrender.com" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">↗ Ver sitio</a>
+                </div>
+              </article>
+
+            </div><!-- /.carousel-track -->
+
+            <button class="carousel-btn carousel-btn--next" aria-label="Siguiente">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+              </svg>
+            </button>
+          </div><!-- /.case-carousel -->
+
+          <!-- Dots indicadores -->
+          <div class="carousel-dots">
+            <span class="carousel-dot" data-idx="0"></span>
+            <span class="carousel-dot" data-idx="1"></span>
+            <span class="carousel-dot" data-idx="2"></span>
+            <span class="carousel-dot" data-idx="3"></span>
+            <span class="carousel-dot" data-idx="4"></span>
           </div>
         </div>
       </section>
