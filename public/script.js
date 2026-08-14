@@ -25,7 +25,7 @@
   document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
   document.addEventListener('mouseup',   () => ring.classList.remove('is-clicking'));
 
-  const hoverTargets = 'a, button, .tilt-card, .case-panel, .logo-item, .marquee__track span';
+  const hoverTargets = 'a, button, .tilt-card, .case-panel, .logo-item, .lang-chip, .marquee__track span';
 
   document.querySelectorAll(hoverTargets).forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('is-hovering'));
@@ -313,6 +313,237 @@ document.querySelectorAll('.fullscreen-menu a').forEach(l => l.addEventListener(
 })();
 
 /* ============================================================
+   LABORATORIO DE LENGUAJES — panel lateral con comandos
+   ============================================================ */
+(function initLangLab() {
+  const lab         = document.getElementById('langLab');
+  const chipsWrap    = document.getElementById('langChips');
+  const panel        = document.getElementById('langPanel');
+  const panelTitle   = document.getElementById('langPanelTitle');
+  const panelCode    = document.getElementById('langPanelCode');
+  const panelClose   = document.getElementById('langPanelClose');
+  if (!lab || !chipsWrap || !panel || !panelCode) return;
+
+  const COMMANDS = {
+    'sql-server': { title: 'SQL Server', code:
+`SELECT TOP 10 * FROM Clientes;
+INSERT INTO Clientes (Nombre) VALUES ('Qubira');
+UPDATE Clientes SET Activo = 1 WHERE Id = 3;
+EXEC sp_helpdb;
+BACKUP DATABASE Ventas TO DISK = 'ventas.bak';` },
+
+    'nosql': { title: 'NoSQL (MongoDB)', code:
+`db.usuarios.find({ activo: true });
+db.usuarios.insertOne({ nombre: "Qubira" });
+db.usuarios.updateOne(
+  { _id: 1 }, { $set: { activo: false } }
+);
+db.usuarios.createIndex({ email: 1 });` },
+
+    'oracle': { title: 'Oracle', code:
+`SELECT * FROM empleados WHERE ROWNUM <= 10;
+CREATE TABLESPACE datos
+  DATAFILE 'datos.dbf' SIZE 100M;
+EXEC DBMS_STATS.GATHER_TABLE_STATS('HR','EMPLEADOS');
+COMMIT;` },
+
+    'postgresql': { title: 'PostgreSQL', code:
+`SELECT * FROM productos
+  ORDER BY precio DESC LIMIT 10;
+\\d productos
+CREATE INDEX idx_precio ON productos(precio);
+pg_dump midb > backup.sql` },
+
+    'python': { title: 'Python', code:
+`def suma(a, b):
+    return a + b
+
+print(suma(2, 3))
+pip install requests` },
+
+    'java': { title: 'JAVA', code:
+`public class Main {
+  public static void main(String[] args) {
+    System.out.println("Hola Qubira");
+  }
+}` },
+
+    'csharp': { title: 'C#', code:
+`using System;
+
+class Program {
+  static void Main() {
+    Console.WriteLine("Hola Qubira");
+  }
+}` },
+
+    'c': { title: 'C', code:
+`#include <stdio.h>
+
+int main() {
+  printf("Hola Qubira\\n");
+  return 0;
+}` },
+
+    'cpp': { title: 'C++', code:
+`#include <iostream>
+
+int main() {
+  std::cout << "Hola Qubira" << std::endl;
+  return 0;
+}` },
+
+    'javascript': { title: 'JavaScript', code:
+`function saludar(nombre) {
+  return \`Hola \${nombre}\`;
+}
+console.log(saludar("Qubira"));
+npm install express` },
+
+    'kotlin': { title: 'Kotlin', code:
+`fun main() {
+    println("Hola Qubira")
+}` },
+
+    'typescript': { title: 'TypeScript', code:
+`function suma(a: number, b: number): number {
+  return a + b;
+}
+npx tsc --init` },
+
+    'php': { title: 'PHP', code:
+`<?php
+  echo "Hola Qubira";
+?>
+composer install` },
+
+    'swift': { title: 'Swift', code:
+`import Foundation
+
+print("Hola Qubira")` },
+
+    'go': { title: 'Go', code:
+`package main
+import "fmt"
+
+func main() {
+  fmt.Println("Hola Qubira")
+}
+go run main.go` },
+
+    'r': { title: 'R', code:
+`saludo <- function(nombre) {
+  paste("Hola", nombre)
+}
+print(saludo("Qubira"))` },
+
+    'ruby': { title: 'Ruby', code:
+`def saludar(nombre)
+  "Hola #{nombre}"
+end
+puts saludar("Qubira")
+gem install rails` },
+
+    'linux': { title: 'Linux', code:
+`ls -la
+cd /var/www
+chmod +x script.sh
+sudo systemctl restart nginx` },
+
+    'assembler': { title: 'Assembler', code:
+`section .data
+  msg db "Hola Qubira", 0
+section .text
+  global _start
+_start:
+  mov eax, 4` },
+
+    'arduino': { title: 'Arduino', code:
+`void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+}` },
+
+    'dotnet': { title: '.NET', code:
+`dotnet new webapi -n QubiraApi
+dotnet build
+dotnet run
+dotnet add package Newtonsoft.Json` },
+
+    'rust': { title: 'Rust', code:
+`fn main() {
+    println!("Hola Qubira");
+}
+cargo build --release` },
+  };
+
+  let typeTimer  = null;
+  let activeChip = null;
+
+  function typeCode(text) {
+    clearTimeout(typeTimer);
+    panelCode.textContent = '';
+    let i = 0;
+    (function tick() {
+      panelCode.textContent = text.slice(0, i);
+      if (i >= text.length) return;
+      const next  = text[i];
+      const speed = next === '\n' ? 55 : 14;
+      i++;
+      typeTimer = setTimeout(tick, speed);
+    })();
+  }
+
+  function openLang(chip) {
+    const key  = chip.dataset.lang;
+    const data = COMMANDS[key];
+    if (!data) return;
+    activeChip = chip;
+
+    chipsWrap.querySelectorAll('.lang-chip').forEach(c => {
+      c.classList.toggle('is-active', c === chip);
+    });
+
+    panelTitle.textContent = data.title;
+    lab.classList.add('is-active');
+    panel.setAttribute('aria-hidden', 'false');
+    typeCode(data.code);
+  }
+
+  function closeLang() {
+    if (!activeChip) return;
+    activeChip = null;
+    clearTimeout(typeTimer);
+    chipsWrap.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('is-active'));
+    lab.classList.remove('is-active');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  chipsWrap.querySelectorAll('.lang-chip').forEach(chip => {
+    if (canHover) {
+      chip.addEventListener('mouseenter', () => openLang(chip));
+    }
+    chip.addEventListener('focus', () => openLang(chip));
+    chip.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (activeChip === chip) closeLang();
+      else openLang(chip);
+    });
+  });
+
+  if (canHover) {
+    lab.addEventListener('mouseleave', closeLang);
+  }
+  panelClose?.addEventListener('click', closeLang);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLang(); });
+})();
+
+/* ============================================================
    CARRUSEL 3D
    ============================================================ */
 (function initCarousel() {
@@ -374,6 +605,79 @@ function animateCounter(el) {
     if (p < 1) requestAnimationFrame(tick);
   })();
 }
+
+/* ============================================================
+   GALERÍA PÚBLICA DE VIDEOS DE REDES
+   ============================================================ */
+(function initVideosWall() {
+  const wall     = document.getElementById('videosWall');
+  const emptyMsg = document.getElementById('videosEmpty');
+  const viewBtns = document.querySelectorAll('.videos-view-btn');
+  if (!wall) return;
+
+  /* Toggle Lista / Cuadros — la primera vista mostrada (Lista) queda
+     predeterminada porque el HTML ya trae la clase view-list de fábrica */
+  viewBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('is-active')) return;
+      viewBtns.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      wall.classList.remove('view-list', 'view-grid');
+      wall.classList.add('view-' + btn.dataset.view);
+    });
+  });
+
+  const RED_META = {
+    instagram: { icon: '📸', label: 'Instagram' },
+    tiktok:    { icon: '🎵', label: 'TikTok' },
+    facebook:  { icon: '📘', label: 'Facebook' },
+    youtube:   { icon: '▶️', label: 'YouTube' },
+    otro:      { icon: '🔗', label: 'Red social' },
+  };
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[c]));
+  }
+
+  fetch('/api/videos')
+    .then(r => r.json())
+    .then(data => {
+      if (!data.ok || !data.videos.length) return;
+      emptyMsg?.remove();
+
+      data.videos.forEach((v, i) => {
+        const meta = RED_META[v.red] || RED_META.otro;
+        const card = document.createElement('article');
+        card.className = 'video-card';
+        card.innerHTML = `
+          <div class="video-card__media">
+            <video src="${v.video_url}" ${v.thumbnail_url ? `poster="${v.thumbnail_url}"` : ''} muted loop playsinline preload="metadata"></video>
+            <span class="video-card__badge">${meta.icon} ${meta.label}</span>
+            <button type="button" class="video-card__play" aria-label="Reproducir">▶</button>
+          </div>
+          <div class="video-card__info">
+            <strong>${escapeHtml(v.titulo)}</strong>
+            <a class="video-card__btn" href="${v.enlace_red}" target="_blank" rel="noopener noreferrer">↗ Visitar red</a>
+          </div>
+        `;
+
+        const mediaEl = card.querySelector('.video-card__media');
+        const videoEl = card.querySelector('video');
+        mediaEl.addEventListener('mouseenter', () => videoEl.play().catch(() => {}));
+        mediaEl.addEventListener('mouseleave', () => { videoEl.pause(); videoEl.currentTime = 0; });
+        mediaEl.addEventListener('click', () => {
+          if (videoEl.paused) videoEl.play().catch(() => {});
+          else videoEl.pause();
+        });
+
+        wall.appendChild(card);
+        setTimeout(() => card.classList.add('is-visible'), 60 + i * 90);
+      });
+    })
+    .catch(() => { /* sin conexión — la sección queda con el mensaje vacío */ });
+})();
 
 /* ============================================================
    TYPEWRITER TERMINAL

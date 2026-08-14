@@ -2504,6 +2504,157 @@ select.gu-form-input {
 .gu-empty-state p {
   font-size: 0.88rem;
 }
+
+/* ============================================================
+   MÓDULO: VIDEOS DE REDES
+   ============================================================ */
+.vr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 22px;
+}
+.vr-card {
+  background: var(--card);
+  border: 1px solid var(--card-b);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.vr-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--line-2);
+}
+.vr-card-media {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  background: #000;
+  overflow: hidden;
+}
+.vr-card-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.vr-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(6, 12, 22, 0.72);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--line-2);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.vr-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  backdrop-filter: blur(6px);
+}
+.vr-status.is-on {
+  background: rgba(119, 242, 200, 0.18);
+  color: var(--accent);
+  border: 1px solid rgba(119, 242, 200, 0.35);
+}
+.vr-status.is-off {
+  background: rgba(255, 143, 143, 0.16);
+  color: #ff8f8f;
+  border: 1px solid rgba(255, 143, 143, 0.35);
+}
+.vr-card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.vr-card-body strong {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+.vr-link {
+  font-size: 0.76rem;
+  color: var(--primary-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vr-link:hover {
+  text-decoration: underline;
+}
+.vr-card-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+  padding-top: 6px;
+}
+.vr-icon-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 0.78rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.vr-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--line-2);
+}
+.vr-icon-btn--danger:hover {
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ff8f8f;
+}
+
+.vr-progress-wrap {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+.vr-progress-wrap.is-active {
+  display: flex;
+}
+.vr-progress-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.vr-progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 0.15s ease;
+}
+#vr-progress-text {
+  font-size: 0.76rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
 @media (max-width: 900px) {
   .gu-screen {
     padding: 20px;

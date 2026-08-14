@@ -5,10 +5,30 @@
    Llama a la API Node.js y guarda el JWT en localStorage
    ============================================================ */
 
-/* Si ya hay sesión activa, redirige directo al control */
-if (localStorage.getItem('qubira_token')) {
-  window.location.href = '/control';
-}
+/* API base — en producción cambia por tu dominio */
+const API_BASE = window.location.origin;
+
+/* Si hay un token guardado, se verifica con el servidor antes de redirigir.
+   Un token viejo/inválido (sesión expirada o revocada) ya no debe mandar
+   directo a /control: eso provoca un loop de redirects con requireWebAuth,
+   que a su vez manda de vuelta a /login. Si no es válido, se limpia. */
+(function checkExistingSession() {
+  const existingToken = localStorage.getItem('qubira_token');
+  if (!existingToken) return;
+
+  fetch(`${API_BASE}/api/auth/me`, {
+    headers: { Authorization: 'Bearer ' + existingToken },
+  })
+    .then((res) => {
+      if (res.ok) {
+        window.location.href = '/control';
+      } else {
+        localStorage.removeItem('qubira_token');
+        localStorage.removeItem('qubira_user');
+      }
+    })
+    .catch(() => { /* sin conexión — deja el formulario disponible */ });
+})();
 
 const form     = document.getElementById('loginForm');
 const userInput = document.getElementById('user');
@@ -16,9 +36,6 @@ const passInput = document.getElementById('password');
 const toggle   = document.getElementById('togglePassword');
 const message  = document.getElementById('message');
 const submitBtn = form.querySelector('.submit');
-
-/* API base — en producción cambia por tu dominio */
-const API_BASE = window.location.origin;
 
 toggle.addEventListener('click', () => {
   const hidden = passInput.type === 'password';

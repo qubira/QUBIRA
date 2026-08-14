@@ -77,7 +77,7 @@
             <div class="menu-group">
               <span class="menu-line"></span>
               <a href="#services">SERVICIOS</a>
-              <a href="#partners">SOCIOS</a>
+              <a href="#partners">STACK</a>
               <a href="#cases">CASOS</a>
               <a href="#awards">RECONOCIMIENTOS</a>
             </div>
@@ -157,23 +157,78 @@
         </div>
       </section>
 
-      <!-- PARTNERS -->
+      <!-- PARTNERS / HERRAMIENTAS -->
       <section class="partners section section--light" id="partners">
         <div class="container">
           <div class="section-heading section-heading--center reveal">
-            <p class="eyebrow eyebrow--dark">CONFÍAN EN EQUIPOS QUE ENTREGAN</p>
-            <h2>Socios y marcas</h2>
+            <p class="eyebrow eyebrow--dark">STACK TECNOLÓGICO QUE DOMINAMOS</p>
+            <h2>Algunas herramientas de uso</h2>
           </div>
 
-          <div class="logo-wall">
-            <div class="logo-item reveal">Google</div>
-            <div class="logo-item reveal">Pinterest</div>
-            <div class="logo-item reveal">Skullcandy</div>
-            <div class="logo-item reveal">Lucid</div>
-            <div class="logo-item reveal">Sephora</div>
-            <div class="logo-item reveal">Best Buy</div>
-            <div class="logo-item reveal">Rare Beauty</div>
-            <div class="logo-item reveal">DIME</div>
+          <div class="logo-wall logo-wall--tools">
+            <div class="logo-item logo-item--sm reveal">NetBeans</div>
+            <div class="logo-item logo-item--sm reveal">Git</div>
+            <div class="logo-item logo-item--sm reveal">GitHub</div>
+            <div class="logo-item logo-item--sm reveal">VS Code</div>
+            <div class="logo-item logo-item--sm reveal">Visual Studio</div>
+            <div class="logo-item logo-item--sm reveal">DataGrip</div>
+            <div class="logo-item logo-item--sm reveal">Android Studio</div>
+            <div class="logo-item logo-item--sm reveal">Antigravity</div>
+            <div class="logo-item logo-item--sm reveal">Neon</div>
+            <div class="logo-item logo-item--sm reveal">Power BI</div>
+            <div class="logo-item logo-item--sm reveal">Arduino IDE</div>
+            <div class="logo-item logo-item--sm reveal">Discord</div>
+            <div class="logo-item logo-item--sm reveal">AWS</div>
+            <div class="logo-item logo-item--sm reveal">Angular</div>
+            <div class="logo-item logo-item--sm reveal">Node.js</div>
+            <div class="logo-item logo-item--sm logo-item--muted reveal">Entre otros...</div>
+          </div>
+
+          <div class="section-heading section-heading--center reveal lang-heading">
+            <p class="eyebrow eyebrow--dark">LENGUAJES Y TECNOLOGÍAS</p>
+            <h2>Algunos lenguajes de programación que usamos</h2>
+            <p class="section-copy section-copy--center">
+              Señala un lenguaje para ver sus comandos y sintaxis esenciales.
+            </p>
+          </div>
+
+          <div class="lang-lab reveal" id="langLab">
+            <div class="lang-chips" id="langChips">
+              <button type="button" class="lang-chip" data-lang="sql-server">SQL Server</button>
+              <button type="button" class="lang-chip" data-lang="nosql">NoSQL</button>
+              <button type="button" class="lang-chip" data-lang="oracle">Oracle</button>
+              <button type="button" class="lang-chip" data-lang="postgresql">PostgreSQL</button>
+              <button type="button" class="lang-chip" data-lang="python">Python</button>
+              <button type="button" class="lang-chip" data-lang="java">JAVA</button>
+              <button type="button" class="lang-chip" data-lang="csharp">C#</button>
+              <button type="button" class="lang-chip" data-lang="c">C</button>
+              <button type="button" class="lang-chip" data-lang="cpp">C++</button>
+              <button type="button" class="lang-chip" data-lang="javascript">JavaScript</button>
+              <button type="button" class="lang-chip" data-lang="kotlin">Kotlin</button>
+              <button type="button" class="lang-chip" data-lang="typescript">TypeScript</button>
+              <button type="button" class="lang-chip" data-lang="php">PHP</button>
+              <button type="button" class="lang-chip" data-lang="swift">Swift</button>
+              <button type="button" class="lang-chip" data-lang="go">Go</button>
+              <button type="button" class="lang-chip" data-lang="r">R</button>
+              <button type="button" class="lang-chip" data-lang="ruby">Ruby</button>
+              <button type="button" class="lang-chip" data-lang="linux">Linux</button>
+              <button type="button" class="lang-chip" data-lang="assembler">Assembler</button>
+              <button type="button" class="lang-chip" data-lang="arduino">Arduino</button>
+              <button type="button" class="lang-chip" data-lang="dotnet">.NET</button>
+              <button type="button" class="lang-chip" data-lang="rust">Rust</button>
+              <span class="lang-chip lang-chip--muted">Entre otros...</span>
+            </div>
+
+            <aside class="lang-panel" id="langPanel" aria-hidden="true">
+              <div class="lang-panel__bar">
+                <span class="lang-panel__dot"></span>
+                <span class="lang-panel__dot"></span>
+                <span class="lang-panel__dot"></span>
+                <span class="lang-panel__title" id="langPanelTitle">—</span>
+                <button type="button" class="lang-panel__close" id="langPanelClose" aria-label="Cerrar panel">×</button>
+              </div>
+              <pre class="lang-panel__body"><code id="langPanelCode"></code><span class="cursor"></span></pre>
+            </aside>
           </div>
         </div>
       </section>
@@ -338,7 +393,7 @@
                 <div class="case-panel__bottom">
                   <strong>14·02</strong>
                   <p>Invitación digital con RSVP y countdown en tiempo real.</p>
-                  <a class="case-visit-btn" href="https://mi-boda-xjgb.onrender.com/" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">↗ Ver sitio</a>
+                  <a class="case-visit-btn" href="https://mi-boda.onrender.com/" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">↗ Ver sitio</a>
                 </div>
               </article>
 
@@ -434,6 +489,34 @@
             <span class="carousel-dot" data-idx="6"></span>
             <span class="carousel-dot" data-idx="7"></span>
             <span class="carousel-dot" data-idx="8"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIDEOS DE REDES -->
+      <section class="videos section" id="videos">
+        <div class="container">
+          <div class="section-heading section-heading--center reveal">
+            <p class="eyebrow">CONTENIDO EN REDES</p>
+            <h2>Lo último que compartimos</h2>
+            <p class="section-copy section-copy--center">
+              Videos publicados en nuestras redes sociales.
+            </p>
+          </div>
+
+          <div class="videos-toolbar reveal">
+            <button type="button" class="videos-view-btn is-active" data-view="list">
+              ☰ Lista
+            </button>
+            <button type="button" class="videos-view-btn" data-view="grid">
+              ▦ Cuadros
+            </button>
+          </div>
+
+          <div class="videos-wall view-list reveal" id="videosWall">
+            <p class="videos-empty" id="videosEmpty">
+              Próximamente compartiremos contenido aquí.
+            </p>
           </div>
         </div>
       </section>

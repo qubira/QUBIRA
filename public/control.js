@@ -1409,3 +1409,279 @@ setTimeout(animateCounters, 300);
     });
   });
 })(); /* fin GestionUsuarios */
+
+/* ============================================================
+   MÓDULO VIDEOS DE REDES SOCIALES
+   ============================================================ */
+(function VideosRedes() {
+  const API = window.location.origin;
+  function token() {
+    return localStorage.getItem("qubira_token") || "";
+  }
+  async function apiFetch(path, opts = {}) {
+    const res = await fetch(API + path, {
+      ...opts,
+      headers: { Authorization: "Bearer " + token(), ...(opts.headers || {}) },
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Error " + res.status);
+    return data;
+  }
+
+  const RED_META = {
+    instagram: { icon: "📸", label: "Instagram" },
+    tiktok: { icon: "🎵", label: "TikTok" },
+    facebook: { icon: "📘", label: "Facebook" },
+    youtube: { icon: "▶️", label: "YouTube" },
+    otro: { icon: "🔗", label: "Otro" },
+  };
+
+  let videos = [];
+  let deleteTargetId = null;
+
+  /* ------ ELEMENTOS DOM ------ */
+  const grid = document.getElementById("vr-grid");
+  const emptyState = document.getElementById("vr-empty");
+  const searchInput = document.getElementById("vr-search-input");
+  const filterRed = document.getElementById("vr-filter-red");
+
+  const modalOverlay = document.getElementById("vr-modal-overlay");
+  const modalClose = document.getElementById("vr-modal-close");
+  const modalCancel = document.getElementById("vr-modal-cancel");
+  const modalSave = document.getElementById("vr-modal-save");
+  const addBtn = document.getElementById("vr-add-btn");
+
+  const fTitulo = document.getElementById("vr-f-titulo");
+  const fRed = document.getElementById("vr-f-red");
+  const fFile = document.getElementById("vr-f-file");
+  const fLink = document.getElementById("vr-f-link");
+
+  const progressWrap = document.getElementById("vr-progress-wrap");
+  const progressFill = document.getElementById("vr-progress-fill");
+  const progressText = document.getElementById("vr-progress-text");
+
+  const delOverlay = document.getElementById("vr-delete-overlay");
+  const delClose = document.getElementById("vr-delete-close");
+  const delCancel = document.getElementById("vr-delete-cancel");
+  const delConfirm = document.getElementById("vr-delete-confirm");
+  const delName = document.getElementById("vr-delete-name");
+
+  if (!grid) return; /* la pantalla de videos no está presente */
+
+  /* ------ CARGA ------ */
+  async function loadVideos() {
+    try {
+      const data = await apiFetch("/api/videos/admin");
+      videos = data.videos;
+      renderGrid();
+      renderStats();
+    } catch (err) {
+      console.error("[VIDEOS] loadVideos:", err.message);
+      grid.innerHTML = `<div class="gu-empty-state"><div class="gu-es-icon">⚠️</div><p>No se pudieron cargar los videos.</p></div>`;
+    }
+  }
+
+  function renderStats() {
+    document.getElementById("vr-stat-total").textContent = videos.length;
+    document.getElementById("vr-stat-published").textContent = videos.filter(
+      (v) => v.publicado,
+    ).length;
+    document.getElementById("vr-stat-hidden").textContent = videos.filter(
+      (v) => !v.publicado,
+    ).length;
+  }
+
+  function getFiltered() {
+    const q = (searchInput.value || "").toLowerCase().trim();
+    const r = filterRed.value;
+    return videos.filter((v) => {
+      const matchQ = !q || v.titulo.toLowerCase().includes(q);
+      const matchR = !r || v.red === r;
+      return matchQ && matchR;
+    });
+  }
+
+  function renderGrid() {
+    const list = getFiltered();
+    grid.innerHTML = "";
+    emptyState.style.display = list.length ? "none" : "block";
+
+    list.forEach((v) => {
+      const meta = RED_META[v.red] || RED_META.otro;
+      const card = document.createElement("div");
+      card.className = "vr-card";
+      card.innerHTML = `
+        <div class="vr-card-media">
+          <video src="${v.video_url}" ${v.thumbnail_url ? `poster="${v.thumbnail_url}"` : ""} muted loop playsinline preload="metadata"></video>
+          <span class="vr-badge">${meta.icon} ${meta.label}</span>
+          <span class="vr-status ${v.publicado ? "is-on" : "is-off"}">${v.publicado ? "Publicado" : "Oculto"}</span>
+        </div>
+        <div class="vr-card-body">
+          <strong>${escapeHtml(v.titulo)}</strong>
+          <a class="vr-link" href="${v.enlace_red}" target="_blank" rel="noopener noreferrer">${escapeHtml(v.enlace_red)}</a>
+          <div class="vr-card-actions">
+            <button type="button" class="vr-icon-btn" data-action="toggle" data-id="${v.id}">
+              ${v.publicado ? "🙈 Ocultar" : "👁 Publicar"}
+            </button>
+            <button type="button" class="vr-icon-btn vr-icon-btn--danger" data-action="delete" data-id="${v.id}" data-titulo="${escapeHtml(v.titulo)}">
+              🗑 Eliminar
+            </button>
+          </div>
+        </div>
+      `;
+      const mediaEl = card.querySelector(".vr-card-media");
+      const videoEl = card.querySelector("video");
+      mediaEl.addEventListener("mouseenter", () => videoEl.play().catch(() => {}));
+      mediaEl.addEventListener("mouseleave", () => {
+        videoEl.pause();
+        videoEl.currentTime = 0;
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(
+      /[&<>"']/g,
+      (c) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+    );
+  }
+
+  /* ------ MODAL SUBIR ------ */
+  function openModal() {
+    fTitulo.value = "";
+    fRed.value = "instagram";
+    fFile.value = "";
+    fLink.value = "";
+    progressWrap.classList.remove("is-active");
+    progressFill.style.width = "0%";
+    progressText.textContent = "Subiendo… 0%";
+    modalSave.disabled = false;
+    modalOverlay.classList.add("open");
+  }
+  function closeModal() {
+    modalOverlay.classList.remove("open");
+  }
+
+  function uploadVideo() {
+    if (!fFile.files.length) {
+      alert("Selecciona un archivo de video.");
+      return;
+    }
+    if (!fLink.value.trim()) {
+      alert('El link de "Visitar red" es obligatorio.');
+      return;
+    }
+
+    const form = new FormData();
+    form.append("video", fFile.files[0]);
+    form.append("titulo", fTitulo.value.trim());
+    form.append("red", fRed.value);
+    form.append("enlace_red", fLink.value.trim());
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", API + "/api/videos");
+    xhr.setRequestHeader("Authorization", "Bearer " + token());
+
+    modalSave.disabled = true;
+    progressWrap.classList.add("is-active");
+
+    xhr.upload.addEventListener("progress", (e) => {
+      if (!e.lengthComputable) return;
+      const pct = Math.round((e.loaded / e.total) * 100);
+      progressFill.style.width = pct + "%";
+      progressText.textContent = "Subiendo… " + pct + "%";
+    });
+
+    xhr.onload = () => {
+      modalSave.disabled = false;
+      let data = {};
+      try {
+        data = JSON.parse(xhr.responseText);
+      } catch (_) {}
+      if (xhr.status >= 200 && xhr.status < 300 && data.ok) {
+        closeModal();
+        loadVideos();
+      } else {
+        alert("Error: " + (data.error || "No se pudo subir el video"));
+        progressWrap.classList.remove("is-active");
+      }
+    };
+    xhr.onerror = () => {
+      modalSave.disabled = false;
+      progressWrap.classList.remove("is-active");
+      alert("Error de conexión al subir el video.");
+    };
+    xhr.send(form);
+  }
+
+  /* ------ TOGGLE / DELETE ------ */
+  async function toggleVideo(id) {
+    try {
+      await apiFetch(`/api/videos/${id}/estado`, { method: "PATCH" });
+      await loadVideos();
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  }
+
+  function openDelete(id, titulo) {
+    deleteTargetId = id;
+    delName.textContent = titulo || "Video";
+    delOverlay.classList.add("open");
+  }
+  function closeDelete() {
+    delOverlay.classList.remove("open");
+    deleteTargetId = null;
+  }
+  async function confirmDelete() {
+    if (!deleteTargetId) return;
+    try {
+      await apiFetch(`/api/videos/${deleteTargetId}`, { method: "DELETE" });
+      closeDelete();
+      await loadVideos();
+    } catch (err) {
+      alert("Error al eliminar: " + err.message);
+    }
+  }
+
+  grid.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-action]");
+    if (!btn) return;
+    const id = btn.dataset.id;
+    if (btn.dataset.action === "toggle") toggleVideo(id);
+    if (btn.dataset.action === "delete") openDelete(id, btn.dataset.titulo);
+  });
+
+  addBtn?.addEventListener("click", openModal);
+  modalClose?.addEventListener("click", closeModal);
+  modalCancel?.addEventListener("click", closeModal);
+  modalSave?.addEventListener("click", uploadVideo);
+  modalOverlay?.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+
+  delClose?.addEventListener("click", closeDelete);
+  delCancel?.addEventListener("click", closeDelete);
+  delConfirm?.addEventListener("click", confirmDelete);
+  delOverlay?.addEventListener("click", (e) => {
+    if (e.target === delOverlay) closeDelete();
+  });
+
+  searchInput?.addEventListener("input", renderGrid);
+  filterRed?.addEventListener("change", renderGrid);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeModal();
+      closeDelete();
+    }
+  });
+
+  document.querySelectorAll(".nav-item[data-screen]").forEach((item) => {
+    item.addEventListener("click", () => {
+      if (item.dataset.screen === "videos") loadVideos();
+    });
+  });
+})(); /* fin VideosRedes */

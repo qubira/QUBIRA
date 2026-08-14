@@ -12,6 +12,7 @@ const { requireWebAuth } = require('./src/middleware/webAuth');
 
 const authRouter     = require('./src/routes/auth');
 const usuariosRouter = require('./src/routes/usuarios');
+const videosRouter   = require('./src/routes/videos');
 
 const app    = express();
 const PORT   = process.env.PORT || 3000;
@@ -76,6 +77,7 @@ app.use('/api/auth/login', loginLimiter);
 app.use('/api',            apiLimiter);
 app.use('/api/auth',       authRouter);
 app.use('/api/usuarios',   usuariosRouter);
+app.use('/api/videos',     videosRouter);
 
 /* Health check (sin exponer entorno) */
 app.get('/api/health', (req, res) => {

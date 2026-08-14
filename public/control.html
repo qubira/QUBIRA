@@ -205,6 +205,19 @@
             Gestion de usuarios
           </li>
         </ul>
+
+        <div class="sidebar__label">Contenido</div>
+        <ul class="sidebar__nav">
+          <li class="nav-item" data-screen="videos">
+            <!-- Icono: video/play -->
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M18 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2zM9.75 15.5v-7l6 3.5-6 3.5z"
+              />
+            </svg>
+            Videos de redes
+          </li>
+        </ul>
         <div class="sidebar__label">Sistema</div>
         <ul class="sidebar__nav">
           <li class="nav-item" data-screen="configuracion">
@@ -1789,6 +1802,101 @@
             </div>
           </div>
         </div>
+
+        <!-- === SCREEN: VIDEOS DE REDES === -->
+        <div class="screen" id="screen-videos">
+          <div class="gu-screen">
+            <div class="gu-header">
+              <div class="gu-header-left">
+                <h2>🎬 Videos de Redes Sociales</h2>
+                <p>
+                  Sube los videos publicados en redes sociales y enlázalos con
+                  su publicación original
+                </p>
+              </div>
+              <div class="gu-header-right">
+                <button class="gu-btn-primary" id="vr-add-btn">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    width="15"
+                    height="15"
+                  >
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                  </svg>
+                  Subir video
+                </button>
+              </div>
+            </div>
+
+            <!-- Stats rápidas -->
+            <div class="gu-stats-row">
+              <div class="gu-stat">
+                <div class="gu-stat-label">Total</div>
+                <div
+                  class="gu-stat-val"
+                  id="vr-stat-total"
+                  style="color: var(--primary-2)"
+                >
+                  0
+                </div>
+              </div>
+              <div class="gu-stat">
+                <div class="gu-stat-label">Publicados</div>
+                <div
+                  class="gu-stat-val"
+                  id="vr-stat-published"
+                  style="color: var(--accent)"
+                >
+                  0
+                </div>
+              </div>
+              <div class="gu-stat">
+                <div class="gu-stat-label">Ocultos</div>
+                <div
+                  class="gu-stat-val"
+                  id="vr-stat-hidden"
+                  style="color: #ff8f8f"
+                >
+                  0
+                </div>
+              </div>
+            </div>
+
+            <!-- Barra de herramientas -->
+            <div class="gu-toolbar">
+              <div class="gu-search">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                  />
+                </svg>
+                <input
+                  type="text"
+                  id="vr-search-input"
+                  placeholder="Buscar por título o red..."
+                />
+              </div>
+              <select class="gu-filter" id="vr-filter-red">
+                <option value="">Todas las redes</option>
+                <option value="instagram">Instagram</option>
+                <option value="tiktok">TikTok</option>
+                <option value="facebook">Facebook</option>
+                <option value="youtube">YouTube</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
+            <!-- Grid de videos -->
+            <div class="vr-grid" id="vr-grid">
+              <!-- Tarjetas generadas por JS -->
+            </div>
+            <div class="gu-empty-state" id="vr-empty" style="display: none">
+              <div class="gu-es-icon">🎬</div>
+              <p>Aún no se han subido videos.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2000,6 +2108,106 @@
         </div>
       </div>
     </div>
+    <!-- === MODAL: SUBIR VIDEO === -->
+    <div class="gu-overlay" id="vr-modal-overlay">
+      <div class="gu-modal">
+        <div class="gu-modal-header">
+          <h3>Subir video</h3>
+          <button class="gu-modal-close" id="vr-modal-close">×</button>
+        </div>
+        <div class="gu-modal-body">
+          <div class="gu-form-grid">
+            <div class="gu-form-group full">
+              <label class="gu-form-label">Título / descripción</label>
+              <input
+                class="gu-form-input"
+                id="vr-f-titulo"
+                placeholder="Ej: Lanzamiento campaña de verano"
+              />
+            </div>
+            <div class="gu-form-group">
+              <label class="gu-form-label">Red social</label>
+              <select class="gu-form-input" id="vr-f-red">
+                <option value="instagram">📸 Instagram</option>
+                <option value="tiktok">🎵 TikTok</option>
+                <option value="facebook">📘 Facebook</option>
+                <option value="youtube">▶️ YouTube</option>
+                <option value="otro">🔗 Otro</option>
+              </select>
+            </div>
+            <div class="gu-form-group">
+              <label class="gu-form-label">Archivo de video</label>
+              <input
+                class="gu-form-input"
+                id="vr-f-file"
+                type="file"
+                accept="video/*"
+              />
+            </div>
+            <div class="gu-form-group full">
+              <label class="gu-form-label"
+                >Link "Visitar red" (publicación original)</label
+              >
+              <input
+                class="gu-form-input"
+                id="vr-f-link"
+                type="url"
+                placeholder="https://www.instagram.com/p/..."
+              />
+            </div>
+          </div>
+
+          <div class="vr-progress-wrap" id="vr-progress-wrap">
+            <div class="vr-progress-bar">
+              <div class="vr-progress-fill" id="vr-progress-fill"></div>
+            </div>
+            <span id="vr-progress-text">Subiendo… 0%</span>
+          </div>
+        </div>
+        <div class="gu-modal-footer">
+          <button class="gu-btn-secondary" id="vr-modal-cancel">
+            Cancelar
+          </button>
+          <button class="gu-btn-primary" id="vr-modal-save">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+              <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" />
+            </svg>
+            Subir video
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- === MODAL: CONFIRMAR ELIMINAR VIDEO === -->
+    <div class="gu-overlay" id="vr-delete-overlay">
+      <div class="gu-modal gu-modal--sm">
+        <div class="gu-modal-header">
+          <h3>Eliminar video</h3>
+          <button class="gu-modal-close" id="vr-delete-close">×</button>
+        </div>
+        <div class="gu-modal-body">
+          <div class="gu-security-icon">⚠️</div>
+          <div class="gu-security-msg">
+            <strong id="vr-delete-name">Video</strong>
+            Esta acción no se puede deshacer. El video se eliminará también
+            de Cloudinary.
+          </div>
+        </div>
+        <div class="gu-modal-footer">
+          <button class="gu-btn-secondary" id="vr-delete-cancel">
+            Cancelar
+          </button>
+          <button
+            class="gu-btn-primary"
+            id="vr-delete-confirm"
+            style="background: linear-gradient(135deg, #ef4444, #dc2626)"
+          >
+            🗑 Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="control.js"></script>
 
     <!-- DRAWER MOBILE: abrir/cerrar sidebar -->
