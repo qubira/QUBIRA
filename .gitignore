@@ -17,3 +17,6 @@ Thumbs.db
 .idea/
 *.suo
 *.user
+
+# Vercel CLI (vercel link / vercel dev)
+.vercel

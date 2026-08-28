@@ -10,8 +10,12 @@ function buildConnectionConfig() {
   const rawUrl = process.env.DATABASE_URL || '';
 
   if (!rawUrl) {
-    console.error('[DB] ERROR: DATABASE_URL no está definida. Revisa tu archivo .env');
-    process.exit(1);
+    /* process.exit() no se puede usar acá: en Vercel este archivo se
+       carga dentro de una función serverless compartida, y matar el
+       proceso ahí puede tirar abajo otras invocaciones en curso.
+       Se lanza el error y que quien arranque el server decida qué
+       hacer (en local, server.js lo deja morir igual si no conecta). */
+    throw new Error('DATABASE_URL no está definida. Revisa tus variables de entorno.');
   }
 
   /* Eliminar parámetros que pg no entiende */
@@ -42,7 +46,7 @@ async function testConnection() {
     console.log('[DB] ✅ Conectado a Neon PostgreSQL —', rows[0].now);
   } catch (err) {
     console.error('[DB] ❌ Error de conexión:', err.message);
-    process.exit(1);
+    throw err; /* quien llama decide si eso amerita salir del proceso (ver server.js) */
   }
 }
 

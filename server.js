@@ -16,7 +16,12 @@ const videosRouter   = require('./src/routes/videos');
 
 const app    = express();
 const PORT   = process.env.PORT || 3000;
-const PUBLIC = path.join(__dirname, 'public');
+/* OJO: esta carpeta NO se llama "public" a propósito. En Vercel,
+   cualquier carpeta llamada así en la raíz del proyecto se sirve como
+   archivo estático directo desde su CDN, sin pasar por Express —
+   eso saltearía requireWebAuth y expondría control.html/.js/.css sin
+   login. Al llamarse "webapp" todo pasa sí o sí por este servidor. */
+const PUBLIC = path.join(__dirname, 'webapp');
 
 /* ============================================================
    MIDDLEWARES GLOBALES
@@ -36,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 
 /* ============================================================
    BLOQUEO ABSOLUTO — archivos que NUNCA deben exponerse
-   (defensa en profundidad aunque no estén en public/)
+   (defensa en profundidad aunque no estén en webapp/)
    ============================================================ */
 const BLOCKED_PATTERNS = [
   /\.env(\.|$)/i,
@@ -115,7 +120,7 @@ app.get('/control.css', requireWebAuth, (_, res) => res.sendFile(path.join(PUBLI
 
 /* ============================================================
    ARCHIVOS ESTÁTICOS PÚBLICOS
-   Solo sirve lo que queda en public/ (Index, login, styles, etc.)
+   Solo sirve lo que queda en webapp/ (Index, login, styles, etc.)
    Los archivos protegidos ya fueron manejados arriba.
    ============================================================ */
 app.use(express.static(PUBLIC, {
@@ -145,11 +150,24 @@ app.use((err, req, res, next) => {
 
 /* ============================================================
    INICIO DEL SERVIDOR
+   Solo cuando este archivo se ejecuta directamente (node server.js,
+   npm start/dev — desarrollo local o un host con proceso persistente
+   como Render/Railway). En Vercel, api/index.js hace require() de este
+   módulo para tomar `app` y lo sirve como función serverless por
+   request — ahí NO se debe llamar app.listen(), Vercel maneja eso.
    ============================================================ */
-(async () => {
-  await testConnection();
-  app.listen(PORT, () => {
-    console.log(`[SERVER] QUBIRA corriendo en http://localhost:${PORT}`);
-    console.log(`[SERVER] Entorno: ${process.env.NODE_ENV || 'development'}`);
-  });
-})();
+if (require.main === module) {
+  (async () => {
+    try {
+      await testConnection();
+    } catch {
+      process.exit(1); /* acá sí tiene sentido: es un proceso propio, no uno compartido */
+    }
+    app.listen(PORT, () => {
+      console.log(`[SERVER] QUBIRA corriendo en http://localhost:${PORT}`);
+      console.log(`[SERVER] Entorno: ${process.env.NODE_ENV || 'development'}`);
+    });
+  })();
+}
+
+module.exports = app;
