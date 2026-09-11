@@ -1,6 +1,60 @@
 'use strict';
 
 /* ============================================================
+   ANALYTICS — historial de visitas e interacciones del sitio.
+   Se ve en el panel QUBIRA_DST (sección Visitas). Pega directo a
+   la API central del ecosistema (la misma que usan todos los
+   paneles), no al backend propio de este sitio — así el mismo
+   dato queda disponible para cualquier panel que lo necesite.
+   Nunca debe romper la página: toda falla de red se traga en
+   silencio, es solo telemetría.
+   ============================================================ */
+const ANALYTICS_API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:4000'
+  : 'https://api-qubira.onrender.com';
+
+function qubiraVisitorId() {
+  try {
+    let id = localStorage.getItem('qubira_visitor_id');
+    if (!id) {
+      id = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
+      localStorage.setItem('qubira_visitor_id', id);
+    }
+    return id;
+  } catch (_) { return null; } /* localStorage puede fallar en modo privado */
+}
+
+function track(event_type, extra = {}) {
+  try {
+    const payload = {
+      event_type,
+      page: location.pathname,
+      referrer: document.referrer || null,
+      session_id: qubiraVisitorId(),
+      ...extra,
+    };
+    fetch(ANALYTICS_API + '/api/analytics/event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch(() => {});
+  } catch (_) { /* nunca romper la página por esto */ }
+}
+
+(function initAnalytics() {
+  track('page_view');
+
+  document.querySelectorAll('.case-visit-btn[data-case]').forEach(btn => {
+    btn.addEventListener('click', () => track('case_click', { case_name: btn.dataset.case }));
+  });
+
+  document.querySelectorAll('a[data-wa]').forEach(a => {
+    a.addEventListener('click', () => track('whatsapp_click', { label: a.dataset.wa }));
+  });
+})();
+
+/* ============================================================
    CURSOR MAGNÉTICO PERSONALIZADO
    ============================================================ */
 (function initCursor() {
@@ -781,6 +835,7 @@ function initChatbot() {
     chatbotWindow.classList.add('is-open');
     chatbotWindow.setAttribute('aria-hidden', 'false');
     setTimeout(() => chatbotInput?.focus(), 120);
+    track('chatbot_open');
   }
   function closeChat() {
     chatbotWindow.classList.remove('is-open', 'is-expanded');
@@ -1241,6 +1296,7 @@ function initChatbot() {
   /* ── handleMsg con typing delay proporcional ── */
   function handleMsg(text) {
     if (!text?.trim()) return;
+    track('chatbot_message', { label: text.trim().slice(0, 200) });
     addMessage(text, 'user');
     if (chatbotInput) chatbotInput.value = '';
     const typing = document.createElement('div');
