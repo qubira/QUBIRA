@@ -349,6 +349,34 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideMenu()
 document.querySelectorAll('.fullscreen-menu a').forEach(l => l.addEventListener('click', hideMenu));
 
 /* ============================================================
+   VENTANA DE PROYECTOS — vista ampliada de todos los casos a la vez
+   ============================================================ */
+const projectsModal    = document.getElementById('projectsModal');
+const closeProjectsBtn  = document.getElementById('closeProjects');
+const navProyectos       = document.getElementById('navProyectos');
+const navProyectosMobile = document.getElementById('navProyectosMobile');
+
+function showProjects() {
+  if (!projectsModal) return;
+  projectsModal.classList.add('is-open');
+  projectsModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  track('page_view', { page: '/proyectos' });
+}
+function hideProjects() {
+  if (!projectsModal) return;
+  projectsModal.classList.remove('is-open');
+  projectsModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+navProyectos?.addEventListener('click', (e) => { e.preventDefault(); hideMenu(); showProjects(); });
+navProyectosMobile?.addEventListener('click', (e) => { e.preventDefault(); hideMenu(); showProjects(); });
+closeProjectsBtn?.addEventListener('click', hideProjects);
+projectsModal?.addEventListener('click', (e) => { if (e.target === projectsModal) hideProjects(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideProjects(); });
+
+/* ============================================================
    REVEAL ON SCROLL
    ============================================================ */
 (function initReveal() {
