@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QUBIRA | Proyectos</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="icon"
+      href="https://raw.githubusercontent.com/qubira/IMAGENES/main/logo2.png"
+      type="image/png"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <div class="grid-glow"></div>
+
+    <header class="header" id="header">
+      <div class="header__inner">
+        <a href="index.html" class="brand">
+          <img
+            src="https://raw.githubusercontent.com/qubira/IMAGENES/main/logo2.png"
+            alt="Logo Qubira"
+            class="brand__logo"
+          />
+          <span class="brand__text">QUBIRA</span>
+        </a>
+
+        <nav class="nav nav--desktop">
+          <a href="index.html#services">Servicios</a>
+          <a href="index.html#cases">Casos</a>
+          <a href="proyectos.html">Proyectos</a>
+          <a href="index.html#manifesto">Método</a>
+          <a href="index.html#seguridad">Seguridad</a>
+          <a href="index.html#contact">Contacto</a>
+        </nav>
+
+        <button class="menu-btn" id="openMenu" aria-label="Abrir menú">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="fullscreen-menu" id="fullscreenMenu" aria-hidden="true">
+      <div class="fullscreen-menu__panel">
+        <div class="fullscreen-menu__top">
+          <a href="index.html" class="brand brand--dark">
+            <img
+              src="https://raw.githubusercontent.com/qubira/IMAGENES/main/logo2.png"
+              alt="Logo Qubira"
+              class="brand__logo"
+            />
+            <span class="brand__text">QUBIRA</span>
+          </a>
+
+          <button class="menu-close" id="closeMenu" aria-label="Cerrar menú">
+            ×
+          </button>
+        </div>
+
+        <div class="fullscreen-menu__content">
+          <div class="fullscreen-menu__left">
+            <p class="menu-eyebrow">Ingeniería, diseño y crecimiento</p>
+            <h2>Construimos<br />productos con<br />criterio.</h2>
+          </div>
+
+          <div class="fullscreen-menu__right">
+            <div class="menu-group">
+              <span class="menu-line"></span>
+              <a href="index.html#services">SERVICIOS</a>
+              <a href="index.html#partners">STACK</a>
+              <a href="index.html#cases">CASOS</a>
+              <a href="proyectos.html">PROYECTOS</a>
+              <a href="index.html#awards">RECONOCIMIENTOS</a>
+            </div>
+
+            <div class="menu-group">
+              <span class="menu-line"></span>
+              <a href="index.html#manifesto">MÉTODO</a>
+              <a href="index.html#contact">CONTÁCTANOS</a>
+            </div>
+
+            <div class="menu-group">
+              <span class="menu-line"></span>
+              <a href="#">LINKEDIN</a>
+              <a href="#">GITHUB</a>
+              <a href="#">BEHANCE</a>
+              <a href="#">DRIBBBLE</a>
+            </div>
+
+            <div class="menu-group">
+              <span class="menu-line"></span>
+              <a href="qubiralogin.html">LOGIN</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <!-- HERO DE PROYECTOS -->
+      <section class="projects-hero section">
+        <div class="container">
+          <p class="eyebrow reveal">PORTAFOLIO COMPLETO</p>
+          <h1 class="reveal">Nuestros proyectos</h1>
+          <p class="reveal">
+            Un vistazo más amplio a lo que hemos construido: cada proyecto,
+            su rubro, el impacto que generó y un acceso directo al sitio
+            cuando está disponible al público.
+          </p>
+        </div>
+      </section>
+
+      <!-- GRILLA DE PROYECTOS -->
+      <section class="section" style="padding-top:0">
+        <div class="container">
+          <div class="projects-grid reveal">
+
+            <article class="project-card">
+              <div class="project-card__top">
+                <span class="project-card__logo project-card__logo--img"><img src="https://raw.githubusercontent.com/AbrahamJ10/imagenes_the_t/main/logo.jpg" alt="The Twenties"></span>
+                <div>
+                  <h3>THE TWENTIES</h3>
+                  <span class="project-card__tag">🛍️ Moda &amp; Retail</span>
+                </div>
+              </div>
+              <p class="project-card__desc">Mayor venta, mejores ingresos y mayor administración.</p>
+              <div class="project-card__foot">
+                <strong>3x</strong>
+                <a class="case-visit-btn" data-case="THE TWENTIES" href="https://the-twenties.onrender.com" target="_blank" rel="noopener noreferrer">↗ Ver sitio</a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__top">
+                <span class="project-card__logo project-card__logo--img"><img src="https://raw.githubusercontent.com/amexportsp-byte/data_imagen/main/logo1.png" alt="A&M Importaciones"></span>
+                <div>
+                  <h3>A&amp;M IMPORTACIONES</h3>
+                  <span class="project-card__tag">📦 Comercio &amp; Exportaciones</span>
+                </div>
+              </div>
+              <p class="project-card__desc">Éxito en implementación y evolución del ecosistema.</p>
+              <div class="project-card__foot">
+                <strong>100%</strong>
+                <a class="case-visit-btn" data-case="A&amp;M IMPORTACIONES" href="https://am-exportaciones.onrender.com" target="_blank" rel="noopener noreferrer">↗ Ver sitio</a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__top">
+                <span class="project-card__logo" style="background:rgba(0,60,110,0.35)">💧</span>
+                <div>
+                  <h3>PAGOS ORTECHO</h3>
+                  <span class="project-card__tag">💧 Control de Agua</span>
+                </div>
+              </div>
+              <p class="project-card__desc">Más cobertura de QA y menos tiempo de prueba manual.</p>
+              <div class="project-card__foot">
+                <strong>3x</strong>
+                <span class="case-visit-btn case-visit-btn--locked">🔒 Acceso Privado</span>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__top">
+                <span class="project-card__logo project-card__logo--img" style="background:#f0f4f8"><img src="imagen/logo_svim.png" alt="SVIM-OSIPTEL"></span>
+                <div>
+                  <h3>SVIM-OSIPTEL</h3>
+                  <span class="project-card__tag">📡 Telecomunicaciones</span>
+                </div>
+              </div>
+              <p class="project-card__desc">Mayor velocidad de desarrollo en plataformas móviles.</p>
+              <div class="project-card__foot">
+                <strong>40%</strong>
+                <span class="case-visit-btn case-visit-btn--locked">🔒 Acceso Privado</span>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__top">
+                <span class="project-card__logo" style="background:rgba(100,10,40,0.55)">💍</span>
+                <div>
+                  <h3>MI BODA</h3>
+                  <span class="project-card__tag">💍 Bodas &amp; Eventos</span>
+                </div>
+              </div>
+              <p class="project-card__desc">Invitación digital con RSVP y countdown en tiempo real.</p>
+              <div class="project-card__foot">
+                <strong>14·02</strong>
+                <a class="case-visit-btn" data-case="MI BODA" href="https://mi-boda.onrender.com/" target="_blank" rel="noopener noreferrer">↗ Ver sitio</a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__top">
+                <span class="project-card__logo project-card__logo--img" style="background:#f0f4f8"><img src="imagen/logo_yaplin.png" alt="YapLin"></span>
+                <div>
+                  <h3>YAPLIN</h3>
+                  <span class="project-card__tag">💳 Fintech &amp; Pagos Digitales</span>
+                </div>
+              </div>
+              <p class="project-card__desc">Automatización en la captura y registro de pagos Yape, Plin e Izipay.</p>
+              <div class="project-card__foot">
+                <strong>100%</strong>
+                <a class="case-visit-btn" data-case="YAPLIN" href="https://yaplin-peru.vercel.app/" target="_blank" rel="noopener noreferrer">↗ Ver sitio</a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__top">
+                <span class="project-card__logo project-card__logo--img" style="background:#f0f4f8"><img src="imagen/logo_nutrivida.png" alt="NutriVida"></span>
+                <div>
+                  <h3>NUTRIVIDA</h3>
+                  <span class="project-card__tag">🥗 Salud &amp; Bienestar</span>
+                </div>
+              </div>
+              <p class="project-card__desc">Tienda de productos saludables con descuentos permanentes.</p>
+              <div class="project-card__foot">
+                <strong>100%</strong>
+                <a class="case-visit-btn" data-case="NUTRIVIDA" href="https://nutrivida-blond.vercel.app/" target="_blank" rel="noopener noreferrer">↗ Ver sitio</a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__top">
+                <span class="project-card__logo project-card__logo--img" style="background:#f0f4f8"><img src="imagen/logo_huellas-unidas.png" alt="Huellas Unidas"></span>
+                <div>
+                  <h3>HUELLAS UNIDAS</h3>
+                  <span class="project-card__tag">🐾 Comunidad &amp; Mascotas</span>
+                </div>
+              </div>
+              <p class="project-card__desc">Más reencuentros: reporte y adopción de mascotas en un solo lugar.</p>
+              <div class="project-card__foot">
+                <strong>3x</strong>
+                <a class="case-visit-btn" data-case="HUELLAS UNIDAS" href="https://huellas-unidas.vercel.app/" target="_blank" rel="noopener noreferrer">↗ Ver sitio</a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__top">
+                <span class="project-card__logo project-card__logo--img" style="background:#f0f4f8"><img src="imagen/logo_geovs.png" alt="GeoVS"></span>
+                <div>
+                  <h3>GEOVS</h3>
+                  <span class="project-card__tag">🎮 Videojuegos &amp; Entretenimiento</span>
+                </div>
+              </div>
+              <p class="project-card__desc">Jugadores compitiendo en tiempo real dentro de la misma sala.</p>
+              <div class="project-card__foot">
+                <strong>8</strong>
+                <span class="case-visit-btn case-visit-btn--locked">🚧 En Producción</span>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA FINAL -->
+      <section class="cta section section--light">
+        <div class="container cta__grid">
+          <div class="cta__copy reveal">
+            <p class="eyebrow eyebrow--dark">SIGUIENTE PASO</p>
+            <h2>¿Tu próximo proyecto empieza acá?</h2>
+            <p>Conversemos sobre lo que quieres construir.</p>
+          </div>
+
+          <div class="cta__action reveal">
+            <a href="https://wa.me/51924687363" target="_blank" rel="noopener noreferrer" class="btn btn--outline magnetic" data-wa="cta_final"
+              >Comunícate con nosotros</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <section class="footer-block section section--light">
+        <div class="container footer-block__grid">
+          <div class="footer-block__title reveal">
+            <h2>Productos con<br />fondo técnico<br />y diseño.</h2>
+          </div>
+
+          <div class="footer-block__links reveal">
+            <div class="footer-col">
+              <span class="menu-line"></span>
+              <a href="index.html#services">SERVICIOS</a>
+              <a href="index.html#cases">CASOS</a>
+              <a href="index.html#manifesto">MÉTODO</a>
+              <a href="index.html#contact">CONTACTO</a>
+            </div>
+
+            <div class="footer-col">
+              <span class="menu-line"></span>
+              <a href="#">LINKEDIN</a>
+              <a href="#">GITHUB</a>
+              <a href="#">DRIBBBLE</a>
+              <a href="#">X / TWITTER</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- BOTONES FLOTANTES -->
+    <div class="floating-actions">
+      <button
+        type="button"
+        id="chatbot-button"
+        class="chatbot-float"
+        aria-label="Abrir chatbot"
+      >
+        <img
+          src="imagen/logo_chatbot_fondo_transparente.png"
+          alt="Chat QUBIRA"
+          class="chatbot-float-img"
+        />
+        <span class="chatbot-float-label">Chat</span>
+      </button>
+
+      <a
+        href="https://wa.me/51924687363"
+        class="whatsapp-float"
+        target="_blank"
+        aria-label="Abrir WhatsApp"
+        data-wa="floating"
+      >
+        <svg viewBox="0 0 32 32">
+          <path
+            fill="white"
+            d="M16.04 3C9.41 3 4 8.39 4 15.02c0 2.65.86 5.1 2.33 7.09L4 29l7.06-2.27a11.96 11.96 0 0 0 4.98 1.09h.01c6.63 0 12.04-5.39 12.04-12.02C28.09 8.39 22.67 3 16.04 3Zm6.99 16.98c-.3.85-1.76 1.62-2.43 1.72-.63.09-1.41.13-2.27-.15-.52-.17-1.19-.39-2.05-.76-3.6-1.56-5.94-5.21-6.12-5.45-.18-.24-1.46-1.94-1.46-3.7 0-1.76.92-2.62 1.24-2.98.33-.36.72-.45.96-.45.24 0 .48 0 .69.01.22.01.51-.08.8.61.3.73 1.01 2.51 1.1 2.69.09.18.15.39.03.63-.12.24-.18.39-.36.6-.18.21-.38.46-.54.62-.18.18-.37.38-.16.74.21.36.94 1.55 2.02 2.51 1.39 1.24 2.56 1.63 2.92 1.81.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.8-.18.33.12 2.07.98 2.43 1.15.36.18.6.27.69.42.09.15.09.87-.21 1.72Z"
+          />
+        </svg>
+      </a>
+    </div>
+
+    <!-- VENTANA DEL CHATBOT -->
+    <div id="chatbot-window" class="chatbot-window" aria-hidden="true">
+      <div class="chatbot-header">
+        <div class="chatbot-header-info">
+          <img
+            src="imagen/logo_chatbot_fondo_transparente.png"
+            alt="QUBIRA"
+            class="chatbot-header-logo"
+          />
+          <div>
+            <strong>QUBIRA Assistant</strong>
+            <span>
+              <span class="chatbot-online-dot"></span>
+              En línea ahora
+            </span>
+          </div>
+        </div>
+
+        <div class="chatbot-header__actions">
+          <button
+            type="button"
+            id="expand-chatbot"
+            aria-label="Agrandar chatbot"
+          >
+            ⛶
+          </button>
+          <button type="button" id="close-chatbot" aria-label="Cerrar chatbot">
+            ×
+          </button>
+        </div>
+      </div>
+
+      <div id="chatbot-content" class="chatbot-content">
+        <div class="chatbot-message bot-message">
+          ¡Hola! Soy el asistente de QUBIRA. Puedo ayudarte con servicios,
+          precios, contacto, horarios, proyectos y metodología.
+        </div>
+      </div>
+
+      <div class="chatbot-form">
+        <input
+          type="text"
+          id="chatbot-input"
+          placeholder="Escribe tu pregunta..."
+          autocomplete="off"
+        />
+        <button type="button" id="send-chatbot">Enviar</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
