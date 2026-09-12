@@ -1689,6 +1689,88 @@ img{ max-width:100%; display:block; }
 }
 #send-chatbot:hover{ background:#006fe6; }
 
+/* Ventana de postulación (bolsa de trabajo) — mismo lenguaje visual
+   que el chatbot-window, pero más alta porque es un formulario
+   completo, no una conversación. */
+.apply-window{
+  position:fixed;
+  right:28px; bottom:178px;
+  width:420px; max-width:calc(100vw - 32px);
+  height:640px; max-height:calc(100vh - 140px);
+  background:#ffffff; color:#111827;
+  border-radius:22px;
+  box-shadow:0 28px 80px rgba(0,0,0,.45);
+  z-index:1300;
+  display:none; flex-direction:column;
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.08);
+  transition:all .35s var(--ease);
+}
+.apply-window.is-open{ display:flex; }
+.apply-header{
+  min-height:76px;
+  background:linear-gradient(135deg,#0f1117,#1b2030);
+  color:#fff; padding:16px 18px;
+  display:flex; justify-content:space-between; align-items:flex-start;
+  flex-shrink:0;
+}
+.apply-header div:first-child{ display:flex; flex-direction:column; gap:3px; padding-right:10px; }
+.apply-header strong{ font-size:.94rem; font-weight:800; line-height:1.3; }
+.apply-header span{ font-size:.72rem; color:rgba(255,255,255,.68); }
+#close-apply{
+  width:34px; height:34px; flex-shrink:0;
+  border-radius:50%; border:none;
+  background:#ef4444; color:#fff; font-size:1.35rem; font-weight:900;
+  line-height:1; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+#close-apply:hover{ background:#dc2626; }
+
+.apply-content{
+  flex:1; padding:18px; overflow-y:auto;
+  background:#f5f7fb;
+}
+.apply-content .field{ margin-bottom:14px; }
+.apply-content .field label{
+  display:block; margin-bottom:6px;
+  font-size:.78rem; font-weight:700; color:#374151;
+}
+.apply-content input[type="text"],
+.apply-content input[type="email"],
+.apply-content input[type="tel"],
+.apply-content textarea{
+  width:100%; padding:10px 12px;
+  border:1px solid #d6dbe6; border-radius:12px;
+  outline:none; color:#111827; background:#fff;
+  font-size:.85rem; font-family:inherit; box-sizing:border-box;
+}
+.apply-content input:focus,
+.apply-content textarea:focus{
+  border-color:#168cff;
+  box-shadow:0 0 0 3px rgba(22,140,255,.12);
+}
+.apply-content textarea{ resize:vertical; min-height:64px; }
+.apply-content input[type="file"]{
+  width:100%; font-size:.8rem;
+  padding:8px; border:1px dashed #d6dbe6; border-radius:12px;
+  background:#fff; box-sizing:border-box;
+}
+.apply-submit{
+  width:100%; padding:12px;
+  border:none; border-radius:12px;
+  background:#168cff; color:#fff;
+  font-weight:800; font-size:.88rem;
+  transition:background .2s;
+}
+.apply-submit:hover{ background:#006fe6; }
+.apply-submit:disabled{ opacity:.6; cursor:not-allowed; }
+.apply-message{
+  font-size:.8rem; font-weight:600; padding:10px 12px;
+  border-radius:12px; margin-bottom:12px;
+}
+.apply-message--error{ background:#fee2e2; color:#b91c1c; }
+.apply-message--success{ background:#d1fae5; color:#065f46; }
+
 /* ============================================
    KEYFRAMES
    ============================================ */

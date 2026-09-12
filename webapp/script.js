@@ -1449,6 +1449,160 @@ function initChatbot() {
 initChatbot();
 
 /* ============================================================
+   BOLSA DE TRABAJO — solo hace algo en bolsa-trabajo.html (se
+   detecta por la presencia de #jobs-list, ya que este script.js es
+   compartido por todo el sitio). Lista las ofertas abiertas que
+   RRHH publicó (rrhh.vacantes vía API/src/routes/jobs-public.js) y
+   maneja el panel de postulación (preguntas de filtro + CV),
+   reutilizando el mismo idioma visual/JS que el chatbot-window
+   (panel fijo, clase .is-open).
+   ============================================================ */
+function initJobsBoard() {
+  const jobsListEl = document.getElementById('jobs-list');
+  if (!jobsListEl) return;
+
+  const applyWindow   = document.getElementById('apply-window');
+  const applyContent  = document.getElementById('apply-content');
+  const applyTitle    = document.getElementById('apply-job-title');
+  const applySub      = document.getElementById('apply-job-sub');
+  const closeApplyBtn = document.getElementById('close-apply');
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function closeApply() {
+    applyWindow.classList.remove('is-open');
+    applyWindow.setAttribute('aria-hidden', 'true');
+  }
+  closeApplyBtn?.addEventListener('click', closeApply);
+
+  function jobCardHtml(job) {
+    const tags = [job.departamento, job.modalidad, job.tipoContrato].filter(Boolean);
+    const vac = job.vacantes || 1;
+    return `
+      <article class="project-card">
+        <div class="project-card__top">
+          <span class="project-card__logo">💼</span>
+          <div>
+            <h3>${esc(job.titulo)}</h3>
+            <span class="project-card__tag">${esc(tags.join(' · '))}</span>
+          </div>
+        </div>
+        <p class="project-card__desc">${esc(job.descripcion || '')}</p>
+        <div class="project-card__foot">
+          <strong>${vac} vacante${vac > 1 ? 's' : ''}</strong>
+          <button type="button" class="case-visit-btn" data-apply-job="${esc(job.id)}">↗ Postular</button>
+        </div>
+      </article>
+    `;
+  }
+
+  async function loadJobs() {
+    try {
+      const res = await fetch(ANALYTICS_API + '/api/public/jobs');
+      const data = await res.json();
+      const jobs = (data.ok && data.data) || [];
+      if (!jobs.length) {
+        jobsListEl.innerHTML = '<p style="color:#9aa3af">No hay puestos abiertos por ahora — vuelve pronto.</p>';
+        return;
+      }
+      jobsListEl.innerHTML = jobs.map(jobCardHtml).join('');
+      jobsListEl.querySelectorAll('[data-apply-job]').forEach(btn =>
+        btn.addEventListener('click', () => openApply(btn.dataset.applyJob)));
+    } catch (_) {
+      jobsListEl.innerHTML = '<p style="color:#9aa3af">No se pudieron cargar los puestos. Intenta más tarde.</p>';
+    }
+  }
+
+  async function openApply(jobId) {
+    applyContent.innerHTML = '<p style="font-size:.85rem;color:#6b7280">Cargando...</p>';
+    applyTitle.textContent = 'Postular';
+    applySub.textContent = '';
+    applyWindow.classList.add('is-open');
+    applyWindow.setAttribute('aria-hidden', 'false');
+
+    try {
+      const res = await fetch(`${ANALYTICS_API}/api/public/jobs/${encodeURIComponent(jobId)}`);
+      const data = await res.json();
+      if (!data.ok) {
+        applyContent.innerHTML = `<div class="apply-message apply-message--error">${esc(data.error || 'No se pudo cargar la oferta.')}</div>`;
+        return;
+      }
+      const job = data.data;
+      applyTitle.textContent = job.titulo;
+      applySub.textContent = [job.departamento, job.modalidad].filter(Boolean).join(' · ');
+      renderApplyForm(job);
+    } catch (_) {
+      applyContent.innerHTML = '<div class="apply-message apply-message--error">No se pudo cargar la oferta. Intenta más tarde.</div>';
+    }
+  }
+
+  function renderApplyForm(job) {
+    const preguntas = job.preguntas || [];
+    applyContent.innerHTML = `
+      <form id="apply-form">
+        <div class="field"><label>Nombre *</label><input type="text" name="nombre" required></div>
+        <div class="field"><label>Apellido *</label><input type="text" name="apellido" required></div>
+        <div class="field"><label>Email *</label><input type="email" name="email" required></div>
+        <div class="field"><label>Teléfono</label><input type="tel" name="telefono"></div>
+        ${preguntas.map((p, i) => `
+          <div class="field">
+            <label>${esc(p.pregunta)} *</label>
+            <textarea name="q_${i}" required rows="2"></textarea>
+          </div>
+        `).join('')}
+        <div class="field"><label>Tu CV (PDF o Word) *</label><input type="file" name="cv" accept=".pdf,.doc,.docx" required></div>
+        <button type="submit" class="apply-submit">Enviar postulación</button>
+      </form>
+    `;
+    const form = applyContent.querySelector('#apply-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      applyContent.querySelector('.apply-message')?.remove();
+      const submitBtn = form.querySelector('.apply-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      const fd = new FormData();
+      fd.append('nombre', form.nombre.value.trim());
+      fd.append('apellido', form.apellido.value.trim());
+      fd.append('email', form.email.value.trim());
+      fd.append('telefono', form.telefono.value.trim());
+      const respuestas = preguntas.map((p, i) => ({
+        preguntaId: p.id,
+        respuesta: form.querySelector(`[name="q_${i}"]`).value.trim(),
+      }));
+      fd.append('respuestas', JSON.stringify(respuestas));
+      const cvFile = form.cv.files[0];
+      if (cvFile) fd.append('cv', cvFile);
+
+      try {
+        const res = await fetch(`${ANALYTICS_API}/api/public/jobs/${encodeURIComponent(job.id)}/postular`, {
+          method: 'POST', body: fd,
+        });
+        const data = await res.json();
+        if (data.ok) {
+          applyContent.innerHTML = '<div class="apply-message apply-message--success">¡Listo! Recibimos tu postulación, te contactaremos pronto.</div>';
+        } else {
+          applyContent.insertAdjacentHTML('afterbegin', `<div class="apply-message apply-message--error">${esc(data.error || 'No se pudo enviar tu postulación.')}</div>`);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar postulación';
+        }
+      } catch (_) {
+        applyContent.insertAdjacentHTML('afterbegin', '<div class="apply-message apply-message--error">No se pudo enviar tu postulación. Revisa tu conexión.</div>');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar postulación';
+      }
+    });
+  }
+
+  loadJobs();
+}
+initJobsBoard();
+
+/* ============================================================
    AUTO-RELOAD SILENCIOSO — detecta cambios cada 15s y actualiza
    automáticamente sin aviso, con fade suave.
    ============================================================ */
