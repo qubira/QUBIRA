@@ -24,6 +24,28 @@ function qubiraVisitorId() {
   } catch (_) { return null; } /* localStorage puede fallar en modo privado */
 }
 
+/* Primer contacto (first-touch): si esta URL trae ?utm_source=... se
+   guarda en sessionStorage para toda la visita — así una campaña
+   sigue apareciendo como el canal de origen aunque el visitante
+   navegue a otras páginas del sitio sin esos parámetros en la URL,
+   igual que atribuye una sesión GA4. */
+function qubiraUtm() {
+  try {
+    const params = new URLSearchParams(location.search);
+    const fresh = {
+      utm_source: params.get('utm_source') || undefined,
+      utm_medium: params.get('utm_medium') || undefined,
+      utm_campaign: params.get('utm_campaign') || undefined,
+    };
+    if (fresh.utm_source || fresh.utm_medium || fresh.utm_campaign) {
+      sessionStorage.setItem('qubira_utm', JSON.stringify(fresh));
+      return fresh;
+    }
+    const stored = sessionStorage.getItem('qubira_utm');
+    return stored ? JSON.parse(stored) : {};
+  } catch (_) { return {}; }
+}
+
 function track(event_type, extra = {}) {
   try {
     const payload = {
@@ -31,6 +53,7 @@ function track(event_type, extra = {}) {
       page: location.pathname,
       referrer: document.referrer || null,
       session_id: qubiraVisitorId(),
+      ...qubiraUtm(),
       ...extra,
     };
     fetch(ANALYTICS_API + '/api/analytics/event', {
@@ -39,6 +62,26 @@ function track(event_type, extra = {}) {
       body: JSON.stringify(payload),
       keepalive: true,
     }).catch(() => {});
+  } catch (_) { /* nunca romper la página por esto */ }
+}
+
+/* Igual que track(), pero usando sendBeacon — la única forma
+   confiable de mandar algo justo cuando la pestaña se está cerrando
+   o cambiando de página (un fetch normal ahí se puede cortar a la
+   mitad). Se usa solo para el evento final de tiempo en página. */
+function trackBeacon(event_type, extra = {}) {
+  try {
+    if (!navigator.sendBeacon) { track(event_type, extra); return; }
+    const payload = {
+      event_type,
+      page: location.pathname,
+      referrer: document.referrer || null,
+      session_id: qubiraVisitorId(),
+      ...qubiraUtm(),
+      ...extra,
+    };
+    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+    navigator.sendBeacon(ANALYTICS_API + '/api/analytics/event', blob);
   } catch (_) { /* nunca romper la página por esto */ }
 }
 
@@ -52,6 +95,88 @@ function track(event_type, extra = {}) {
   document.querySelectorAll('a[data-wa]').forEach(a => {
     a.addEventListener('click', () => track('whatsapp_click', { label: a.dataset.wa }));
   });
+
+  /* Clicks en el menú de navegación (encabezado + menú móvil) — qué
+     sección le interesa a la gente, sin contar los que ya se miden
+     aparte (casos, WhatsApp). */
+  document.querySelectorAll('.nav--desktop a, .fullscreen-menu a').forEach(a => {
+    if (a.hasAttribute('data-wa') || a.closest('.case-visit-btn')) return;
+    a.addEventListener('click', () => {
+      const href = a.getAttribute('href') || '';
+      const label = href.startsWith('#') ? href.slice(1) : (href.split('#')[1] || href);
+      track('nav_click', { label });
+    });
+  });
+
+  /* Clicks a links externos (otro dominio) que no tengan ya su propio
+     seguimiento específico (casos, WhatsApp). */
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href]');
+    if (!a || a.hasAttribute('data-wa') || a.classList.contains('case-visit-btn')) return;
+    let url;
+    try { url = new URL(a.href, location.href); } catch (_) { return; }
+    if (url.hostname && url.hostname !== location.hostname) {
+      track('outbound_click', { label: url.hostname });
+    }
+  });
+
+  /* Scroll — un evento por hito (25/50/75/100%) y por carga de
+     página, la primera vez que se cruza. */
+  (function initScrollDepth() {
+    const milestones = [25, 50, 75, 100];
+    const fired = new Set();
+    let ticking = false;
+    function checkScroll() {
+      ticking = false;
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = scrollable > 0 ? Math.min(100, Math.round((window.scrollY / scrollable) * 100)) : 100;
+      milestones.forEach(m => {
+        if (pct >= m && !fired.has(m)) {
+          fired.add(m);
+          track('scroll_depth', { label: String(m) });
+        }
+      });
+      if (fired.size === milestones.length) {
+        window.removeEventListener('scroll', onScroll);
+      }
+    }
+    function onScroll() {
+      if (!ticking) { ticking = true; requestAnimationFrame(checkScroll); }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    checkScroll(); // por si la página ya carga corta y "100%" visible desde el inicio
+  })();
+
+  /* Tiempo en página — solo cuenta mientras la pestaña está visible
+     (si la dejan abierta en otra pestaña de fondo no suma), y se
+     manda al salir con sendBeacon para que sí llegue. */
+  (function initTimeOnPage() {
+    let visibleSince = document.visibilityState === 'visible' ? Date.now() : null;
+    let accumulatedMs = 0;
+    let sent = false;
+
+    function pause() {
+      if (visibleSince) { accumulatedMs += Date.now() - visibleSince; visibleSince = null; }
+    }
+    function resume() {
+      if (document.visibilityState === 'visible') visibleSince = Date.now();
+    }
+    function sendFinal() {
+      if (sent) return;
+      pause();
+      const seconds = Math.round(accumulatedMs / 1000);
+      if (seconds > 0) {
+        sent = true;
+        trackBeacon('time_on_page', { label: String(seconds) });
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') pause(); else resume();
+    });
+    window.addEventListener('pagehide', sendFinal);
+    window.addEventListener('beforeunload', sendFinal);
+  })();
 })();
 
 /* ============================================================
