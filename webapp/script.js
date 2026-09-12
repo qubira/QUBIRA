@@ -1477,6 +1477,8 @@ function initJobsBoard() {
     applyWindow.setAttribute('aria-hidden', 'true');
   }
   closeApplyBtn?.addEventListener('click', closeApply);
+  applyWindow.addEventListener('click', (e) => { if (e.target === applyWindow) closeApply(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && applyWindow.classList.contains('is-open')) closeApply(); });
 
   function jobCardHtml(job) {
     const tags = [job.departamento, job.modalidad, job.tipoContrato].filter(Boolean);
@@ -1553,11 +1555,26 @@ function initJobsBoard() {
             <textarea name="q_${i}" required rows="2"></textarea>
           </div>
         `).join('')}
-        <div class="field"><label>Tu CV (PDF o Word) *</label><input type="file" name="cv" accept=".pdf,.doc,.docx" required></div>
+        <div class="field">
+          <label>Tu CV (PDF o Word) *</label>
+          <label class="apply-file" id="apply-file-label">
+            <span class="apply-file__icon">📎</span>
+            <span class="apply-file__text" id="apply-file-text"><strong>Elegir archivo</strong><span>PDF o Word, máx. 10MB</span></span>
+            <input type="file" name="cv" accept=".pdf,.doc,.docx" required>
+          </label>
+        </div>
         <button type="submit" class="apply-submit">Enviar postulación</button>
       </form>
     `;
     const form = applyContent.querySelector('#apply-form');
+    const fileInput = form.querySelector('input[type="file"]');
+    const fileText = applyContent.querySelector('#apply-file-text');
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      fileText.innerHTML = file
+        ? `<strong>${esc(file.name)}</strong><span>${(file.size / 1024 / 1024).toFixed(1)} MB — click para cambiar</span>`
+        : '<strong>Elegir archivo</strong><span>PDF o Word, máx. 10MB</span>';
+    });
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       applyContent.querySelector('.apply-message')?.remove();
