@@ -1462,6 +1462,7 @@ function initJobsBoard() {
   if (!jobsListEl) return;
 
   const applyWindow   = document.getElementById('apply-window');
+  const applyInfo     = document.getElementById('apply-info');
   const applyContent  = document.getElementById('apply-content');
   const applyTitle    = document.getElementById('apply-job-title');
   const applySub      = document.getElementById('apply-job-sub');
@@ -1519,6 +1520,7 @@ function initJobsBoard() {
   }
 
   async function openApply(jobId) {
+    applyInfo.innerHTML = '';
     applyContent.innerHTML = '<p style="font-size:.85rem;color:#6b7280">Cargando...</p>';
     applyTitle.textContent = 'Postular';
     applySub.textContent = '';
@@ -1535,10 +1537,26 @@ function initJobsBoard() {
       const job = data.data;
       applyTitle.textContent = job.titulo;
       applySub.textContent = [job.departamento, job.modalidad].filter(Boolean).join(' · ');
+      renderApplyInfo(job);
       renderApplyForm(job);
     } catch (_) {
       applyContent.innerHTML = '<div class="apply-message apply-message--error">No se pudo cargar la oferta. Intenta más tarde.</div>';
     }
+  }
+
+  function renderApplyInfo(job) {
+    const vac = job.vacantes || 1;
+    const tags = [
+      job.departamento,
+      job.modalidad,
+      job.tipoContrato,
+      `${vac} vacante${vac > 1 ? 's' : ''}`,
+    ].filter(Boolean);
+    applyInfo.innerHTML = `
+      <div class="apply-info__tags">${tags.map(t => `<span class="apply-tag">${esc(t)}</span>`).join('')}</div>
+      ${job.descripcion ? `<div class="apply-info__section"><h4>Descripción</h4><p>${esc(job.descripcion)}</p></div>` : ''}
+      ${job.requisitos ? `<div class="apply-info__section"><h4>Requisitos</h4><p>${esc(job.requisitos)}</p></div>` : ''}
+    `;
   }
 
   function renderApplyForm(job) {
