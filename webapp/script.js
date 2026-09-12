@@ -1563,6 +1563,7 @@ function initJobsBoard() {
       const job = data.data;
       applyTitle.textContent = job.titulo;
       applySub.textContent = [job.departamento, job.modalidad].filter(Boolean).join(' · ');
+      track('job_apply_click', { label: job.titulo });
       renderApplyInfo(job);
       renderApplyForm(job);
     } catch (_) {
@@ -1652,6 +1653,7 @@ function initJobsBoard() {
         });
         const data = await res.json();
         if (data.ok) {
+          track('job_apply_submit', { label: job.titulo });
           showHeaderAlert('success', '¡Listo! Recibimos tu postulación, te contactaremos pronto.');
           setTimeout(closeApply, 1400);
         } else {
