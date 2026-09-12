@@ -218,11 +218,14 @@
     <div id="apply-window" class="apply-window" aria-hidden="true">
       <div class="apply-card">
         <div class="apply-header">
-          <div>
-            <strong id="apply-job-title">Postular</strong>
-            <span id="apply-job-sub"></span>
+          <div class="apply-header__top">
+            <div>
+              <strong id="apply-job-title">Postular</strong>
+              <span id="apply-job-sub"></span>
+            </div>
+            <button type="button" id="close-apply" aria-label="Cerrar">×</button>
           </div>
-          <button type="button" id="close-apply" aria-label="Cerrar">×</button>
+          <div id="apply-header-alert" class="apply-header-alert" hidden></div>
         </div>
         <div class="apply-body">
           <div id="apply-info" class="apply-info"></div>

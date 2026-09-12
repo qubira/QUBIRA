@@ -1461,16 +1461,26 @@ function initJobsBoard() {
   const jobsListEl = document.getElementById('jobs-list');
   if (!jobsListEl) return;
 
-  const applyWindow   = document.getElementById('apply-window');
-  const applyInfo     = document.getElementById('apply-info');
-  const applyContent  = document.getElementById('apply-content');
-  const applyTitle    = document.getElementById('apply-job-title');
-  const applySub      = document.getElementById('apply-job-sub');
-  const closeApplyBtn = document.getElementById('close-apply');
+  const applyWindow      = document.getElementById('apply-window');
+  const applyInfo        = document.getElementById('apply-info');
+  const applyContent     = document.getElementById('apply-content');
+  const applyTitle       = document.getElementById('apply-job-title');
+  const applySub         = document.getElementById('apply-job-sub');
+  const applyHeaderAlert = document.getElementById('apply-header-alert');
+  const closeApplyBtn    = document.getElementById('close-apply');
 
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function showHeaderAlert(type, message) {
+    applyHeaderAlert.textContent = message;
+    applyHeaderAlert.className = `apply-header-alert apply-header-alert--${type}`;
+    applyHeaderAlert.hidden = false;
+  }
+  function hideHeaderAlert() {
+    applyHeaderAlert.hidden = true;
   }
 
   function closeApply() {
@@ -1539,6 +1549,7 @@ function initJobsBoard() {
     applyContent.innerHTML = '<p style="font-size:.85rem;color:#6b7280">Cargando...</p>';
     applyTitle.textContent = 'Postular';
     applySub.textContent = '';
+    hideHeaderAlert();
     applyWindow.classList.add('is-open');
     applyWindow.setAttribute('aria-hidden', 'false');
 
@@ -1546,7 +1557,7 @@ function initJobsBoard() {
       const res = await fetch(`${ANALYTICS_API}/api/public/jobs/${encodeURIComponent(jobId)}`);
       const data = await res.json();
       if (!data.ok) {
-        applyContent.innerHTML = `<div class="apply-message apply-message--error">${esc(data.error || 'No se pudo cargar la oferta.')}</div>`;
+        showHeaderAlert('error', data.error || 'No se pudo cargar la oferta.');
         return;
       }
       const job = data.data;
@@ -1555,7 +1566,7 @@ function initJobsBoard() {
       renderApplyInfo(job);
       renderApplyForm(job);
     } catch (_) {
-      applyContent.innerHTML = '<div class="apply-message apply-message--error">No se pudo cargar la oferta. Intenta más tarde.</div>';
+      showHeaderAlert('error', 'No se pudo cargar la oferta. Intenta más tarde.');
     }
   }
 
@@ -1617,7 +1628,7 @@ function initJobsBoard() {
     });
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      applyContent.querySelector('.apply-message')?.remove();
+      hideHeaderAlert();
       const submitBtn = form.querySelector('.apply-submit');
       submitBtn.disabled = true;
       submitBtn.textContent = 'Enviando...';
@@ -1641,14 +1652,15 @@ function initJobsBoard() {
         });
         const data = await res.json();
         if (data.ok) {
-          applyContent.innerHTML = '<div class="apply-message apply-message--success">¡Listo! Recibimos tu postulación, te contactaremos pronto.</div>';
+          showHeaderAlert('success', '¡Listo! Recibimos tu postulación, te contactaremos pronto.');
+          setTimeout(closeApply, 1400);
         } else {
-          applyContent.insertAdjacentHTML('afterbegin', `<div class="apply-message apply-message--error">${esc(data.error || 'No se pudo enviar tu postulación.')}</div>`);
+          showHeaderAlert('error', data.error || 'No se pudo enviar tu postulación.');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Enviar postulación';
         }
       } catch (_) {
-        applyContent.insertAdjacentHTML('afterbegin', '<div class="apply-message apply-message--error">No se pudo enviar tu postulación. Revisa tu conexión.</div>');
+        showHeaderAlert('error', 'No se pudo enviar tu postulación. Revisa tu conexión.');
         submitBtn.disabled = false;
         submitBtn.textContent = 'Enviar postulación';
       }
