@@ -1764,6 +1764,11 @@ img{ max-width:100%; display:block; }
   margin:0; font-size:.82rem; line-height:1.55; color:var(--muted);
   white-space:pre-line;
 }
+.apply-info__list{
+  margin:0; padding-left:18px;
+  font-size:.82rem; line-height:1.6; color:var(--muted);
+}
+.apply-info__list li{ margin-bottom:2px; }
 
 .apply-content{
   flex:1; min-width:0; padding:22px; overflow-y:auto;

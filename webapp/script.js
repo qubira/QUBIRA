@@ -1481,9 +1481,23 @@ function initJobsBoard() {
   applyWindow.addEventListener('click', (e) => { if (e.target === applyWindow) closeApply(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && applyWindow.classList.contains('is-open')) closeApply(); });
 
+  function formatSalary(job) {
+    const min = job.salarioMin != null ? Math.round(job.salarioMin) : null;
+    const max = job.salarioMax != null ? Math.round(job.salarioMax) : null;
+    if (min && max) return `S/ ${min} - ${max}`;
+    if (min) return `Desde S/ ${min}`;
+    if (max) return `Hasta S/ ${max}`;
+    return null;
+  }
+
+  function listLines(text) {
+    return String(text || '').split('\n').map(s => s.trim()).filter(Boolean);
+  }
+
   function jobCardHtml(job) {
-    const tags = [job.departamento, job.modalidad, job.tipoContrato].filter(Boolean);
+    const tags = [job.departamento, job.modalidad, job.tipoContrato, job.nivelExperiencia].filter(Boolean);
     const vac = job.vacantes || 1;
+    const salary = formatSalary(job);
     return `
       <article class="project-card">
         <div class="project-card__top">
@@ -1494,6 +1508,7 @@ function initJobsBoard() {
           </div>
         </div>
         <p class="project-card__desc">${esc(job.descripcion || '')}</p>
+        ${salary ? `<p class="project-card__desc" style="color:var(--accent);font-weight:700;margin-top:-8px">${esc(salary)}</p>` : ''}
         <div class="project-card__foot">
           <strong>${vac} vacante${vac > 1 ? 's' : ''}</strong>
           <button type="button" class="case-visit-btn" data-apply-job="${esc(job.id)}">↗ Postular</button>
@@ -1550,12 +1565,19 @@ function initJobsBoard() {
       job.departamento,
       job.modalidad,
       job.tipoContrato,
+      job.nivelExperiencia,
       `${vac} vacante${vac > 1 ? 's' : ''}`,
     ].filter(Boolean);
+    const salary = formatSalary(job);
+    const beneficios = listLines(job.beneficios);
+    const habilidades = listLines(job.habilidades);
     applyInfo.innerHTML = `
       <div class="apply-info__tags">${tags.map(t => `<span class="apply-tag">${esc(t)}</span>`).join('')}</div>
+      ${salary ? `<div class="apply-info__section"><h4>Salario</h4><p>${esc(salary)}</p></div>` : ''}
       ${job.descripcion ? `<div class="apply-info__section"><h4>Descripción</h4><p>${esc(job.descripcion)}</p></div>` : ''}
       ${job.requisitos ? `<div class="apply-info__section"><h4>Requisitos</h4><p>${esc(job.requisitos)}</p></div>` : ''}
+      ${habilidades.length ? `<div class="apply-info__section"><h4>Habilidades clave</h4><ul class="apply-info__list">${habilidades.map(h => `<li>${esc(h)}</li>`).join('')}</ul></div>` : ''}
+      ${beneficios.length ? `<div class="apply-info__section"><h4>Beneficios</h4><ul class="apply-info__list">${beneficios.map(b => `<li>${esc(b)}</li>`).join('')}</ul></div>` : ''}
     `;
   }
 
