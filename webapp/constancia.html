@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QUBIRA | Verificar constancia de trabajo</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/qubira/IMAGENES/main/logo2.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --primary: #7c3aed; --primary-dark: #6d28d9; --box-bg: #f4f6fe; --signer: #12286e;
+        --bg: #f3f4f6; --card: #ffffff; --border: #e5e7eb; --text: #111827; --muted: #6b7280;
+        --danger: #dc2626;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+      .wrap { max-width: 620px; margin: 0 auto; padding: 40px 20px 60px; }
+      .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); margin-bottom: 28px; }
+      .brand img { width: 36px; height: 36px; border-radius: 8px; background: #111827; padding: 5px; }
+      .brand span { font-weight: 800; letter-spacing: .5px; }
+      .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; box-shadow: 0 10px 25px -5px rgba(0,0,0,.06); }
+      h1 { font-size: 19px; font-weight: 800; margin-bottom: 6px; }
+      p.sub { color: var(--muted); font-size: 13.5px; margin-bottom: 22px; line-height: 1.5; }
+      .search-row { display: flex; gap: 10px; }
+      input[type="text"] {
+        flex: 1; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border);
+        font-size: 14px; outline: none; font-family: inherit;
+      }
+      input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,.12); }
+      button {
+        padding: 12px 20px; border-radius: 10px; border: none; background: var(--primary); color: #fff;
+        font-weight: 700; font-size: 13.5px; cursor: pointer; font-family: inherit;
+      }
+      button:hover { background: var(--primary-dark); }
+      button:disabled { opacity: .6; cursor: not-allowed; }
+      .msg { margin-top: 18px; font-size: 13.5px; }
+      .msg--error { color: var(--danger); }
+      .result { margin-top: 24px; display: none; }
+      .result__badge {
+        display: inline-flex; align-items: center; gap: 6px; background: rgba(5,150,105,.12); color: #059669;
+        padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 18px;
+      }
+      .result__title { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
+      .result__number { color: var(--muted); font-size: 12.5px; font-family: monospace; margin-bottom: 18px; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+      .box { background: var(--box-bg); border-radius: 8px; padding: 10px 12px; }
+      .box.full { grid-column: 1 / -1; }
+      .box__label { color: var(--primary); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+      .box__value { font-size: 13.5px; color: var(--text); }
+      .footer-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 16px; margin-top: 4px; }
+      .footer-row .signer { font-size: 12.5px; }
+      .footer-row .signer strong { color: var(--signer); display: block; }
+      .footer-row .signer span { color: var(--muted); }
+      a.download { color: var(--primary); font-weight: 700; font-size: 13px; text-decoration: none; }
+      a.download:hover { text-decoration: underline; }
+      .spinner { width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--border); border-top-color: var(--primary); animation: spin .8s linear infinite; margin: 18px auto; display: none; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <a href="/" class="brand">
+        <img src="https://raw.githubusercontent.com/qubira/IMAGENES/main/logo2.png" alt="QUBIRA" />
+        <span>QUBIRA</span>
+      </a>
+
+      <div class="card">
+        <h1>Verificar constancia de trabajo</h1>
+        <p class="sub">Escanea el código QR del documento o escribe aquí su número de constancia para confirmar que es auténtico.</p>
+
+        <div class="search-row">
+          <input type="text" id="numero-input" placeholder="Ej. CT-2026-8F3K29" autocomplete="off" />
+          <button id="search-btn">Verificar</button>
+        </div>
+
+        <div class="spinner" id="spinner"></div>
+        <div class="msg msg--error" id="error-msg" style="display:none;"></div>
+
+        <div class="result" id="result">
+          <div class="result__badge">✓ Documento auténtico</div>
+          <div class="result__title" id="r-nombre"></div>
+          <div class="result__number" id="r-numero"></div>
+
+          <div class="grid">
+            <div class="box"><div class="box__label">Documento de identidad</div><div class="box__value" id="r-doc"></div></div>
+            <div class="box"><div class="box__label">Área</div><div class="box__value" id="r-area"></div></div>
+            <div class="box"><div class="box__label">Cargo</div><div class="box__value" id="r-cargo"></div></div>
+            <div class="box"><div class="box__label">Período laborado</div><div class="box__value" id="r-periodo"></div></div>
+            <div class="box full"><div class="box__label">Función principal</div><div class="box__value" id="r-funcion"></div></div>
+          </div>
+
+          <div class="footer-row">
+            <div class="signer">
+              <strong id="r-firmante"></strong>
+              <span id="r-firmante-cargo"></span>
+            </div>
+            <a class="download" id="r-download" href="#" target="_blank">Descargar PDF ↓</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+        ? 'http://localhost:4000'
+        : 'https://api-qubira.onrender.com';
+
+      function esc(s) {
+        return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      }
+      function fmtDate(iso) {
+        const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || '');
+        return m ? `${m[3]}/${m[2]}/${m[1]}` : (iso || '');
+      }
+
+      async function verificar(numero) {
+        const spinner = document.getElementById('spinner');
+        const errorMsg = document.getElementById('error-msg');
+        const result = document.getElementById('result');
+        const btn = document.getElementById('search-btn');
+
+        errorMsg.style.display = 'none';
+        result.style.display = 'none';
+        spinner.style.display = 'block';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(`${API_BASE}/api/public/constancias/${encodeURIComponent(numero)}`);
+          const data = await res.json();
+          if (!res.ok || !data.ok) {
+            errorMsg.textContent = data.error || 'No se pudo verificar la constancia.';
+            errorMsg.style.display = 'block';
+            return;
+          }
+          const c = data.data;
+          document.getElementById('r-nombre').textContent = `${c.tratamiento || ''} ${c.nombreCompleto}`.trim();
+          document.getElementById('r-numero').textContent = `N.° ${c.numero}`;
+          document.getElementById('r-doc').textContent = `${c.tipoDocumento || ''} ${c.numeroDocumento || ''}`.trim() || '—';
+          document.getElementById('r-area').textContent = c.area || '—';
+          document.getElementById('r-cargo').textContent = c.cargo || '—';
+          document.getElementById('r-periodo').textContent = `${fmtDate(c.fechaInicio)} – ${/^\d{4}-\d{2}-\d{2}/.test(c.fechaFin) ? fmtDate(c.fechaFin) : (c.fechaFin || 'Actualidad')}`;
+          document.getElementById('r-funcion').textContent = c.funcionPrincipal || '—';
+          document.getElementById('r-firmante').textContent = c.firmanteNombre || '';
+          document.getElementById('r-firmante-cargo').textContent = c.firmanteCargo || '';
+          document.getElementById('r-download').href = `${API_BASE}/api/public/constancias/${encodeURIComponent(c.numero)}/pdf`;
+          result.style.display = 'block';
+        } catch (err) {
+          errorMsg.textContent = 'No se pudo conectar con el servidor. Intenta de nuevo.';
+          errorMsg.style.display = 'block';
+        } finally {
+          spinner.style.display = 'none';
+          btn.disabled = false;
+        }
+      }
+
+      document.getElementById('search-btn').addEventListener('click', () => {
+        const numero = document.getElementById('numero-input').value.trim();
+        if (numero) verificar(numero);
+      });
+      document.getElementById('numero-input').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('search-btn').click();
+      });
+
+      (function initFromQuery() {
+        const numero = new URLSearchParams(location.search).get('numero');
+        if (numero) {
+          document.getElementById('numero-input').value = numero;
+          verificar(numero);
+        }
+      })();
+    </script>
+  </body>
+</html>
