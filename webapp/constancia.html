@@ -66,10 +66,10 @@
 
       <div class="card">
         <h1>Verificar constancia de trabajo</h1>
-        <p class="sub">Escanea el código QR del documento o escribe aquí su número de constancia para confirmar que es auténtico.</p>
+        <p class="sub">Escanea el código QR del documento o escribe aquí su código de verificación para confirmar que es auténtico.</p>
 
         <div class="search-row">
-          <input type="text" id="numero-input" placeholder="Ej. CT-2026-8F3K29" autocomplete="off" />
+          <input type="text" id="numero-input" placeholder="Ej. B5C6-1734-BCBA" autocomplete="off" />
           <button id="search-btn">Verificar</button>
         </div>
 
@@ -113,7 +113,7 @@
         return m ? `${m[3]}/${m[2]}/${m[1]}` : (iso || '');
       }
 
-      async function verificar(numero) {
+      async function verificar(codigo) {
         const spinner = document.getElementById('spinner');
         const errorMsg = document.getElementById('error-msg');
         const result = document.getElementById('result');
@@ -125,7 +125,7 @@
         btn.disabled = true;
 
         try {
-          const res = await fetch(`${API_BASE}/api/public/constancias/${encodeURIComponent(numero)}`);
+          const res = await fetch(`${API_BASE}/api/public/constancias/${encodeURIComponent(codigo)}`);
           const data = await res.json();
           if (!res.ok || !data.ok) {
             errorMsg.textContent = data.error || 'No se pudo verificar la constancia.';
@@ -142,7 +142,7 @@
           document.getElementById('r-funcion').textContent = c.funcionPrincipal || '—';
           document.getElementById('r-firmante').textContent = c.firmanteNombre || '';
           document.getElementById('r-firmante-cargo').textContent = c.firmanteCargo || '';
-          document.getElementById('r-download').href = `${API_BASE}/api/public/constancias/${encodeURIComponent(c.numero)}/pdf`;
+          document.getElementById('r-download').href = `${API_BASE}/api/public/constancias/${encodeURIComponent(c.codigoVerificacion)}/pdf`;
           result.style.display = 'block';
         } catch (err) {
           errorMsg.textContent = 'No se pudo conectar con el servidor. Intenta de nuevo.';
@@ -154,18 +154,18 @@
       }
 
       document.getElementById('search-btn').addEventListener('click', () => {
-        const numero = document.getElementById('numero-input').value.trim();
-        if (numero) verificar(numero);
+        const codigo = document.getElementById('numero-input').value.trim();
+        if (codigo) verificar(codigo);
       });
       document.getElementById('numero-input').addEventListener('keydown', (e) => {
         if (e.key === 'Enter') document.getElementById('search-btn').click();
       });
 
       (function initFromQuery() {
-        const numero = new URLSearchParams(location.search).get('numero');
-        if (numero) {
-          document.getElementById('numero-input').value = numero;
-          verificar(numero);
+        const codigo = new URLSearchParams(location.search).get('codigo');
+        if (codigo) {
+          document.getElementById('numero-input').value = codigo;
+          verificar(codigo);
         }
       })();
     </script>
