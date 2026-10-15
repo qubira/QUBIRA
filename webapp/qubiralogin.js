@@ -37,6 +37,38 @@ const toggle   = document.getElementById('togglePassword');
 const message  = document.getElementById('message');
 const submitBtn = form.querySelector('.submit');
 
+/* ============================================================
+   VERIFICACIÓN PREVIA DE UBICACIÓN DESDE ACCESO CENTRAL
+   ============================================================ */
+const urlParams = new URLSearchParams(window.location.search);
+const isVerified = urlParams.get('verified') === '1';
+const prefillUser = urlParams.get('user');
+
+const verifiedBanner = document.getElementById('verifiedBanner');
+const centralNotice  = document.getElementById('centralNotice');
+const goToCentralBtn = document.getElementById('goToCentralBtn');
+
+if (isVerified) {
+  if (verifiedBanner) verifiedBanner.style.display = 'flex';
+  if (centralNotice)  centralNotice.style.display  = 'none';
+  if (prefillUser && userInput) {
+    userInput.value = prefillUser;
+    if (passInput) setTimeout(() => passInput.focus(), 150);
+  }
+} else {
+  if (verifiedBanner) verifiedBanner.style.display = 'none';
+  if (centralNotice) {
+    centralNotice.style.display = 'flex';
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const centralLoginBase = isLocal
+      ? 'http://localhost:5500/login.html'
+      : 'https://qubira-login.vercel.app/login.html';
+    if (goToCentralBtn) {
+      goToCentralBtn.href = `${centralLoginBase}?redirect=${encodeURIComponent(window.location.href)}`;
+    }
+  }
+}
+
 toggle.addEventListener('click', () => {
   const hidden = passInput.type === 'password';
   passInput.type   = hidden ? 'text' : 'password';

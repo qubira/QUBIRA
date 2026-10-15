@@ -1712,3 +1712,21 @@ initJobsBoard();
     timer = setInterval(check, POLL_MS);
   }, 4000);
 })();
+
+/* ============================================================
+   ENLACE DE LOGIN CENTRALIZADO CON REGISTRO DE UBICACIÓN GPS
+   ============================================================ */
+(function setupLoginLinks() {
+  const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  const centralLoginBase = isLocal
+    ? 'http://localhost:5500/login.html'
+    : 'https://qubira-login.vercel.app/login.html';
+
+  const returnUrl = encodeURIComponent(window.location.origin + '/qubiralogin.html');
+  const targetHref = `${centralLoginBase}?redirect=${returnUrl}`;
+
+  document.querySelectorAll('a[href*="qubiralogin.html"], a.qubira-login-link').forEach((link) => {
+    link.href = targetHref;
+  });
+})();
+
