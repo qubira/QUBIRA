@@ -145,6 +145,36 @@
             <div id="message" class="message"></div>
           </form>
 
+          <div id="totp-panel" style="display:none;">
+            <div style="background:rgba(31, 122, 224, 0.15); border:1px solid rgba(79, 176, 255, 0.35); border-radius:14px; padding:14px 16px; margin-bottom:20px; font-size:12.5px; color:#dbeafe; display:flex; align-items:flex-start; gap:12px; line-height:1.5;">
+              <span style="font-size:22px; line-height:1;">🔐</span>
+              <div>
+                <strong style="color:#ffffff; font-size:13px; display:block; margin-bottom:2px;">Verificación 2FA requerida</strong>
+                <span style="color:var(--muted); font-size:12px;">Ingresa el código de 6 dígitos generado por tu aplicación autenticadora (Google Authenticator, Authy, etc.).</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm-3 8V7a3 3 0 1 1 6 0v3H9Z"/>
+              </svg>
+              <input
+                type="text"
+                id="totpCode"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                maxlength="6"
+                placeholder="Código de 6 dígitos"
+                autocomplete="one-time-code"
+                style="padding-left:48px; letter-spacing:0.35em; font-weight:700; text-align:center; font-size:18px;"
+              />
+            </div>
+
+            <button class="submit" type="button" id="totpSubmitBtn">Verificar Código</button>
+            <button class="submit" type="button" id="totpCancelBtn" style="background:rgba(255,255,255,0.06); color:var(--text); border:1px solid var(--line); box-shadow:none; margin-top:10px;">Volver</button>
+            <div id="totpMessage" class="message"></div>
+          </div>
+
           <div class="foot-note">
             Acceso exclusivo para personal autorizado. Esta vista no incluye
             registro público ni almacenamiento visual de credenciales.

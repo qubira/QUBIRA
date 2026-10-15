@@ -104,6 +104,15 @@ form.addEventListener('submit', async (e) => {
       return;
     }
 
+    /* Si se requiere 2FA (TOTP) */
+    if (data.totp_required) {
+      pendingPreToken = data.pre_token;
+      showMessage('', null);
+      setLoading(false);
+      showTotpPanel();
+      return;
+    }
+
     /* Guardar token y datos del usuario */
     localStorage.setItem('qubira_token', data.token);
     localStorage.setItem('qubira_user',  JSON.stringify(data.user));
@@ -129,4 +138,101 @@ function showMessage(text, success) {
 function setLoading(loading) {
   submitBtn.disabled   = loading;
   submitBtn.textContent = loading ? 'Verificando...' : 'Ingresar';
+}
+
+/* ============================================================
+   SEGUNDO PASO: VERIFICACIÓN 2FA (TOTP)
+   ============================================================ */
+let pendingPreToken = null;
+const totpPanel     = document.getElementById('totp-panel');
+const totpCodeInput = document.getElementById('totpCode');
+const totpSubmitBtn = document.getElementById('totpSubmitBtn');
+const totpCancelBtn = document.getElementById('totpCancelBtn');
+const totpMessage   = document.getElementById('totpMessage');
+
+function showTotpPanel() {
+  form.style.display = 'none';
+  if (verifiedBanner) verifiedBanner.style.display = 'none';
+  if (centralNotice)  centralNotice.style.display  = 'none';
+  totpPanel.style.display = 'block';
+  totpCodeInput.value = '';
+  totpMessage.textContent = '';
+  totpMessage.className = 'message';
+  setTimeout(() => totpCodeInput.focus(), 100);
+}
+
+function showTotpMessage(text, success) {
+  totpMessage.textContent = text;
+  totpMessage.className   = 'message' + (success === true ? ' success' : success === false ? ' error' : '');
+}
+
+function setTotpLoading(loading) {
+  totpSubmitBtn.disabled    = loading;
+  totpCodeInput.disabled    = loading;
+  totpSubmitBtn.textContent = loading ? 'Verificando...' : 'Verificar Código';
+}
+
+totpCancelBtn.addEventListener('click', () => {
+  pendingPreToken = null;
+  totpPanel.style.display = 'none';
+  form.style.display = 'block';
+  if (isVerified && verifiedBanner) verifiedBanner.style.display = 'flex';
+  showMessage('', null);
+  setLoading(false);
+});
+
+totpCodeInput.addEventListener('input', () => {
+  totpCodeInput.value = totpCodeInput.value.replace(/\D/g, '').slice(0, 6);
+});
+
+totpCodeInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') submitTotp();
+});
+
+totpSubmitBtn.addEventListener('click', submitTotp);
+
+async function submitTotp() {
+  const code = totpCodeInput.value.trim();
+  if (!pendingPreToken) {
+    showTotpMessage('La sesión expiró. Vuelve a ingresar tu contraseña.', false);
+    return;
+  }
+  if (code.length !== 6) {
+    showTotpMessage('Ingresa los 6 dígitos del código 2FA.', false);
+    return;
+  }
+
+  setTotpLoading(true);
+  showTotpMessage('Verificando código 2FA...', null);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/login/totp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pre_token: pendingPreToken, code }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.ok) {
+      showTotpMessage(data.error || 'Código 2FA incorrecto.', false);
+      setTotpLoading(false);
+      totpCodeInput.value = '';
+      totpCodeInput.focus();
+      return;
+    }
+
+    localStorage.setItem('qubira_token', data.token);
+    localStorage.setItem('qubira_user', JSON.stringify(data.user));
+
+    showTotpMessage('¡Código verificado! Redirigiendo a Control...', true);
+    setTimeout(() => {
+      window.location.href = '/control';
+    }, 500);
+
+  } catch (err) {
+    console.error('[2FA] Error de red:', err);
+    showTotpMessage('Error de conexión al verificar 2FA.', false);
+    setTotpLoading(false);
+  }
 }
