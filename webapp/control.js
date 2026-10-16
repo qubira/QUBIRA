@@ -261,24 +261,6 @@ const SEARCH_INDEX = [
     screen: "configuracion",
     icon: "⚙️",
   },
-  {
-    label: "Nuevo contrato",
-    section: "Contratos",
-    screen: "nuevo-contrato",
-    icon: "📄",
-  },
-  {
-    label: "Historial de contrato",
-    section: "Contratos",
-    screen: "historial-contrato",
-    icon: "⏳",
-  },
-  {
-    label: "Estado de contrato",
-    section: "Contratos",
-    screen: "estado-contrato",
-    icon: "✔️",
-  },
 ];
 
 // Función para actualizar el SEARCH_INDEX automáticamente con los nuevos apartados
