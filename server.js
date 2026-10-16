@@ -96,6 +96,11 @@ app.get('/', (_, res) => res.sendFile(path.join(PUBLIC, 'Index.html')));
 
 /* /login → si ya tiene sesión válida redirige a /control */
 app.get('/login', async (req, res) => {
+  res.set({
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+  });
   const token = req.cookies?.qubira_session;
   if (token) {
     try {
@@ -126,9 +131,13 @@ app.get('/control.css', requireWebAuth, (_, res) => res.sendFile(path.join(PUBLI
 app.use(express.static(PUBLIC, {
   index: false,
   setHeaders(res, filePath) {
-    /* Nunca cachear archivos JS/CSS para que el auto-reload funcione */
-    if (/\.(js|css)$/.test(filePath)) {
-      res.set('Cache-Control', 'no-cache');
+    /* Nunca cachear archivos HTML/JS/CSS para que el auto-reload y actualizaciones funcionen siempre */
+    if (/\.(js|css|html)$/i.test(filePath)) {
+      res.set({
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      });
     }
   },
 }));
