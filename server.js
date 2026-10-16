@@ -119,9 +119,24 @@ app.get('/login', async (req, res) => {
 /* ============================================================
    RUTAS Y ASSETS PROTEGIDOS — solo usuarios autenticados
    ============================================================ */
-app.get('/control',     requireWebAuth, (_, res) => res.sendFile(path.join(PUBLIC, 'control.html')));
-app.get('/control.js',  requireWebAuth, (_, res) => res.sendFile(path.join(PUBLIC, 'control.js')));
-app.get('/control.css', requireWebAuth, (_, res) => res.sendFile(path.join(PUBLIC, 'control.css')));
+const noCacheHeaders = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+  'Pragma': 'no-cache',
+  'Expires': '0',
+};
+
+app.get('/control', requireWebAuth, (_, res) => {
+  res.set(noCacheHeaders);
+  res.sendFile(path.join(PUBLIC, 'control.html'));
+});
+app.get('/control.js', requireWebAuth, (_, res) => {
+  res.set(noCacheHeaders);
+  res.sendFile(path.join(PUBLIC, 'control.js'));
+});
+app.get('/control.css', requireWebAuth, (_, res) => {
+  res.set(noCacheHeaders);
+  res.sendFile(path.join(PUBLIC, 'control.css'));
+});
 
 /* ============================================================
    ARCHIVOS ESTÁTICOS PÚBLICOS
