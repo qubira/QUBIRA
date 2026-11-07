@@ -723,19 +723,22 @@ cargo build --release` },
 })();
 
 /* ============================================================
-   CARRUSEL 3D
+   CARRUSEL 3D & CASOS DE IMPACTO REAL (DINÁMICOS)
    ============================================================ */
 (function initCarousel() {
-  const panels   = Array.from(document.querySelectorAll('.carousel-track .case-panel'));
-  const dots     = Array.from(document.querySelectorAll('.carousel-dot'));
+  const trackEl  = document.querySelector('.carousel-track');
+  const dotsWrap = document.querySelector('.carousel-dots');
   const prevBtn  = document.querySelector('.carousel-btn--prev');
   const nextBtn  = document.querySelector('.carousel-btn--next');
-  if (!panels.length) return;
+  if (!trackEl) return;
 
   const POS = ['cp-left2','cp-left1','cp-center','cp-right1','cp-right2'];
+  let panels = Array.from(trackEl.querySelectorAll('.case-panel'));
+  let dots   = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.carousel-dot')) : [];
   let active = 0;
 
   function update() {
+    if (!panels.length) return;
     panels.forEach((p, i) => {
       p.classList.remove('cp-left2','cp-left1','cp-center','cp-right1','cp-right2','cp-hidden');
       const rel = i - active;
@@ -752,18 +755,108 @@ cargo build --release` },
     dots.forEach((d, i) => d.classList.toggle('is-active', i === active));
   }
 
-  prevBtn?.addEventListener('click', () => { active = (active - 1 + panels.length) % panels.length; update(); });
-  nextBtn?.addEventListener('click', () => { active = (active + 1) % panels.length; update(); });
+  function bindEvents() {
+    prevBtn?.replaceWith(prevBtn.cloneNode(true));
+    nextBtn?.replaceWith(nextBtn.cloneNode(true));
+    const newPrev = document.querySelector('.carousel-btn--prev');
+    const newNext = document.querySelector('.carousel-btn--next');
 
-  /* Click en tarjeta lateral → navega a ella */
-  panels.forEach((p, i) => {
-    p.addEventListener('click', () => { if (i !== active) { active = i; update(); } });
-  });
+    newPrev?.addEventListener('click', () => {
+      active = (active - 1 + panels.length) % panels.length;
+      update();
+    });
+    newNext?.addEventListener('click', () => {
+      active = (active + 1) % panels.length;
+      update();
+    });
 
-  /* Dots */
-  dots.forEach((d, i) => d.addEventListener('click', () => { active = i; update(); }));
+    panels.forEach((p, i) => {
+      p.onclick = () => { if (i !== active) { active = i; update(); } };
+    });
 
+    dots.forEach((d, i) => {
+      d.onclick = () => { active = i; update(); };
+    });
+
+    // Tracking
+    trackEl.querySelectorAll('.case-visit-btn[data-case]').forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        if (typeof track === 'function') track('case_click', { case_name: btn.dataset.case });
+      };
+    });
+  }
+
+  bindEvents();
   update();
+
+  // Carga asíncrona de proyectos publicados desde la API de Qubira
+  async function loadPublishedCases() {
+    try {
+      let res = await fetch('/api/cases').catch(() => null);
+      if (!res || !res.ok) {
+        res = await fetch('https://api-qubira.onrender.com/api/public/cases').catch(() => null);
+      }
+      if (!res || !res.ok) return;
+      const data = await res.json();
+      if (!data.ok || !Array.isArray(data.cases) || !data.cases.length) return;
+
+      function escapeHtml(s) {
+        return String(s || '').replace(/[&<>"']/g, c => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+        }[c]));
+      }
+
+      trackEl.innerHTML = data.cases.map(c => {
+        const name = escapeHtml(c.name);
+        const tagline = escapeHtml(c.web_tagline || (c.project_type === 'web' ? '💻 Desarrollo Web' : c.project_type === 'mobile' ? '📱 Aplicativo Móvil' : '⚡ Solución Digital'));
+        const metric = escapeHtml(c.web_metric || '100%');
+        const desc = escapeHtml(c.web_description || c.description || 'Solución tecnológica de alto impacto.');
+        const logo = c.company_logo
+          ? `<img src="${escapeHtml(c.company_logo)}" alt="${name}"/>`
+          : `<div class="case-logo-placeholder" style="background:rgba(0,60,110,0.35);border:1px solid rgba(79,176,255,.2);backdrop-filter:blur(8px);width:100%;height:100%;display:flex;align-items:center;justify-content:center"><span style="font-size:3rem">🚀</span></div>`;
+        const actionBtn = c.website_url ? `
+          <a class="case-visit-btn" data-case="${name}" href="${escapeHtml(c.website_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">↗ Ver sitio</a>
+        ` : `
+          <div class="case-locked-wrap">
+            <span class="case-visit-btn case-visit-btn--locked">🔒 En Desarrollo</span>
+          </div>
+        `;
+
+        return `
+          <article class="case-panel">
+            <div class="case-panel__overlay"></div>
+            <div class="case-panel__top">
+              ${name}
+              <span class="case-industry">${tagline}</span>
+            </div>
+            <div class="case-panel__logo-wrap" style="background:#f0f4f8">
+              ${logo}
+            </div>
+            <div class="case-panel__bottom">
+              <strong>${metric}</strong>
+              <p>${desc}</p>
+              ${actionBtn}
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      if (dotsWrap) {
+        dotsWrap.innerHTML = data.cases.map((_, i) => `<span class="carousel-dot ${i === 0 ? 'is-active' : ''}" data-idx="${i}"></span>`).join('');
+      }
+
+      panels = Array.from(trackEl.querySelectorAll('.case-panel'));
+      dots   = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.carousel-dot')) : [];
+      active = 0;
+      bindEvents();
+      update();
+    } catch (_) {
+      // Fallback a los casos estáticos
+    }
+  }
+
+  loadPublishedCases();
 })();
 
 function animateCounter(el) {
