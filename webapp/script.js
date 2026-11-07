@@ -842,7 +842,6 @@ cargo build --release` },
         const name = escapeHtml(c.name);
         const tagline = escapeHtml(c.web_tagline || (c.project_type === 'web' ? '💻 Desarrollo Web' : c.project_type === 'mobile' ? '📱 Aplicativo Móvil' : '⚡ Solución Digital'));
         const metric = escapeHtml(c.web_metric || '100%');
-        const desc = escapeHtml(c.web_description || c.description || 'Solución tecnológica de alto impacto.');
         const logo = c.company_logo
           ? `<img src="${escapeHtml(c.company_logo)}" alt="${name}"/>`
           : `<div class="case-logo-placeholder" style="background:rgba(0,60,110,0.35);border:1px solid rgba(79,176,255,.2);backdrop-filter:blur(8px);width:100%;height:100%;display:flex;align-items:center;justify-content:center"><span style="font-size:3rem">🚀</span></div>`;
@@ -866,7 +865,6 @@ cargo build --release` },
             </div>
             <div class="case-panel__bottom">
               <strong>${metric}</strong>
-              <p>${desc}</p>
               ${actionBtn}
             </div>
           </article>
