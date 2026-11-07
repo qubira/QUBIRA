@@ -722,6 +722,17 @@ cargo build --release` },
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLang(); });
 })();
 
+// Proyectos publicados desde Qubira Web (carrusel y página de proyectos)
+async function obtenerCasosPublicados() {
+  let res = await fetch('/api/cases').catch(() => null);
+  if (!res || !res.ok) {
+    res = await fetch('https://api-qubira.onrender.com/api/public/cases').catch(() => null);
+  }
+  if (!res || !res.ok) return null;
+  const data = await res.json();
+  return data.ok && Array.isArray(data.cases) ? data.cases : null;
+}
+
 /* ============================================================
    CARRUSEL 3D & CASOS DE IMPACTO REAL (DINÁMICOS)
    ============================================================ */
@@ -807,13 +818,9 @@ cargo build --release` },
   // Carga asíncrona de proyectos publicados desde la API de Qubira
   async function loadPublishedCases() {
     try {
-      let res = await fetch('/api/cases').catch(() => null);
-      if (!res || !res.ok) {
-        res = await fetch('https://api-qubira.onrender.com/api/public/cases').catch(() => null);
-      }
-      if (!res || !res.ok) return;
-      const data = await res.json();
-      if (!data.ok || !Array.isArray(data.cases)) return;
+      const cases = await obtenerCasosPublicados();
+      if (!cases) return;
+      const data = { cases };
 
       // Solo se repinta si algo cambió, para no interrumpir a quien está viendo el carrusel
       const firma = JSON.stringify(data.cases);
@@ -886,6 +893,64 @@ cargo build --release` },
   // Los proyectos publicados o retirados aparecen sin recargar la página
   setInterval(() => { if (!document.hidden) loadPublishedCases(); }, 30000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) loadPublishedCases(); });
+})();
+
+/* ============================================================
+   PÁGINA "NUESTROS PROYECTOS" (DINÁMICA)
+   ============================================================ */
+(function initProyectosPublicados() {
+  const grid = document.getElementById('proyectos-grid');
+  if (!grid) return;
+
+  const estaticos = grid.innerHTML;
+  let firma = '';
+  const esc = s => String(s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+
+  function tarjeta(c) {
+    const name = esc(c.name);
+    const tag = esc(c.web_tagline || (c.project_type === 'mobile' ? '📱 Aplicativo Móvil' : c.project_type === 'web' ? '💻 Desarrollo Web' : '⚡ Solución Digital'));
+    const logo = c.company_logo
+      ? `<span class="project-card__logo project-card__logo--img"><img src="${esc(c.company_logo)}" alt="${name}"/></span>`
+      : '<span class="project-card__logo">🚀</span>';
+    const accion = c.website_url
+      ? `<a class="case-visit-btn" data-case="${name}" href="${esc(c.website_url)}" target="_blank" rel="noopener noreferrer">↗ Ver sitio</a>`
+      : `<span class="case-visit-btn case-visit-btn--locked">🔒 ${c.link_bloqueado ? 'Acceso privado' : 'En Desarrollo'}</span>`;
+    return `
+      <article class="project-card">
+        <div class="project-card__top">
+          ${logo}
+          <div>
+            <h3>${name}</h3>
+            <span class="project-card__tag">${tag}</span>
+          </div>
+        </div>
+        <div class="project-card__foot">
+          <strong>${esc(c.web_metric || '100%')}</strong>
+          ${accion}
+        </div>
+      </article>`;
+  }
+
+  async function cargar() {
+    try {
+      const casos = await obtenerCasosPublicados();
+      if (!casos) return;
+      const nueva = JSON.stringify(casos);
+      if (nueva === firma) return;
+      const habiaCasos = firma !== '' && firma !== '[]';
+      firma = nueva;
+      if (casos.length) grid.innerHTML = casos.map(tarjeta).join('');
+      else if (habiaCasos) grid.innerHTML = estaticos;
+    } catch (_) {
+      // Se mantienen los proyectos que ya se ven
+    }
+  }
+
+  cargar();
+  setInterval(() => { if (!document.hidden) cargar(); }, 30000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) cargar(); });
 })();
 
 function animateCounter(el) {
