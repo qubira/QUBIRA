@@ -728,8 +728,6 @@ cargo build --release` },
 (function initCarousel() {
   const trackEl  = document.querySelector('.carousel-track');
   const dotsWrap = document.querySelector('.carousel-dots');
-  const prevBtn  = document.querySelector('.carousel-btn--prev');
-  const nextBtn  = document.querySelector('.carousel-btn--next');
   if (!trackEl) return;
 
   const POS = ['cp-left2','cp-left1','cp-center','cp-right1','cp-right2'];
@@ -756,8 +754,11 @@ cargo build --release` },
   }
 
   function bindEvents() {
-    prevBtn?.replaceWith(prevBtn.cloneNode(true));
-    nextBtn?.replaceWith(nextBtn.cloneNode(true));
+    // Se clona el botón vigente: así cada clic tiene un solo listener y avanza un paso
+    ['.carousel-btn--prev', '.carousel-btn--next'].forEach(sel => {
+      const actual = document.querySelector(sel);
+      actual?.replaceWith(actual.cloneNode(true));
+    });
     const newPrev = document.querySelector('.carousel-btn--prev');
     const newNext = document.querySelector('.carousel-btn--next');
 
@@ -790,6 +791,19 @@ cargo build --release` },
   bindEvents();
   update();
 
+  const casosEstaticos = { track: trackEl.innerHTML, dots: dotsWrap?.innerHTML ?? '' };
+  let firmaCasos = '';
+  let idsCasos = [];
+
+  function aplicarCarrusel(idActivo) {
+    panels = Array.from(trackEl.querySelectorAll('.case-panel'));
+    dots   = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.carousel-dot')) : [];
+    const idx = idsCasos.indexOf(idActivo);
+    active = idx >= 0 ? idx : 0;
+    bindEvents();
+    update();
+  }
+
   // Carga asíncrona de proyectos publicados desde la API de Qubira
   async function loadPublishedCases() {
     try {
@@ -799,7 +813,24 @@ cargo build --release` },
       }
       if (!res || !res.ok) return;
       const data = await res.json();
-      if (!data.ok || !Array.isArray(data.cases) || !data.cases.length) return;
+      if (!data.ok || !Array.isArray(data.cases)) return;
+
+      // Solo se repinta si algo cambió, para no interrumpir a quien está viendo el carrusel
+      const firma = JSON.stringify(data.cases);
+      if (firma === firmaCasos) return;
+      const idActivo = idsCasos[active];
+      const habiaCasos = idsCasos.length > 0;
+      firmaCasos = firma;
+      idsCasos = data.cases.map(c => c.id);
+
+      // Sin casos publicados vuelven los casos estáticos de la página
+      if (!data.cases.length) {
+        if (!habiaCasos) return;
+        trackEl.innerHTML = casosEstaticos.track;
+        if (dotsWrap) dotsWrap.innerHTML = casosEstaticos.dots;
+        aplicarCarrusel(undefined);
+        return;
+      }
 
       function escapeHtml(s) {
         return String(s || '').replace(/[&<>"']/g, c => ({
@@ -846,17 +877,17 @@ cargo build --release` },
         dotsWrap.innerHTML = data.cases.map((_, i) => `<span class="carousel-dot ${i === 0 ? 'is-active' : ''}" data-idx="${i}"></span>`).join('');
       }
 
-      panels = Array.from(trackEl.querySelectorAll('.case-panel'));
-      dots   = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.carousel-dot')) : [];
-      active = 0;
-      bindEvents();
-      update();
+      aplicarCarrusel(idActivo);
     } catch (_) {
       // Fallback a los casos estáticos
     }
   }
 
   loadPublishedCases();
+
+  // Los proyectos publicados o retirados aparecen sin recargar la página
+  setInterval(() => { if (!document.hidden) loadPublishedCases(); }, 30000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) loadPublishedCases(); });
 })();
 
 function animateCounter(el) {
