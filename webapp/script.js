@@ -844,12 +844,12 @@ cargo build --release` },
         const metric = escapeHtml(c.web_metric || '100%');
         const logo = c.company_logo
           ? `<img src="${escapeHtml(c.company_logo)}" alt="${name}"/>`
-          : `<div class="case-logo-placeholder" style="background:rgba(0,60,110,0.35);border:1px solid rgba(79,176,255,.2);backdrop-filter:blur(8px);width:100%;height:100%;display:flex;align-items:center;justify-content:center"><span style="font-size:3rem">🚀</span></div>`;
+          : `<div class="case-logo-fallback" role="img" aria-label="${name}">🚀</div>`;
         const actionBtn = c.website_url ? `
           <a class="case-visit-btn" data-case="${name}" href="${escapeHtml(c.website_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">↗ Ver sitio</a>
         ` : `
           <div class="case-locked-wrap">
-            <span class="case-visit-btn case-visit-btn--locked">🔒 En Desarrollo</span>
+            <span class="case-visit-btn case-visit-btn--locked">🔒 ${c.link_bloqueado ? 'Acceso privado' : 'En Desarrollo'}</span>
           </div>
         `;
 

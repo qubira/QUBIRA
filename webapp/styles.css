@@ -1032,66 +1032,66 @@ img{ max-width:100%; display:block; }
 }
 
 /* ── Fondos por empresa ── */
-.case-panel:nth-child(1){
+.case-panel:nth-child(9n+1){
   background:linear-gradient(160deg,#1a1f2e 0%,#101420 55%,#0c0f18 100%);
 }
-.case-panel:nth-child(1)::before{
+.case-panel:nth-child(9n+1)::before{
   background:linear-gradient(90deg,#8b1a1a,#c0392b,#e74c3c);
 }
 
-.case-panel:nth-child(2){
+.case-panel:nth-child(9n+2){
   background:linear-gradient(160deg,#130f02 0%,#1c1500 55%,#0a0800 100%);
 }
-.case-panel:nth-child(2)::before{
+.case-panel:nth-child(9n+2)::before{
   background:linear-gradient(90deg,#7d5a00,#c9a227,#f0c040);
 }
 
-.case-panel:nth-child(3){
+.case-panel:nth-child(9n+3){
   background:linear-gradient(160deg,#030e1c 0%,#051526 55%,#020b18 100%);
 }
-.case-panel:nth-child(3)::before{
+.case-panel:nth-child(9n+3)::before{
   background:linear-gradient(90deg,#004fa3,#1a8cff,#4fb0ff);
 }
 
-.case-panel:nth-child(4){
+.case-panel:nth-child(9n+4){
   background:linear-gradient(160deg,#1a4a10 0%,#123508 55%,#0a2205 100%);
 }
-.case-panel:nth-child(4)::before{
+.case-panel:nth-child(9n+4)::before{
   background:linear-gradient(90deg,#2e7d1e,#4caf3c,#7ed856);
 }
 
-.case-panel:nth-child(5){
+.case-panel:nth-child(9n+5){
   background:linear-gradient(160deg,#1e0810 0%,#150510 55%,#0d0208 100%);
 }
-.case-panel:nth-child(5)::before{
+.case-panel:nth-child(9n+5)::before{
   background:linear-gradient(90deg,#8b1040,#c0185a,#e8437a);
 }
 
-.case-panel:nth-child(6){
+.case-panel:nth-child(9n+6){
   background:linear-gradient(160deg,#1c0f30 0%,#140a24 55%,#0c0718 100%);
 }
-.case-panel:nth-child(6)::before{
+.case-panel:nth-child(9n+6)::before{
   background:linear-gradient(90deg,#4a148c,#7b2ff7,#b388ff);
 }
 
-.case-panel:nth-child(7){
+.case-panel:nth-child(9n+7){
   background:linear-gradient(160deg,#04241c 0%,#031a14 55%,#02120e 100%);
 }
-.case-panel:nth-child(7)::before{
+.case-panel:nth-child(9n+7)::before{
   background:linear-gradient(90deg,#0d6b4f,#1fae7c,#6fe3b4);
 }
 
-.case-panel:nth-child(8){
+.case-panel:nth-child(9n+8){
   background:linear-gradient(160deg,#2b1206 0%,#1c0b03 55%,#120701 100%);
 }
-.case-panel:nth-child(8)::before{
+.case-panel:nth-child(9n+8)::before{
   background:linear-gradient(90deg,#7a2e12,#c1502e,#e8916a);
 }
 
-.case-panel:nth-child(9){
+.case-panel:nth-child(9n+9){
   background:linear-gradient(160deg,#2e1500 0%,#1c0d00 55%,#120800 100%);
 }
-.case-panel:nth-child(9)::before{
+.case-panel:nth-child(9n+9)::before{
   background:linear-gradient(90deg,#7d3d00,#e67e22,#ffbb55);
 }
 
@@ -1099,55 +1099,55 @@ img{ max-width:100%; display:block; }
 .case-panel__overlay{
   position:absolute; inset:0; z-index:1; opacity:1;
 }
-.case-panel:nth-child(1) .case-panel__overlay{
+.case-panel:nth-child(9n+1) .case-panel__overlay{
   background:
     radial-gradient(ellipse 90% 50% at -5% 5%, rgba(139,26,26,.25) 0%, transparent 55%),
     radial-gradient(circle at 85% 88%, rgba(90,143,255,.5) 0 10px, transparent 11px),
     radial-gradient(circle at 18% 22%, rgba(90,143,255,.65) 0 13px, transparent 14px);
 }
-.case-panel:nth-child(2) .case-panel__overlay{
+.case-panel:nth-child(9n+2) .case-panel__overlay{
   background:
     radial-gradient(ellipse 80% 55% at 50% 50%, rgba(201,162,39,.1) 0%, transparent 65%),
     radial-gradient(circle at 55% 68%, rgba(130,90,255,.75) 0 100px, transparent 101px),
     radial-gradient(circle at 82% 14%, rgba(255,220,120,.35) 0 3px, transparent 4px);
 }
-.case-panel:nth-child(3) .case-panel__overlay{
+.case-panel:nth-child(9n+3) .case-panel__overlay{
   background:
     radial-gradient(ellipse 85% 55% at 50% 45%, rgba(0,120,220,.14) 0%, transparent 70%),
     radial-gradient(circle at 22% 65%, rgba(255,95,69,.75) 0 22px, transparent 23px),
     radial-gradient(circle at 82% 50%, rgba(77,255,199,.6) 0 20px, transparent 21px);
 }
-.case-panel:nth-child(4) .case-panel__overlay{
+.case-panel:nth-child(9n+4) .case-panel__overlay{
   background:
     linear-gradient(135deg,rgba(255,255,255,.18),transparent 35%),
     repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 1px,transparent 1px 34px),
     repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 1px,transparent 1px 28px);
 }
-.case-panel:nth-child(5) .case-panel__overlay{
+.case-panel:nth-child(9n+5) .case-panel__overlay{
   background:
     radial-gradient(ellipse 85% 55% at 50% 45%, rgba(180,20,80,.18) 0%, transparent 70%),
     radial-gradient(circle at 20% 70%, rgba(232,67,122,.6) 0 18px, transparent 19px),
     radial-gradient(circle at 80% 20%, rgba(255,180,210,.45) 0 10px, transparent 11px);
 }
-.case-panel:nth-child(6) .case-panel__overlay{
+.case-panel:nth-child(9n+6) .case-panel__overlay{
   background:
     radial-gradient(ellipse 85% 55% at 50% 45%, rgba(123,47,247,.18) 0%, transparent 70%),
     radial-gradient(circle at 22% 68%, rgba(179,136,255,.55) 0 20px, transparent 21px),
     radial-gradient(circle at 82% 22%, rgba(74,20,140,.5) 0 14px, transparent 15px);
 }
-.case-panel:nth-child(7) .case-panel__overlay{
+.case-panel:nth-child(9n+7) .case-panel__overlay{
   background:
     radial-gradient(ellipse 85% 55% at 50% 45%, rgba(31,174,124,.18) 0%, transparent 70%),
     radial-gradient(circle at 22% 68%, rgba(111,227,180,.55) 0 20px, transparent 21px),
     radial-gradient(circle at 82% 22%, rgba(13,107,79,.5) 0 14px, transparent 15px);
 }
-.case-panel:nth-child(8) .case-panel__overlay{
+.case-panel:nth-child(9n+8) .case-panel__overlay{
   background:
     radial-gradient(ellipse 85% 55% at 50% 45%, rgba(193,80,46,.18) 0%, transparent 70%),
     radial-gradient(circle at 20% 70%, rgba(232,145,106,.55) 0 18px, transparent 19px),
     radial-gradient(circle at 80% 20%, rgba(122,46,18,.5) 0 12px, transparent 13px);
 }
-.case-panel:nth-child(9) .case-panel__overlay{
+.case-panel:nth-child(9n+9) .case-panel__overlay{
   background:
     radial-gradient(ellipse 85% 55% at 50% 45%, rgba(230,126,34,.18) 0%, transparent 70%),
     radial-gradient(circle at 20% 70%, rgba(255,187,85,.55) 0 18px, transparent 19px),
@@ -1170,15 +1170,15 @@ img{ max-width:100%; display:block; }
   border-radius:1px;
   margin-bottom:2px;
 }
-.case-panel:nth-child(1) .case-panel__top::before{ background:#c0392b; }
-.case-panel:nth-child(2) .case-panel__top::before{ background:#c9a227; }
-.case-panel:nth-child(3) .case-panel__top::before{ background:#4fb0ff; }
-.case-panel:nth-child(4) .case-panel__top::before{ background:#7ed856; }
-.case-panel:nth-child(5) .case-panel__top::before{ background:#e8437a; }
-.case-panel:nth-child(6) .case-panel__top::before{ background:#b388ff; }
-.case-panel:nth-child(7) .case-panel__top::before{ background:#6fe3b4; }
-.case-panel:nth-child(8) .case-panel__top::before{ background:#e8916a; }
-.case-panel:nth-child(9) .case-panel__top::before{ background:#ffbb55; }
+.case-panel:nth-child(9n+1) .case-panel__top::before{ background:#c0392b; }
+.case-panel:nth-child(9n+2) .case-panel__top::before{ background:#c9a227; }
+.case-panel:nth-child(9n+3) .case-panel__top::before{ background:#4fb0ff; }
+.case-panel:nth-child(9n+4) .case-panel__top::before{ background:#7ed856; }
+.case-panel:nth-child(9n+5) .case-panel__top::before{ background:#e8437a; }
+.case-panel:nth-child(9n+6) .case-panel__top::before{ background:#b388ff; }
+.case-panel:nth-child(9n+7) .case-panel__top::before{ background:#6fe3b4; }
+.case-panel:nth-child(9n+8) .case-panel__top::before{ background:#e8916a; }
+.case-panel:nth-child(9n+9) .case-panel__top::before{ background:#ffbb55; }
 
 /* Etiqueta de industria */
 .case-industry{
@@ -1194,14 +1194,14 @@ img{ max-width:100%; display:block; }
   margin-bottom:10px;
   transition:transform .5s var(--ease),color .3s;
 }
-.case-panel:nth-child(1).is-active .case-panel__bottom strong{ color:#ff8080; }
-.case-panel:nth-child(2).is-active .case-panel__bottom strong{ color:#f0c040; }
-.case-panel:nth-child(3).is-active .case-panel__bottom strong{ color:#4fb0ff; }
-.case-panel:nth-child(5).is-active .case-panel__bottom strong{ color:#ff89b4; }
-.case-panel:nth-child(6).is-active .case-panel__bottom strong{ color:#b388ff; }
-.case-panel:nth-child(7).is-active .case-panel__bottom strong{ color:#6fe3b4; }
-.case-panel:nth-child(8).is-active .case-panel__bottom strong{ color:#e8916a; }
-.case-panel:nth-child(9).is-active .case-panel__bottom strong{ color:#ffbb55; }
+.case-panel:nth-child(9n+1).is-active .case-panel__bottom strong{ color:#ff8080; }
+.case-panel:nth-child(9n+2).is-active .case-panel__bottom strong{ color:#f0c040; }
+.case-panel:nth-child(9n+3).is-active .case-panel__bottom strong{ color:#4fb0ff; }
+.case-panel:nth-child(9n+5).is-active .case-panel__bottom strong{ color:#ff89b4; }
+.case-panel:nth-child(9n+6).is-active .case-panel__bottom strong{ color:#b388ff; }
+.case-panel:nth-child(9n+7).is-active .case-panel__bottom strong{ color:#6fe3b4; }
+.case-panel:nth-child(9n+8).is-active .case-panel__bottom strong{ color:#e8916a; }
+.case-panel:nth-child(9n+9).is-active .case-panel__bottom strong{ color:#ffbb55; }
 .case-panel.is-active .case-panel__bottom strong{ transform:scale(1.08); }
 
 .case-panel__bottom p{
@@ -1242,13 +1242,13 @@ img{ max-width:100%; display:block; }
   box-shadow:0 20px 56px rgba(0,0,0,.38);
 }
 /* Borde inferior de color por empresa */
-.case-panel:nth-child(1) .case-panel__logo-wrap{ border-bottom:3px solid #c0392b; }
-.case-panel:nth-child(2) .case-panel__logo-wrap{ border-bottom:3px solid #c9a227; }
-.case-panel:nth-child(4) .case-panel__logo-wrap{ border-bottom:3px solid #4a9e32; }
-.case-panel:nth-child(6) .case-panel__logo-wrap{ border-bottom:3px solid #7b2ff7; }
-.case-panel:nth-child(7) .case-panel__logo-wrap{ border-bottom:3px solid #1fae7c; }
-.case-panel:nth-child(8) .case-panel__logo-wrap{ border-bottom:3px solid #c1502e; }
-.case-panel:nth-child(9) .case-panel__logo-wrap{ border-bottom:3px solid #e67e22; }
+.case-panel:nth-child(9n+1) .case-panel__logo-wrap{ border-bottom:3px solid #c0392b; }
+.case-panel:nth-child(9n+2) .case-panel__logo-wrap{ border-bottom:3px solid #c9a227; }
+.case-panel:nth-child(9n+4) .case-panel__logo-wrap{ border-bottom:3px solid #4a9e32; }
+.case-panel:nth-child(9n+6) .case-panel__logo-wrap{ border-bottom:3px solid #7b2ff7; }
+.case-panel:nth-child(9n+7) .case-panel__logo-wrap{ border-bottom:3px solid #1fae7c; }
+.case-panel:nth-child(9n+8) .case-panel__logo-wrap{ border-bottom:3px solid #c1502e; }
+.case-panel:nth-child(9n+9) .case-panel__logo-wrap{ border-bottom:3px solid #e67e22; }
 
 .case-panel__logo-wrap img{
   display:block;
@@ -2454,3 +2454,6 @@ img{ max-width:100%; display:block; }
   .iso-copy h2 { font-size: 2rem; }
   .iso-lead    { font-size: .98rem; }
 }
+
+/* Logo de reemplazo dentro de la tarjeta (proyectos sin logo) */
+.case-logo-fallback{ display:flex; align-items:center; justify-content:center; height:96px; font-size:3rem; line-height:1; }
