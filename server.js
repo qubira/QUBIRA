@@ -85,6 +85,13 @@ app.use('/api/auth',       authRouter);
 app.use('/api/usuarios',   usuariosRouter);
 app.use('/api/videos',     videosRouter);
 app.use('/api/cases',      casesRouter);
+// Callback de TikTok (OCM): la URI registrada en TikTok es la de este sitio;
+// el intercambio del código y los tokens los hace la API central.
+app.get('/api/tiktok/callback', (req, res) => {
+  const api = (process.env.QUBIRA_API_URL || 'https://api-qubira.onrender.com').replace(/\/$/, '');
+  const qs = new URLSearchParams(req.query).toString();
+  res.redirect(302, `${api}/api/public/ocm/tiktok/callback${qs ? '?' + qs : ''}`);
+});
 
 /* Health check (sin exponer entorno) */
 app.get('/api/health', (req, res) => {
