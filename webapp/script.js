@@ -1086,6 +1086,28 @@ function animateCounter(el) {
   cargarTiktok();
   setInterval(() => { if (!document.hidden) cargarTiktok(); }, 60000);
 
+  /* Carrusel horizontal: flechas para avanzar y enlace al perfil, en lugar de
+     una lista que alarga la página hacia abajo. */
+  const pie = document.createElement('div');
+  pie.className = 'videos-carrusel__pie';
+  pie.innerHTML = `
+    <button type="button" class="videos-carrusel__flecha" data-dir="-1" aria-label="Videos anteriores">‹</button>
+    <a class="videos-carrusel__perfil" href="https://www.tiktok.com/@qubirasac" target="_blank" rel="noopener noreferrer">Ver todo en TikTok ↗</a>
+    <button type="button" class="videos-carrusel__flecha" data-dir="1" aria-label="Más videos">›</button>`;
+  wall.after(pie);
+  const actualizarFlechas = () => {
+    const [ant, sig] = pie.querySelectorAll('.videos-carrusel__flecha');
+    ant.disabled = wall.scrollLeft <= 4;
+    sig.disabled = wall.scrollLeft + wall.clientWidth >= wall.scrollWidth - 4;
+  };
+  pie.querySelectorAll('.videos-carrusel__flecha').forEach(b => b.addEventListener('click', () => {
+    wall.scrollBy({ left: Number(b.dataset.dir) * wall.clientWidth * 0.85, behavior: 'smooth' });
+  }));
+  wall.addEventListener('scroll', actualizarFlechas, { passive: true });
+  new MutationObserver(actualizarFlechas).observe(wall, { childList: true });
+  window.addEventListener('resize', actualizarFlechas);
+  actualizarFlechas();
+
   fetch('/api/videos')
     .then(r => r.json())
     .then(data => {

@@ -2462,3 +2462,54 @@ img{ max-width:100%; display:block; }
 .video-card__tt{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; filter:drop-shadow(-2px -2px 0 #25f4ee) drop-shadow(2px 2px 0 #fe2c55); }
 .video-card__tt small{ color:#fff; font-size:.72rem; font-weight:800; letter-spacing:.04em; filter:none; }
 .video-card__media--tiktok .video-card__badge, .video-card__media--tiktok .video-card__play{ z-index:2; }
+
+/* ── Videos de TikTok (sincronizados por OCM) ── */
+.video-card__media--tiktok{ cursor:pointer; background:linear-gradient(160deg,#25f4ee22,#000 45%,#fe2c5522); min-height:220px; }
+.video-card__media--tiktok img{ width:100%; height:100%; object-fit:cover; display:block; }
+.video-card__media--tiktok .video-card__play{ opacity:.9; }
+.video-card__stats{ font-size:.78rem; color:var(--muted, #8b98b0); font-weight:600; }
+
+/* ── Videos: carrusel horizontal tipo reels (reemplaza la lista y los cuadros) ── */
+#videos .videos-toolbar{ display:none; }
+#videosWall{
+  display:flex !important; flex-direction:row !important; flex-wrap:nowrap !important; grid-template-columns:none !important;
+  max-width:100%; gap:18px; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth; padding:6px 4px 10px;
+  scrollbar-width:none; -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);
+}
+#videosWall::-webkit-scrollbar{ display:none; }
+#videosWall .video-card{
+  flex:0 0 232px; width:232px !important; max-width:232px !important; aspect-ratio:9/16; height:auto; position:relative; display:block !important;
+  padding:0 !important; margin:0 !important; grid-template-columns:none !important; scroll-snap-align:start;
+  border-radius:22px; overflow:hidden; background:#05070c; border:1px solid rgba(255,255,255,.09);
+  box-shadow:0 18px 40px rgba(0,0,0,.35); transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s;
+}
+#videosWall .video-card:hover{ transform:translateY(-6px); border-color:rgba(119,242,200,.45); box-shadow:0 26px 60px rgba(0,0,0,.5); }
+#videosWall .video-card__media{ position:absolute; inset:0; height:100% !important; width:100% !important; aspect-ratio:auto !important; border-radius:0 !important; cursor:pointer; }
+#videosWall .video-card__media img, #videosWall .video-card__media video{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s var(--ease); }
+#videosWall .video-card:hover .video-card__media img, #videosWall .video-card:hover .video-card__media video{ transform:scale(1.05); }
+#videosWall .video-card__play{ opacity:.95; width:56px; height:56px; background:rgba(255,255,255,.18); color:#fff; backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.35); }
+#videosWall .video-card:hover .video-card__play{ background:#fff; color:#111; transform:scale(1.08); }
+#videosWall .video-card__info{
+  position:absolute; left:0; right:0; bottom:0; z-index:3; padding:46px 14px 14px; gap:8px; pointer-events:none;
+  background:linear-gradient(180deg,transparent 0,rgba(0,0,0,.72) 38%,rgba(0,0,0,.92) 100%);
+}
+#videosWall .video-card__info strong{ font-size:.82rem; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+#videosWall .video-card__stats{ font-size:.72rem; color:rgba(255,255,255,.75); }
+#videosWall .video-card__btn{ pointer-events:auto; padding:7px 13px; font-size:.68rem; }
+.videos-carrusel__pie{ display:flex; align-items:center; justify-content:center; gap:14px; margin-top:22px; }
+.videos-carrusel__flecha{
+  width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.06);
+  color:#fff; font-size:1.6rem; line-height:1; cursor:pointer; transition:background .25s, transform .25s, opacity .25s;
+}
+.videos-carrusel__flecha:hover:not(:disabled){ background:#fff; color:#111; transform:scale(1.06); }
+.videos-carrusel__flecha:disabled{ opacity:.3; cursor:default; }
+.videos-carrusel__perfil{
+  padding:11px 22px; border-radius:999px; font-size:.8rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+  color:#fff; background:linear-gradient(90deg,#25f4ee33,#fe2c5533); border:1px solid rgba(255,255,255,.18);
+}
+.videos-carrusel__perfil:hover{ background:linear-gradient(90deg,#25f4ee66,#fe2c5566); }
+@media (max-width:640px){ #videosWall .video-card{ flex-basis:68vw; } }
+#videosWall .video-card__tt{ inset:0 0 34% 0; }
+#videosWall .video-card__media--tiktok .video-card__play{ top:auto; bottom:42%; }
