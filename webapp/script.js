@@ -13,6 +13,19 @@ const ANALYTICS_API = (location.hostname === 'localhost' || location.hostname ==
   ? 'http://localhost:4000'
   : 'https://api-qubira.onrender.com';
 
+/* Exclusión por dispositivo: abrir cualquier página con ?no_track=1 deja de
+   contar las visitas de este navegador (aunque cambie la IP); ?no_track=0 lo
+   vuelve a activar. Pensado para el equipo de QUBIRA. */
+function qubiraSinRastreo() {
+  try {
+    const p = new URLSearchParams(location.search).get('no_track');
+    if (p === '1') localStorage.setItem('qubira_no_track', '1');
+    if (p === '0') localStorage.removeItem('qubira_no_track');
+    return localStorage.getItem('qubira_no_track') === '1';
+  } catch (_) { return false; }
+}
+const QUBIRA_SIN_RASTREO = qubiraSinRastreo();
+
 function qubiraVisitorId() {
   try {
     let id = localStorage.getItem('qubira_visitor_id');
@@ -47,6 +60,7 @@ function qubiraUtm() {
 }
 
 function track(event_type, extra = {}) {
+  if (QUBIRA_SIN_RASTREO) return;
   try {
     const payload = {
       event_type,
@@ -70,6 +84,7 @@ function track(event_type, extra = {}) {
    o cambiando de página (un fetch normal ahí se puede cortar a la
    mitad). Se usa solo para el evento final de tiempo en página. */
 function trackBeacon(event_type, extra = {}) {
+  if (QUBIRA_SIN_RASTREO) return;
   try {
     if (!navigator.sendBeacon) { track(event_type, extra); return; }
     const payload = {
@@ -87,6 +102,22 @@ function trackBeacon(event_type, extra = {}) {
 
 (function initAnalytics() {
   track('page_view');
+
+  /* Clics en cualquier botón o enlace: con su texto se ve qué elementos
+     llaman la atención. Se ignoran clics repetidos en el mismo elemento
+     dentro de 1,5 s para no inflar el conteo. */
+  let ultimoClic = { el: null, t: 0 };
+  document.addEventListener('click', e => {
+    const el = e.target.closest && e.target.closest('a, button, [role="button"], summary, label');
+    if (!el) return;
+    if (el === ultimoClic.el && Date.now() - ultimoClic.t < 1500) return;
+    ultimoClic = { el, t: Date.now() };
+    const texto = (el.getAttribute('aria-label') || el.getAttribute('title') || el.textContent || el.getAttribute('alt') || '')
+      .replace(/\s+/g, ' ').trim().slice(0, 60);
+    const destino = el.tagName === 'A' && el.getAttribute('href') ? el.getAttribute('href').slice(0, 80) : '';
+    if (!texto && !destino) return;
+    track('click', { label: texto ? (destino && !destino.startsWith('#') ? `${texto} → ${destino}` : texto) : destino });
+  }, { capture: true, passive: true });
 
   document.querySelectorAll('.case-visit-btn[data-case]').forEach(btn => {
     btn.addEventListener('click', () => track('case_click', { case_name: btn.dataset.case }));
