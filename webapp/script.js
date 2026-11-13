@@ -1039,8 +1039,7 @@ function animateCounter(el) {
   }
 
   /* Videos de TikTok sincronizados por OCM: van primero (del más reciente) y se
-     reproducen con el reproductor oficial de TikTok al tocarlos. Se refrescan
-     solos; si alguien está viendo uno, se espera para no cortarlo. */
+     abren en TikTok al tocarlos. Se refrescan solos cada minuto. */
   const corto = n => { n = Number(n) || 0; return n >= 1e6 ? (n / 1e6).toFixed(1).replace('.0', '') + ' M' : n >= 1e3 ? (n / 1e3).toFixed(1).replace('.0', '') + ' K' : String(n); };
   let firmaTiktok = '';
   // La descripción de TikTok trae negritas de markdown y enlaces repetidos: se deja texto limpio
@@ -1048,31 +1047,29 @@ function animateCounter(el) {
   function tarjetaTiktok(v, i) {
     const card = document.createElement('article');
     card.className = 'video-card video-card--tiktok';
+    const enlace = v.enlace || 'https://www.tiktok.com/@' + (v.username || 'qubirasac');
     card.innerHTML = `
       <div class="video-card__media video-card__media--tiktok">
         <span class="video-card__tt" aria-hidden="true"><svg viewBox="0 0 24 26" width="34" height="36" fill="#fff"><path d="M17.5 0c.4 3.2 2.2 5.2 5.4 5.4v3.7c-1.9.2-3.5-.4-5.4-1.5v6.7c0 8.5-9.3 11.2-13 5.1-2.4-3.9-.9-10.8 6.8-11.1v3.9c-.6.1-1.2.2-1.8.4-1.7.6-2.7 1.6-2.4 3.5.5 3.6 7.1 4.7 6.6-2.4V0h3.8z"/></svg><small>@${escapeHtml(v.username || 'qubirasac')}</small></span>
         ${v.portada ? `<img src="${escapeHtml(v.portada)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ''}
         <span class="video-card__badge">${RED_META.tiktok.icon} TikTok</span>
-        <button type="button" class="video-card__play" aria-label="Reproducir">▶</button>
+        <button type="button" class="video-card__play" aria-label="Ver en TikTok">▶</button>
       </div>
       <div class="video-card__info">
         <strong title="${escapeHtml(limpiarTitulo(v.titulo))}">${escapeHtml(limpiarTitulo(v.titulo))}</strong>
         <span class="video-card__stats">▶ ${corto(v.vistas)} vistas · ♥ ${corto(v.likes)}${v.publicado_en ? ' · ' + new Date(v.publicado_en).toLocaleDateString('es-PE', { day: '2-digit', month: 'short' }) : ''}</span>
-        <a class="video-card__btn" href="${escapeHtml(v.enlace || 'https://www.tiktok.com/@' + (v.username || ''))}" target="_blank" rel="noopener noreferrer">↗ Ver en TikTok</a>
+        <a class="video-card__btn" href="${escapeHtml(enlace)}" target="_blank" rel="noopener noreferrer">↗ Ver en TikTok</a>
       </div>`;
     const media = card.querySelector('.video-card__media');
     // Si la portada de TikTok venció, se deja el fondo oscuro con el botón de reproducir
     card.querySelector('img')?.addEventListener('error', e => e.target.remove());
-    media.addEventListener('click', () => {
-      if (media.querySelector('iframe')) return;
-      media.innerHTML = `<iframe src="https://www.tiktok.com/player/v1/${encodeURIComponent(v.video_id)}?autoplay=1&rel=0&description=0" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen title="${escapeHtml(v.titulo || 'Video de TikTok')}"></iframe>`;
-    });
+    // Para verlo se abre en TikTok (así cuenta la vista en la cuenta de QUBIRA)
+    media.addEventListener('click', () => window.open(enlace, '_blank', 'noopener'));
     setTimeout(() => card.classList.add('is-visible'), 60 + i * 90);
     return card;
   }
   async function cargarTiktok() {
     try {
-      if (wall.querySelector('.video-card--tiktok iframe')) return;
       const r = await fetch('/api/tiktok/videos');
       const data = await r.json();
       const lista = data.ok && Array.isArray(data.videos) ? data.videos : [];
