@@ -14,6 +14,7 @@ const authRouter     = require('./src/routes/auth');
 const usuariosRouter = require('./src/routes/usuarios');
 const videosRouter   = require('./src/routes/videos');
 const casesRouter    = require('./src/routes/cases');
+const tiktokRouter   = require('./src/routes/tiktok');
 
 const app    = express();
 const PORT   = process.env.PORT || 3000;
@@ -85,6 +86,7 @@ app.use('/api/auth',       authRouter);
 app.use('/api/usuarios',   usuariosRouter);
 app.use('/api/videos',     videosRouter);
 app.use('/api/cases',      casesRouter);
+app.use('/api/tiktok',     tiktokRouter);
 // Callback de TikTok (OCM): la URI registrada en TikTok es la de este sitio;
 // el intercambio del código y los tokens los hace la API central.
 app.get('/api/tiktok/callback', (req, res) => {

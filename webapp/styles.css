@@ -2457,3 +2457,8 @@ img{ max-width:100%; display:block; }
 
 /* Logo de reemplazo dentro de la tarjeta (proyectos sin logo) */
 .case-logo-fallback{ display:flex; align-items:center; justify-content:center; height:96px; font-size:3rem; line-height:1; }
+.video-card--tiktok .video-card__info strong{ display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.video-card__media--tiktok img{ position:relative; z-index:1; }
+.video-card__tt{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; filter:drop-shadow(-2px -2px 0 #25f4ee) drop-shadow(2px 2px 0 #fe2c55); }
+.video-card__tt small{ color:#fff; font-size:.72rem; font-weight:800; letter-spacing:.04em; filter:none; }
+.video-card__media--tiktok .video-card__badge, .video-card__media--tiktok .video-card__play{ z-index:2; }
