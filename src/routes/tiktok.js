@@ -16,7 +16,7 @@ router.get('/videos', async (req, res) => {
   try {
     const limite = Math.min(Math.max(parseInt(req.query.limite, 10) || 12, 1), 30);
     const { rows } = await pool.query(`
-      SELECT v.video_id, v.titulo, v.portada, v.enlace, v.duracion, v.publicado_en, v.vistas, v.likes,
+      SELECT v.video_id, v.titulo, COALESCE(to_jsonb(v)->>'portada_cloud', v.portada) AS portada, v.enlace, v.duracion, v.publicado_en, v.vistas, v.likes,
              c.username
       FROM ocm.tiktok_videos v
       JOIN ocm.tiktok_cuentas c ON c.id = v.cuenta_id
