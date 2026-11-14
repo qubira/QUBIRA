@@ -20,6 +20,7 @@ router.get('/videos', async (req, res) => {
              c.username
       FROM ocm.tiktok_videos v
       JOIN ocm.tiktok_cuentas c ON c.id = v.cuenta_id
+      WHERE COALESCE((to_jsonb(v)->>'oculto')::boolean, false) = false AND to_jsonb(v)->>'eliminado_en' IS NULL -- sin ocultos ni eliminados
       ORDER BY v.publicado_en DESC NULLS LAST
       LIMIT $1`, [limite]);
     res.set('Cache-Control', 'public, max-age=60');
